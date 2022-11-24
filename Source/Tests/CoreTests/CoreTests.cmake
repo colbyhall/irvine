@@ -3,7 +3,9 @@ set(CORE_TESTS_ROOT ${TESTS_ROOT}/CoreTests)
 
 # Source files
 set(CORE_TESTS_SRC_FILES
+	${CORE_TESTS_ROOT}/CoreTests.cmake
 	${CORE_TESTS_ROOT}/CoreTests.cpp
+	${CORE_TESTS_ROOT}/Containers/NonNull.cpp
 )
 
 # Group source files
