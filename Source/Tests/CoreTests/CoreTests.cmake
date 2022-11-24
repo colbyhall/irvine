@@ -14,6 +14,7 @@ target_include_directories(CoreTests PUBLIC ${RUNTIME_ROOT})
 target_include_directories(CoreTests PUBLIC ${THIRD_PARTY_ROOT})
 target_link_libraries(CoreTests LINK_PUBLIC Core)
 target_link_libraries(CoreTests LINK_PUBLIC Doctest)
+set_target_properties(CoreTests PROPERTIES FOLDER "Tests")
 
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows" AND NOT MINGW)
 	target_link_options(CoreTests PUBLIC "/SUBSYSTEM:CONSOLE")

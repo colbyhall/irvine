@@ -10,6 +10,9 @@ set(TESTS_ROOT ${SOURCE_ROOT}/Tests)
 # Set the ThirdParty root
 set(THIRD_PARTY_ROOT ${SOURCE_ROOT}/ThirdParty)
 
+# Enable folders for visual studio
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 include(${SOURCE_ROOT}/Programs/Programs.cmake)
 include(${SOURCE_ROOT}/Runtime/Runtime.cmake)
 include(${SOURCE_ROOT}/Tests/Tests.cmake)

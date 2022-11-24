@@ -19,3 +19,4 @@ source_group(TREE ${CORE_ROOT} FILES ${CORE_SRC_FILES})
 # Create Core lib
 add_library(Core STATIC ${CORE_SRC_FILES})
 target_include_directories(Core PUBLIC ${THIRD_PARTY_ROOT})
+set_target_properties(Core PROPERTIES FOLDER "Runtime")
