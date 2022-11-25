@@ -9,6 +9,8 @@ set(CORE_SRC_FILES
 	${CORE_ROOT}/NonCopyable.h
 	${CORE_ROOT}/Containers/NonNull.h
 	${CORE_ROOT}/Containers/NonNull.inl
+	${CORE_ROOT}/Containers/Slice.h
+	${CORE_ROOT}/Containers/Slice.inl
 	${CORE_ROOT}/Platform/Windows.h
 )
 
