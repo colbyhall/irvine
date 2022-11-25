@@ -3,58 +3,60 @@
 #pragma once
 
 #include <core/containers/non_null.hpp>
+#include <core/templates/enable_if.hpp>
+#include <core/templates/type_traits.hpp>
+
+CORE_NAMESPACE_BEGIN
 
 /// Non owning reference to a buffer of memory
 template <typename T>
 class Slice {
 public:
 	Slice() = default;
-	INLINE constexpr Slice(T* ptr, usize len);
+	INLINE constexpr Slice(T* ptr, usize len) : m_ptr(ptr), m_len(len) { 
+		ASSERT(ptr != nullptr || (ptr == nullptr && len == 0), "If we have no ptr we must not have len"); 
+	}
 
-	INLINE usize len() const;
-	INLINE bool is_empty() const;
-	INLINE bool is_valid_index(usize index) const;
+	INLINE usize len() const { return m_len; }
+	INLINE bool is_empty() const { return m_len == 0; }
+	INLINE bool is_valid_index(usize index) const { return index < m_len; }
 
-	INLINE T* begin();
-	INLINE T* end();
-	INLINE T const* cbegin() const;
-	INLINE T const* cend() const;
+	template <typename = EnabledIf<!is_const<T>>>
+	INLINE T* begin() { return m_ptr; }
+	template <typename = EnabledIf<!is_const<T>>>
+	INLINE T* end() { return m_ptr + m_len; }
 
-	INLINE T& operator[](usize index);
-	INLINE T const& operator[](usize index) const;
+	INLINE T const* cbegin() const { return m_ptr; }
+	INLINE T const* cend() const { return m_ptr + m_len; }
 
-	INLINE explicit operator bool() const;
-	INLINE explicit operator Slice<const T>() const;
+	template <typename = EnabledIf<!is_const<T>>>
+	INLINE T& operator[](usize index) {
+		ASSERT(is_valid_index(index), "Index out of bounds.");
+		return m_ptr[index];
+	}
+	INLINE T const& operator[](usize index) const {
+		ASSERT(is_valid_index(index), "Index out of bounds.");
+		return m_ptr[index];
+	}
+
+	INLINE explicit operator bool() const { return !is_empty(); }
+
+	template <typename = EnabledIf<!is_const<T>>>
+	INLINE explicit operator Slice<const T>() const { return Slice<const T>{ m_ptr, m_len }; }
 
 	/// Shrinks the slice by amount. Returns new len
-	INLINE usize shrink(usize amount);
+	INLINE usize shrink(usize amount) {
+		ASSERT(amount <= m_len, "Can not shrink more than len");
+		m_len -= amount;
+		return len();
+	}
 
 private:
 	T* m_ptr = nullptr;
 	usize m_len = 0;
 };
 
-template <typename T>
-class Slice<T const> {
-public:
-	Slice() = default;
-	INLINE constexpr Slice(T const* ptr, usize len);
+CORE_NAMESPACE_END
 
-	INLINE usize len() const;
-	INLINE bool is_empty() const;
-	INLINE bool is_valid_index(usize index) const;
-
-	INLINE T const* cbegin() const;
-	INLINE T const* cend() const;
-
-	INLINE T const& operator[](usize index) const;
-	INLINE explicit operator bool() const;
-
-	INLINE usize shrink(usize amount);
-
-private:
-	T const* m_ptr = nullptr;
-	usize m_len = 0;
-};
-
-#include <core/containers/slice.inl>
+// Export Slice out of core namespace
+using core::Slice;

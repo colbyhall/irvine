@@ -27,7 +27,7 @@ bool _assert_failed(bool must_crash, const char* expression, const char* message
 		}
 	}
 	const char* title = must_crash ? "Application Assert" : "Application Ensure";
-	const int result = MessageBoxA(NULL, buffer, title, must_crash ? (MB_OK | MB_ICONERROR) : (MB_YESNO | MB_ICONWARNING));
+	const int result = MessageBoxA(NULL, buffer, title, UINT(must_crash ? (MB_OK | MB_ICONERROR) : (MB_YESNO | MB_ICONWARNING)));
 	return result != IDNO;
 }
 

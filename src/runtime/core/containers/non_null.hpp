@@ -4,18 +4,20 @@
 
 #include <core/core.hpp>
 
+CORE_NAMESPACE_BEGIN
+
 template <typename T>
 class NonNull {
 public:
 	NonNull() = delete;
 	NonNull(NullPtr) = delete;
-	INLINE constexpr NonNull(T* ptr);
+	INLINE constexpr NonNull(T* ptr) : m_ptr(ptr) { ASSERT(m_ptr != nullptr, "NonNull only accepts pointers that are not nullptr"); }
 
 	// Accessors 
-	INLINE operator T*() const;
-	INLINE operator void*() const;
-	INLINE T* operator ->() const;
-	INLINE T& operator *() const;
+	INLINE operator T*() const { return m_ptr; }
+	INLINE operator void*() const { return m_ptr; }
+	INLINE T* operator ->() const { return m_ptr; }
+	INLINE T& operator *() const { return *m_ptr; }
 private:
 	T* m_ptr;
 };
@@ -25,10 +27,10 @@ class NonNull<void> {
 public:
 	NonNull() = delete;
 	NonNull(NullPtr) = delete;
-	INLINE constexpr NonNull(void* ptr);
+	INLINE constexpr NonNull(void* ptr) : m_ptr(ptr) { ASSERT(m_ptr != nullptr, "NonNull only accepts pointers that are not nullptr"); }
 
 	// Accessor
-	INLINE operator void*() const;
+	INLINE operator void*() const { return m_ptr; }
 
 private:
 	void* m_ptr;
@@ -39,13 +41,16 @@ class NonNull<void const> {
 public:
 	NonNull() = delete;
 	NonNull(NullPtr) = delete;
-	INLINE constexpr NonNull(void const* ptr);
+	INLINE constexpr NonNull(void const* ptr) : m_ptr(ptr) { ASSERT(m_ptr != nullptr, "NonNull only accepts pointers that are not nullptr"); }
 
 	// Accessor
-	INLINE operator void const*() const;
+	INLINE operator void const*() const { return m_ptr; }
 
 private:
 	void const* m_ptr;
 };
 
-#include <core/containers/non_null.inl>
+CORE_NAMESPACE_END
+
+// Export NonNull out of core namespace
+using core::NonNull;
