@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <Core/Core.h>
+#include <core/core.hpp>
 
 SUPPRESS_WARNINGS_STD_BEGIN
 #include "doctest_internal.h"

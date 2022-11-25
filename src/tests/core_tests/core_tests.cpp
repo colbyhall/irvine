@@ -1,5 +1,5 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <Doctest/Doctest.h>
+#include <doctest/doctest.hpp>
 
 TEST_MAIN()

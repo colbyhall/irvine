@@ -1,7 +1,7 @@
 # A lot of this was copied from the JoltPhysics library
 cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 
-project(Irvine CXX)
+project(irvine CXX)
 
 include(CMakeDependentOption)
 
@@ -80,4 +80,4 @@ set(CMAKE_EXE_LINKER_FLAGS_DISTRIBUTION "${CMAKE_EXE_LINKER_FLAGS_RELEASE}")
 set(IRVINE_REPO_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 # Include the source directory cmake file
-include(${IRVINE_REPO_ROOT}/Source/Source.cmake)
+include(${IRVINE_REPO_ROOT}/src/src.cmake)

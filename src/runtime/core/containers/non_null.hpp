@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <Core/Core.h>
+#include <core/core.hpp>
 
 template <typename T>
 class NonNull {
@@ -48,4 +48,4 @@ private:
 	void const* m_ptr;
 };
 
-#include <Core/Containers/NonNull.inl>
+#include <core/containers/non_null.inl>

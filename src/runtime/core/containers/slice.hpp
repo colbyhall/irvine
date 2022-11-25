@@ -2,8 +2,9 @@
 
 #pragma once
 
-#include <Core/Containers/NonNull.h>
+#include <core/containers/non_null.hpp>
 
+/// Non owning reference to a buffer of memory
 template <typename T>
 class Slice {
 public:
@@ -56,4 +57,4 @@ private:
 	usize m_len = 0;
 };
 
-#include <Core/Containers/Slice.inl>
+#include <core/containers/slice.inl>

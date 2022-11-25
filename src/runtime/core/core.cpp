@@ -1,10 +1,10 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <Core/Core.h>
+#include <core/core.hpp>
 
 #ifdef PLATFORM_WINDOWS
 
-#include <Core/Platform/Windows.h>
+#include <core/platform/windows.hpp>
 #include <cstdio>
 
 bool _assert_failed(bool must_crash, const char* expression, const char* message, const char* file, u32 line) {
