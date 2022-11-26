@@ -2,19 +2,23 @@
 
 #pragma once
 
-namespace core {
-	// https://en.cppreference.com/w/cpp/types/enable_if
-	template <bool B, typename T = void>
-	class EnableIf;
+#include <core/core.hpp>
 
-	template <typename T>
-	struct EnableIf<true, T> {
-		using Type = T;
-	};
+CORE_NAMESPACE_BEGIN
 
-	template <typename T>
-	class EnableIf<false, T> { };
+// https://en.cppreference.com/w/cpp/types/enable_if
+template <bool B, typename T = void>
+class EnableIf;
 
-	template <bool B, typename T = void>
-	using EnabledIf = typename EnableIf<B, T>::Type;
-}
+template <typename T>
+struct EnableIf<true, T> {
+	using Type = T;
+};
+
+template <typename T>
+class EnableIf<false, T> { };
+
+template <bool B, typename T = void>
+using EnabledIf = typename EnableIf<B, T>::Type;
+
+CORE_NAMESPACE_END

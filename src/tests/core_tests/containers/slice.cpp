@@ -5,7 +5,7 @@
 
 TEST_CASE("Slice's can reference arrays") {
 	int buffer[] = { 1, 2, 3, 4 };
-	Slice<int const> slice = { buffer, 4 };
+	Slice<int> slice = { buffer, 4 };
 
 	REQUIRE(slice.len() == 4);
 

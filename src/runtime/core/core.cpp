@@ -5,7 +5,10 @@
 #ifdef PLATFORM_WINDOWS
 
 #include <core/platform/windows.hpp>
+
+SUPPRESS_WARNINGS_STD_BEGIN
 #include <cstdio>
+SUPPRESS_WARNINGS_STD_END
 
 bool _assert_failed(bool must_crash, const char* expression, const char* message, const char* file, u32 line) {
 	char buffer[1024];
