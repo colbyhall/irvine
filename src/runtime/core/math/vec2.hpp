@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <core/containers/option.hpp>
 #include <core/math/math.hpp>
 
 CORE_NAMESPACE_BEGIN
@@ -30,11 +31,12 @@ struct Vec2 {
     FORCE_INLINE T dot(const Vec2<T>& rhs) const { return x * rhs.x + y * rhs.y; }
     FORCE_INLINE T cross(const Vec2<T>& rhs) const { return x * rhs.y - y * rhs.x; };
     FORCE_INLINE Vec2 perp() const { return { y, -x }; }
+    FORCE_INLINE Option<Vec2> normalized() const;
 
     FORCE_INLINE T len_sq() const { return dot(*this); }
-    FORCE_INLINE T len() const { return sqrt(len_sq()); }
+    FORCE_INLINE T len() const { return core::sqrt(len_sq()); }
     FORCE_INLINE bool is_zero() const { return *this == zero; }
-    FORCE_INLINE bool is_near_zero() const { return is_near_zero(len_sq()); }
+    FORCE_INLINE bool is_near_zero() const { return core::is_near_zero(len_sq()); }
     FORCE_INLINE bool has_nan() const { return x == core::nan || y == core::nan; }
     FORCE_INLINE bool has_infinite() const { return x == core::infinity || y == core::infinity; }
 
@@ -52,21 +54,13 @@ struct Vec2 {
     FORCE_INLINE Vec2 operator-() const { return { -x, -y }; }
 };
 
-template <typename T>
-using Point2 = Vec2<T>;
-
 CORE_NAMESPACE_END
 
 #include <core/math/vec2.inl>
 
-// Export Vec2 and Point2 with default types out of core namespace
+// Export Vec2 with default types out of core namespace
 using Vec2f32 = core::Vec2<f32>;
 using Vec2f64 = core::Vec2<f64>;
 using Vec2i32 = core::Vec2<i32>;
 using Vec2fu32 = core::Vec2<u32>;
-
-using Point2f32 = core::Point2<f32>;
-using Point2f64 = core::Point2<f64>;
-using Point2i32 = core::Point2<i32>;
-using Point2fu32 = core::Point2<u32>;
 

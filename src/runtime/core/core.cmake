@@ -23,6 +23,8 @@ set(CORE_SRC_FILES
 	${CORE_ROOT}/math/math.cpp
 	${CORE_ROOT}/math/vec2.hpp
 	${CORE_ROOT}/math/vec2.inl
+	${CORE_ROOT}/math/vec3.hpp
+	${CORE_ROOT}/math/vec3.inl
 	${CORE_ROOT}/platform/windows.hpp
 	${CORE_ROOT}/templates/decay.hpp
 	${CORE_ROOT}/templates/enable_if.hpp
