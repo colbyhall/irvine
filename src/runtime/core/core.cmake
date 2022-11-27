@@ -9,12 +9,17 @@ set(CORE_SRC_FILES
 	${CORE_ROOT}/memory.hpp
 	${CORE_ROOT}/memory.cpp
 	${CORE_ROOT}/non_copyable.hpp
+	${CORE_ROOT}/async/atomic.hpp
 	${CORE_ROOT}/containers/allocators.hpp
 	${CORE_ROOT}/containers/array.hpp
 	${CORE_ROOT}/containers/non_null.hpp
 	${CORE_ROOT}/containers/option.hpp
-	${CORE_ROOT}/containers/slice.hpp
 	${CORE_ROOT}/containers/result.hpp
+	${CORE_ROOT}/containers/shared.hpp
+	${CORE_ROOT}/containers/shared.inl
+	${CORE_ROOT}/containers/slice.hpp
+	${CORE_ROOT}/containers/unique.hpp
+	${CORE_ROOT}/math/math.hpp
 	${CORE_ROOT}/platform/windows.hpp
 	${CORE_ROOT}/templates/decay.hpp
 	${CORE_ROOT}/templates/enable_if.hpp

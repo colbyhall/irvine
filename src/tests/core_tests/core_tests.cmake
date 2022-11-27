@@ -9,8 +9,11 @@ set(CORE_TESTS_SRC_FILES
 	${CORE_TESTS_ROOT}/containers/array.cpp
 	${CORE_TESTS_ROOT}/containers/non_null.cpp
 	${CORE_TESTS_ROOT}/containers/option.cpp
+	${CORE_TESTS_ROOT}/containers/shared.cpp
 	${CORE_TESTS_ROOT}/containers/slice.cpp
 	${CORE_TESTS_ROOT}/containers/result.cpp
+	${CORE_TESTS_ROOT}/containers/unique.cpp
+	${CORE_TESTS_ROOT}/math/math.cpp
 )
 
 # Group source files
