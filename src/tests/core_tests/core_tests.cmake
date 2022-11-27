@@ -14,6 +14,7 @@ set(CORE_TESTS_SRC_FILES
 	${CORE_TESTS_ROOT}/containers/result.cpp
 	${CORE_TESTS_ROOT}/containers/unique.cpp
 	${CORE_TESTS_ROOT}/math/math.cpp
+	${CORE_TESTS_ROOT}/math/vec2.cpp
 )
 
 # Group source files

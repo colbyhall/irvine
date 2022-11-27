@@ -18,3 +18,8 @@ TEST_CASE("Clamp returns the value clamped between a min and max") {
 	CHECK(core::clamp(1, 2, 4) == 2);
 	CHECK(core::clamp(3, 2, 4) == 3);
 }
+
+TEST_CASE("Abs") {
+	CHECK(core::abs(-4) == 4);
+	CHECK(core::abs(4) == 4);
+}
