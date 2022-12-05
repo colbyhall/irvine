@@ -5,6 +5,7 @@
 #include <core/memory.hpp>
 #include <core/non_copyable.hpp>
 #include <core/async/atomic.hpp>
+#include <core/containers/option.hpp>
 #include <core/math/math.hpp>
 #include <core/templates/type_traits.hpp>
 
@@ -57,6 +58,9 @@ private:
 };
 
 template <typename Base, SMode Mode>
+class Weak;
+
+template <typename Base, SMode Mode>
 class Shared : private NonCopyable {
 public:
     using Counter = SharedCounter<Mode>;
@@ -78,6 +82,7 @@ public:
 
     ~Shared();
 
+    Weak<Base, Mode> downgrade() const;
     Shared<Base, Mode> clone() const;
 
     // Accessors
@@ -103,6 +108,9 @@ private:
     template <typename Derived, SMode Mode>
     friend class Shared;
 
+    template <typename Derived, SMode Mode>
+    friend class Weak;
+
     FORCE_INLINE Counter const& counter() const { return *((Counter*)m_ptr); }
     FORCE_INLINE Base& value() const {
         void* ptr = &((Counter*)m_ptr)[1];
@@ -116,23 +124,64 @@ template <typename T, SMode Mode, typename... Args>
 FORCE_INLINE Shared<T, Mode> make_shared(Args&&... args);
 
 template <typename Base, SMode Mode>
-class Weak {
+class Weak : private NonCopyable {
 public:
+    using Counter = SharedCounter<Mode>;
+
+    template <typename Derived = Base>
+    Weak(Weak<Derived, Mode>&& move) noexcept : m_ptr(move.m_ptr) {
+        static_assert(core::is_base_of<Base, Derived>, "Base is not a base of Derived");
+        move.m_ptr = nullptr;
+    }
+    template <typename Derived = Base>
+    Weak& operator=(Weak<Derived, Mode>&& m) noexcept {
+        static_assert(core::is_base_of<Base, Derived>, "Base is not a base of Derived");
+
+        Weak<Base, Mode> to_destroy = core::move(*this);
+        m_ptr = m.m_ptr;
+        m.m_ptr = nullptr;
+        return *this;
+    }
+
+    ~Weak();
+
+    Option<Shared<Base, Mode>> upgrade() const;
+    Weak<Base, Mode> clone() const;
+
+    FORCE_INLINE u32 strong() const { return counter().strong(); }
+    FORCE_INLINE u32 weak() const { return counter().weak(); }
+
 private:
+    Weak() = default;
+    explicit Weak(void* ptr) : m_ptr(ptr) {}
+
+    template <typename Derived, SMode Mode>
+    friend class Shared;
+
+    template <typename Derived, SMode Mode>
+    friend class Weak;
+
+    FORCE_INLINE Counter const& counter() const { return *((Counter*)m_ptr); }
+
+    void* m_ptr;
 };
 
 template <typename T, SMode Mode>
 class SharedFromThis {
 public:
+    using Counter = SharedCounter<Mode>;
+
 private:
-    Weak<T, Mode> m_this;
+    Option<Weak<T, Mode>> m_this;
 };
 
 CORE_NAMESPACE_END
 
 #include <core/containers/shared.inl>
 
-// Export Unique out of core namespace
-using core::Shared;
+// Export Shared, Weak, SharedFromThis, SMode, and make_shared out of core namespace
 using core::SMode;
+using core::Shared;
 using core::make_shared;
+using core::Weak;
+using core::SharedFromThis;

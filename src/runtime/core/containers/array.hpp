@@ -15,10 +15,26 @@ public:
     FORCE_INLINE Array() = default;
 	FORCE_INLINE explicit Array(Slice<const T> slice) : m_ptr(nullptr), m_len(slice.len()), m_cap(0) {
 		reserve(slice.len());
-		for (int i = 0; i < slice.len(); ++i) {
+		for (u32 i = 0; i < slice.len(); ++i) {
 			T copy = slice[i];
 			new (m_ptr + i) T(core::move(copy));
 		}
+	}
+	FORCE_INLINE Array(Array<T>&& move) noexcept
+		: m_ptr(move.m_ptr), m_len(move.m_len), m_cap(move.m_cap) {
+		move.m_ptr = nullptr;
+		move.m_len = 0;
+		move.m_cap = 0;
+	}
+	FORCE_INLINE Array& operator=(Array<T>&& move) noexcept {
+		Array<T> to_destroy = core::move(*this);
+		m_ptr = move.m_ptr;
+		m_len = move.m_len;
+		m_cap = move.m_cap;
+		move.m_ptr = nullptr;
+		move.m_len = 0;
+		move.m_cap = 0;
+		return *this;
 	}
 	~Array() {
 		if (m_ptr) {
@@ -62,6 +78,12 @@ public:
 	FORCE_INLINE Option<T const&> last() const {
 		if (len() > 0) return m_ptr[len() - 1];
 		return {};
+	}
+
+	FORCE_INLINE void set_len(usize len) {
+		ASSERT(len <= m_cap);
+		// FIXME: Delete the items that are lost and initialize any gained to default
+		m_len = len;
 	}
 
 	void reserve(usize amount) {

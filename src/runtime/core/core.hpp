@@ -283,6 +283,8 @@ static_assert(sizeof(f64) == 8, "f64 should only be 8 bytes");
 
 using NullPtr = decltype(nullptr);
 
+using wchar = wchar_t;
+
 CORE_NAMESPACE_END
 
 
@@ -300,12 +302,12 @@ using core::isize;
 using core::f32;
 using core::f64;
 using core::NullPtr;
+using core::wchar;
 
 #include <core/templates/remove.hpp>
 
 // Roll our own move semantics functions
 CORE_NAMESPACE_BEGIN
-
 
 template <typename T>
 constexpr T&& forward(typename RemoveReference<T>::Type& t) {
@@ -342,7 +344,7 @@ bool _assert_failed(bool must_crash, const char* expression, const char* message
 	// Crashes application if expression evaluates to false. Usage: ASSERT(condition) or ASSERT(condition, message)
 	#define ASSERT(expression, ...) do { if (!(expression) && _assert_failed_helper(true, #expression, __FILE__, u32(__LINE__), ##__VA_ARGS__, AssertLastParam())) CRASH; } while (false)
 
-	// Halts application if expression evaluates to false bu can resume. Usage: ENSURE(condition) or ENSURE(condition, message)
+	// Halts application if expression evaluates to false but can resume. Usage: ENSURE(condition) or ENSURE(condition, message)
 	#define ENSURE(expression, ...) do { if (!(expression) && _assert_failed_helper(false, #expression, __FILE__, u32(__LINE__), ##__VA_ARGS__, AssertLastParam())) BREAKPOINT; } while (false)
 #else
 	#define ASSERT(...) ((void)0)
@@ -350,3 +352,5 @@ bool _assert_failed(bool must_crash, const char* expression, const char* message
 #endif // ENABLE_ASSERTS
 
 SUPPRESS_WARNING_POP
+
+#define BITFLAG(name, type) using name = type; enum

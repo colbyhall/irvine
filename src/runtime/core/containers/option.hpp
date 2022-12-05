@@ -145,7 +145,7 @@ public:
 	FORCE_INLINE explicit operator bool() const { return is_set(); }
 
 	FORCE_INLINE T& unwrap() {
-		VERIFY(is_set());
+		ASSERT(is_set());
 		return *m_ptr;
 	}
 

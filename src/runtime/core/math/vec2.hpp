@@ -62,5 +62,5 @@ CORE_NAMESPACE_END
 using Vec2f32 = core::Vec2<f32>;
 using Vec2f64 = core::Vec2<f64>;
 using Vec2i32 = core::Vec2<i32>;
-using Vec2fu32 = core::Vec2<u32>;
+using Vec2u32 = core::Vec2<u32>;
 
