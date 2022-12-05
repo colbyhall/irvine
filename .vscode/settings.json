@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "*.graphics_pipeline": "ron",
-        "*.meta": "toml",
-        "*.scene": "ron",
-        "*.asset": "json5",
-        "cmath": "cpp"
-    }
-}
