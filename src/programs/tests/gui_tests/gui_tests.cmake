@@ -14,7 +14,7 @@ add_executable(gui_tests ${GUI_TESTS_SRC_FILES})
 target_include_directories(gui_tests PUBLIC ${RUNTIME_ROOT})
 target_include_directories(gui_tests PUBLIC ${THIRD_PARTY_ROOT})
 target_link_libraries(gui_tests LINK_PUBLIC core gui doctest)
-set_target_properties(gui_tests PROPERTIES FOLDER "tests")
+set_target_properties(gui_tests PROPERTIES FOLDER "programs/tests")
 
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows" AND NOT MINGW)
 	target_link_options(gui_tests PUBLIC "/SUBSYSTEM:CONSOLE")
