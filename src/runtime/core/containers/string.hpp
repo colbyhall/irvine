@@ -17,6 +17,7 @@ public:
 
     operator Slice<char const>() const;
     operator StringView() const;
+    FORCE_INLINE char* operator*() { return &m_bytes[0]; }
     FORCE_INLINE const char* operator*() const { return &m_bytes[0]; }
 
     FORCE_INLINE CodepointsIterator codepoints() const { return CodepointsIterator(m_bytes); }
@@ -28,6 +29,11 @@ public:
     FORCE_INLINE void reserve(usize amount) { m_bytes.reserve(amount + 1); }
     String& push(Codepoint c);
     String& push(StringView string);
+
+    FORCE_INLINE void set_len(usize len) { 
+        m_bytes.set_len(len + 1);
+        m_bytes[len] = 0;
+    }
     
 private:
     Array<char> m_bytes;
@@ -35,5 +41,5 @@ private:
 
 CORE_NAMESPACE_END
 
-// Export string out of core namespace
+// Export String out of core namespace
 using core::String;

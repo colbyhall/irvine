@@ -9,6 +9,8 @@ set(GPU_SRC_FILES
 	${GPU_ROOT}/context.cpp
 	${GPU_ROOT}/gpu.cmake
 	${GPU_ROOT}/gpu.hpp
+	${GPU_ROOT}/shader.hpp
+	${GPU_ROOT}/shader.cpp
 	${GPU_ROOT}/swapchain.hpp
 	${GPU_ROOT}/swapchain.cpp
 	${GPU_ROOT}/texture.hpp

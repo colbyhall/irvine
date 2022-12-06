@@ -56,3 +56,6 @@ private:
 };
 
 CORE_NAMESPACE_END
+
+// Export Result out of core namespace
+using core::Result;
