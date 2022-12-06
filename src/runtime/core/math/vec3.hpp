@@ -64,4 +64,4 @@ CORE_NAMESPACE_END
 using Vec3f32 = core::Vec3<f32>;
 using Vec3f64 = core::Vec3<f64>;
 using Vec3i32 = core::Vec3<i32>;
-using Vec3fu32 = core::Vec3<u32>;
+using Vec3u32 = core::Vec3<u32>;

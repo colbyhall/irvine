@@ -133,6 +133,10 @@
 	#error Unknown platform
 #endif
 
+#ifdef _DEBUG
+	#define BUILD_DEBUG
+#endif
+
 // Crashes the application
 #define CRASH																				\
 	SUPPRESS_WARNING_PUSH																	\
@@ -353,4 +357,4 @@ bool _assert_failed(bool must_crash, const char* expression, const char* message
 
 SUPPRESS_WARNING_POP
 
-#define BITFLAG(name, type) using name = type; enum
+#define BITFLAG(name) using name = int; enum

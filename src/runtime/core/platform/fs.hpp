@@ -46,7 +46,7 @@ private:
 
 Path cwd();
 
-BITFLAG(FileOpenFlags, u32) {
+BITFLAG(FileOpenFlags) {
     FF_Read = (1 << 0),
     FF_Write = (1 << 1),
     FF_Create = (1 << 2)

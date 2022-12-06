@@ -23,9 +23,9 @@ if(("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows" OR "${CMAKE_SYSTEM_NAME}" STREQUAL
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++20 /Zc:__cplusplus /Gm- /Wall /WX /MP /nologo /diagnostics:classic /FC /fp:except- /Zc:inline")
 
     # Optionally generate debug symbols
-    if(GENERATE_DEBUG_SYMBOLS)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zi")
-    endif()
+    # if(GENERATE_DEBUG_SYMBOLS)
+    # endif()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zi")
 
     # Remove any existing compiler flag that enables RTTI
     string(REPLACE "/GR" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})

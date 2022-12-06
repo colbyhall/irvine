@@ -63,7 +63,7 @@ static LRESULT CALLBACK window_proc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 
 GUI_NAMESPACE_BEGIN
 
-Shared<Window, SMode::NonAtomic> make_window(const WindowConfig& config) {
+Shared<Window> make_window(const WindowConfig& config) {
 	HINSTANCE hInstance = GetModuleHandleA(nullptr);
 
 	DWORD dwStyle = WS_OVERLAPPEDWINDOW;
@@ -151,9 +151,8 @@ Shared<Window, SMode::NonAtomic> make_window(const WindowConfig& config) {
 	}
 	ShowWindow(handle, show);
 
-	// TODO: Make swapchain in gpu library
-
-	auto result = make_shared<Window, SMode::NonAtomic>((void*)handle);
+	auto swapchain = gpu::Swapchain::make(handle);
+	auto result = make_shared<Window, SMode::NonAtomic>((void*)handle, core::move(swapchain));
 	SetWindowLongPtrW(handle, GWLP_USERDATA, (LONG_PTR)&*result);
 	return result;
 }

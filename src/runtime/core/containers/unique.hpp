@@ -63,7 +63,7 @@ private:
 
 template <typename T, typename... Args>
 FORCE_INLINE Unique<T> make_unique(Args&&... args) {
-    return Unique<T>(T(forward<Args>(args)...));
+    return Unique<T>(core::move(T(forward<Args>(args)...)));
 }
 
 CORE_NAMESPACE_END

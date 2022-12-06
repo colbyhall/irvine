@@ -9,6 +9,8 @@
 #include <core/containers/string_view.hpp>
 #include <core/math/aabb2.hpp>
 
+#include <gpu/swapchain.hpp>
+
 GUI_NAMESPACE_BEGIN
 
 struct WindowConfig {
@@ -23,7 +25,8 @@ struct WindowConfig {
 
 class Window final : private NonCopyable {
 public:
-    FORCE_INLINE explicit Window(void* handle) : m_handle(handle) {}
+    FORCE_INLINE explicit Window(void* handle, gpu::Swapchain&& swapchain) 
+        : m_handle(handle), m_swapchain(core::forward<gpu::Swapchain>(swapchain)) {}
 
     bool set_cursor_lock(bool locked);
     void set_cursor_visbility(bool visible);
@@ -34,9 +37,10 @@ public:
 
 private:
     void* m_handle;
+    gpu::Swapchain m_swapchain;
 };
 
-Shared<Window, SMode::NonAtomic> make_window(const WindowConfig& config);
+Shared<Window> make_window(const WindowConfig& config);
 
 void pump_events();
 

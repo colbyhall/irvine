@@ -60,7 +60,7 @@ private:
 template <typename Base, SMode Mode>
 class Weak;
 
-template <typename Base, SMode Mode>
+template <typename Base, SMode Mode = SMode::NonAtomic>
 class Shared : private NonCopyable {
 public:
     using Counter = SharedCounter<Mode>;

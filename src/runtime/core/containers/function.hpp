@@ -55,7 +55,7 @@ namespace hidden {
     class FunctionBase;
 
     template <typename S, typename R, typename... Param>
-    class FunctionBase<S, R(Param...)> {
+    class FunctionBase<S, R(Param...)> : private NonCopyable {
         template <typename OtherS, typename OtherF>
         friend class FunctionBase;
     public:
@@ -85,7 +85,7 @@ namespace hidden {
         FunctionBase& operator=(const FunctionBase&) = delete;
 
         R operator()(Param... params) const {
-            VERIFY(m_callable);
+            ASSERT(m_callable);
             return (m_callable)(m_storage.ptr(), params...);
         }
 
@@ -224,7 +224,6 @@ public:
     >
     Function(Functor&& f) : Super(forward<Functor>(f)) { }
     Function(Function&& move) = default;
-    NO_COPY(Function);
     ~Function() = default;
 };
 
