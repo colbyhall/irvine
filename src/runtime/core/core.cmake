@@ -31,8 +31,14 @@ set(CORE_SRC_FILES
 	${CORE_ROOT}/math/aabb2.inl
 	${CORE_ROOT}/math/color.hpp
 	${CORE_ROOT}/math/color.cpp
+	${CORE_ROOT}/math/mat3.hpp
+	${CORE_ROOT}/math/mat3.inl
+	${CORE_ROOT}/math/mat4.hpp
+	${CORE_ROOT}/math/mat4.inl
 	${CORE_ROOT}/math/math.hpp
 	${CORE_ROOT}/math/math.cpp
+	${CORE_ROOT}/math/quat.hpp
+	${CORE_ROOT}/math/quat.inl
 	${CORE_ROOT}/math/vec2.hpp
 	${CORE_ROOT}/math/vec2.inl
 	${CORE_ROOT}/math/vec3.hpp

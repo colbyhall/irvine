@@ -2,6 +2,7 @@
 
 #include <doctest/doctest.hpp>
 #include <core/math/vec2.hpp>
+#include <core/math/mat3.hpp>
 
 TEST_CASE("Vec2 math operations") {
 	auto a = Vec2f32{ 10.f, 15.f };
