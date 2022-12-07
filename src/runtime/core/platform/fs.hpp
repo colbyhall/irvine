@@ -46,7 +46,7 @@ private:
 
 Path cwd();
 
-BITFLAG(FileOpenFlags) {
+BITFLAG(FileFlags) {
     FF_Read = (1 << 0),
     FF_Write = (1 << 1),
     FF_Create = (1 << 2)
@@ -65,7 +65,7 @@ enum class Seek : u8 {
 
 class File : private NonCopyable {
 public:
-    static Result<File, FileOpenError> open(PathView path, FileOpenFlags flags);
+    static Result<File, FileOpenError> open(PathView path, FileFlags flags);
 
     FORCE_INLINE File(File&& move) noexcept : m_handle(move.m_handle), m_flags(move.m_flags), m_cursor(0) {
         move.m_handle = nullptr;
@@ -90,10 +90,10 @@ public:
     ~File();
 
 private:
-    FORCE_INLINE File(void* handle, FileOpenFlags flags) : m_handle(handle), m_flags(flags), m_cursor(0) {}
+    FORCE_INLINE File(void* handle, FileFlags flags) : m_handle(handle), m_flags(flags), m_cursor(0) {}
 
     void* m_handle;
-    FileOpenFlags m_flags;
+    FileFlags m_flags;
     usize m_cursor;
 };
 

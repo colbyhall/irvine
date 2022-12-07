@@ -37,6 +37,8 @@ set(CORE_SRC_FILES
 	${CORE_ROOT}/math/vec2.inl
 	${CORE_ROOT}/math/vec3.hpp
 	${CORE_ROOT}/math/vec3.inl
+	${CORE_ROOT}/math/vec4.hpp
+	${CORE_ROOT}/math/vec4.inl
 	${CORE_ROOT}/platform/library.hpp
 	${CORE_ROOT}/platform/library.cpp
 	${CORE_ROOT}/platform/windows.hpp

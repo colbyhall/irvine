@@ -26,7 +26,7 @@ Path cwd() {
 	return {String::from(buffer) };
 }
 
-Result<File, FileOpenError> File::open(PathView path, FileOpenFlags flags) {
+Result<File, FileOpenError> File::open(PathView path, FileFlags flags) {
 	const bool read = flags & FF_Read != 0;
 	const bool write = flags & FF_Write != 0;
 	const bool create = flags & FF_Create != 0;

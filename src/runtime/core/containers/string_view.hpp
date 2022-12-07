@@ -63,6 +63,7 @@ private:
 
 CORE_NAMESPACE_END
 
-// Export StringView and CodepointsIterator out of core namespace
+// Export Codepoint, StringView, and CodepointsIterator out of core namespace
+using core::Codepoint;
 using core::StringView;
 using core::CodepointsIterator;
