@@ -5,6 +5,7 @@
 #include <core/platform/library.hpp>
 #include <core/async/atomic.hpp>
 
+#include <gpu/buffer.hpp>
 #include <gpu/context.hpp>
 #include <gpu/texture.hpp>
 #include <gpu/d3d12/d3d12.hpp>
@@ -64,6 +65,12 @@ typedef HRESULT(__stdcall* PFN_DXGI1_3_CREATE_DXGI_FACTORY2)(
 	void** ppFactory
 );
 
+struct D3D12QueuedWork {
+	ComPtr<ID3D12Fence> fence;
+	Array<Texture> textures;
+	Array<Buffer> buffers;
+};
+
 class D3D12Context : public ContextInterface {
     using FnCreateDevice = PFN_D3D12_CREATE_DEVICE;
     using FnSerializeRootSignature = PFN_D3D12_SERIALIZE_ROOT_SIGNATURE;
@@ -117,6 +124,7 @@ public:
 	D3D12BindlessDescriptorHeap bindless_heap;
 	Option<Texture> bindless_texture;
 
+	mutable Array<D3D12QueuedWork> work_queue; // TODO: Make thread safe
 };
 
 GPU_NAMESPACE_END

@@ -9,6 +9,8 @@ set(GPU_SRC_FILES
 	${GPU_ROOT}/context.cpp
 	${GPU_ROOT}/gpu.cmake
 	${GPU_ROOT}/gpu.hpp
+	${GPU_ROOT}/graphics_command_list.hpp
+	${GPU_ROOT}/graphics_command_list.cpp
 	${GPU_ROOT}/shader.hpp
 	${GPU_ROOT}/shader.cpp
 	${GPU_ROOT}/swapchain.hpp
@@ -19,6 +21,8 @@ set(GPU_SRC_FILES
 	${GPU_ROOT}/d3d12/d3d12_buffer.cpp
 	${GPU_ROOT}/d3d12/d3d12_context.hpp
 	${GPU_ROOT}/d3d12/d3d12_context.cpp
+	${GPU_ROOT}/d3d12/d3d12_graphics_command_list.hpp
+	${GPU_ROOT}/d3d12/d3d12_graphics_command_list.cpp
 	${GPU_ROOT}/d3d12/d3d12_graphics_pipeline.hpp
 	${GPU_ROOT}/d3d12/d3d12_graphics_pipeline.cpp
 	${GPU_ROOT}/d3d12/d3d12_shader.hpp
