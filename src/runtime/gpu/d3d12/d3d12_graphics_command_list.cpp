@@ -14,21 +14,21 @@ D3D12_RESOURCE_STATES layout_to_resource_states(Layout layout) {
 	SUPPRESS_WARNING_PUSH
 	MSVC_SUPPRESS_WARNING(4061) // Not all switch cases are explicitly handled
 	switch (layout) {
-		case gpu::Layout::Undefined:
+		case Layout::Undefined:
 			break;
-		case gpu::Layout::General:
+		case Layout::General:
 			state = D3D12_RESOURCE_STATE_GENERIC_READ;
 			break;
-		case gpu::Layout::ColorAttachment:
+		case Layout::ColorAttachment:
 			state = D3D12_RESOURCE_STATE_RENDER_TARGET;
 			break;
-		// case gpu::Layout::DepthAttachment:
-		// case gpu::Layout::TransferSrc:
-		case gpu::Layout::TransferDst:
+		// case Layout::DepthAttachment:
+		// case Layout::TransferSrc:
+		case Layout::TransferDst:
 			state = D3D12_RESOURCE_STATE_COPY_DEST;
 			break;
-		// case gpu::Layout::ShaderReadOnly:
-		case gpu::Layout::Present:
+		// case Layout::ShaderReadOnly:
+		case Layout::Present:
 			state = D3D12_RESOURCE_STATE_PRESENT;
 			break;
 		default:
