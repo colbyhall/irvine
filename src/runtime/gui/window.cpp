@@ -63,7 +63,7 @@ static LRESULT CALLBACK window_proc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 
 GUI_NAMESPACE_BEGIN
 
-Shared<Window> make_window(const WindowConfig& config) {
+Shared<Window> Window::make(const WindowConfig& config) {
 	HINSTANCE hInstance = GetModuleHandleA(nullptr);
 
 	DWORD dwStyle = WS_OVERLAPPEDWINDOW;
@@ -155,6 +155,10 @@ Shared<Window> make_window(const WindowConfig& config) {
 	auto result = make_shared<Window, SMode::NonAtomic>((void*)handle, core::move(swapchain));
 	SetWindowLongPtrW(handle, GWLP_USERDATA, (LONG_PTR)&*result);
 	return result;
+}
+
+bool Window::set_visible(bool visible) {
+	return ShowWindow((HWND)m_handle, visible ? SW_SHOW : SW_HIDE) == 1;
 }
 
 bool Window::set_cursor_lock(bool locked) {

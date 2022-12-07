@@ -1,5 +1,7 @@
 // Copyright Colby Hall. All Rights Reserved.
 
+#pragma once
+
 #include <core/non_copyable.hpp>
 #include <core/containers/slice.hpp>
 #include <core/containers/string.hpp>

@@ -11,6 +11,8 @@ set(GPU_SRC_FILES
 	${GPU_ROOT}/gpu.hpp
 	${GPU_ROOT}/graphics_command_list.hpp
 	${GPU_ROOT}/graphics_command_list.cpp
+	${GPU_ROOT}/graphics_pipeline.hpp
+	${GPU_ROOT}/graphics_pipeline.cpp
 	${GPU_ROOT}/shader.hpp
 	${GPU_ROOT}/shader.cpp
 	${GPU_ROOT}/swapchain.hpp

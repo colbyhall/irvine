@@ -4,110 +4,142 @@
 
 TEST_MAIN()
 
+#include <core/memory.hpp>
+#include <core/math/vec3.hpp>
+#include <core/math/color.hpp>
+
 #include <gui/window.hpp>
+
+#include <gpu/buffer.hpp>
+#include <gpu/graphics_command_list.hpp>
+#include <gpu/graphics_pipeline.hpp>
+
 #include <dxc/dxc.hpp>
 
 static const char* source = R"#(
-	cbuffer bufs : register(b0) {
-	float4x4 local_to_projection;
-}
-
-#define PI 3.141569
-
-float3 fresnel_schlick(float cos_theta, float3 f0) {
-	return f0 + (1.0 - f0) * pow(clamp(1.0 - cos_theta, 0.0, 1.0), 5.0);
-}
-
-float distribution_ggx(float3 n, float3 h, float roughness) {
-	float a = roughness * roughness;
-	float a2 = a * a;
-	float n_dot_h = max(dot(n, h), 0.0);
-	float n_dot_h_2 = n_dot_h * n_dot_h;
-
-	float num = a2;
-	float denom = n_dot_h_2 * (a2 - 1.0) + 1.0;
-	denom = PI * denom * denom;
-
-	return num / denom;
-}
-
-float geometry_schlick_ggx(float n_dot_v, float roughness) {
-	float r = roughness + 1.0;
-	float k = (r * r) / 8.0;
-
-	float num = n_dot_v;
-	float denom = n_dot_v * (1.0 - k) + k;
-
-	return num / denom;
-}
-
-float geometry_smith(float3 n, float3 v, float3 l, float roughness) {
-	float n_dot_v = max(dot(n, v), 0.0);
-	float n_dot_l = max(dot(n, l), 0.0);
-	float ggx2 = geometry_schlick_ggx(n_dot_v, roughness);
-	float ggx1 = geometry_schlick_ggx(n_dot_l, roughness);
-
-	return ggx1 * ggx2;
-}
-
 struct PSInput
 {
 	float4 position : SV_POSITION;
-	float3 normal : NORMAL;
+	float4 color : COLOR;
 };
 
-PSInput vs_main(float3 position : POSITION, float3 normal: NORMAL)
+PSInput vs_main(float3 position : POSITION, float4 color: COLOR)
 {
 	PSInput result;
 
 	float4 adjusted = float4(position.x, position.y, position.z, 1.0);
-	result.position = mul(local_to_projection, adjusted);
-	result.normal = normal;
+	result.position = adjusted;
+	result.color = color;
 
 	return result;
 }
 
 float4 ps_main(PSInput input) : SV_TARGET
 {
-	float3 color = float3(0.f, 1.f, 0.f);
-
-	float3 a = float3(0.f, 0.f, 0.f);
-	float3 b = float3(2.f, 3.f, -5.f);
-	float3 light_direction = normalize(a - b);
-	float3 light_color = float3(0.5f, 0.5f, 0.5f);
-
-	float3 ambient = float3(0.1f, 0.1f, 0.1f);
-
-	float3 diffuse = light_color * max(dot(input.normal, light_direction), 0.f);
-
-	float3 final_color = color * (diffuse + ambient);
-
-	return float4(final_color.x, final_color.y, final_color.z, 1.f);
-	// return float4(color.x, color.y, color.z, 1.f);
-	// return float4(input.normal.x, input.normal.y, input.normal.z, 1.f);
-	// return abs(float4(input.normal.x, input.normal.y, input.normal.z, 1.f));
+	return input.color;
 }
 )#";
 
+using namespace gpu;
+
+struct Vertex {
+	Vec3f32 position;
+	LinearColor color;
+};
 
 TEST_CASE("guis can create windows") {
+	// Create a window that is invisible
 	gui::WindowConfig config = {
 		.title = "Test",
+		.visible = false,
 	};
-	auto window = gui::make_window(config);
+	auto window = gui::Window::make(config);
 
+	// Compile the vertex shader using source
 	dxc::Input vertex_input = {
 		source,
 		"vs_main",
-		gpu::ShaderType::Vertex
+		ShaderType::Vertex
 	};
 	auto vertex_output = dxc::compile(vertex_input).unwrap();
-	auto vertex_shader = gpu::VertexShader::make(
+	auto vertex_shader = VertexShader::make(
 		core::move(vertex_output.binary),
 		core::move(vertex_output.input_parameters)
 	);
 
+	// Compile the pixel shader using source
+	dxc::Input pixel_input = {
+		source,
+		"ps_main",
+		ShaderType::Pixel
+	};
+	auto pixel_output = dxc::compile(pixel_input).unwrap();
+	auto pixel_shader = PixelShader::make(core::move(pixel_output.binary));
+
+	// Create the graphics pipeline
+	GraphicsPipelineConfig pipeline_config = {
+		.vertex_shader = core::move(vertex_shader),
+		.pixel_shader = core::move(pixel_shader),
+	};
+	pipeline_config.color_attachments.push(Format::RGBA_U8);
+	auto pipeline = GraphicsPipeline::make(core::move(pipeline_config));
+
+	// Create the triangle vertex buffer
+	auto triangle_vertices = Buffer::make(
+		BU_Vertex,
+		BufferKind::Upload,
+		3,
+		sizeof(Vertex)
+	);
+	triangle_vertices.map([](Slice<u8> slice) {
+		Vertex vertices[3] = {
+			Vertex {
+				{ -0.5f, -0.5f, 0 },
+				LinearColor::red
+			},
+			Vertex {
+				{ 0, 0.5f, 0 },
+				LinearColor::green
+			},
+			Vertex {
+				{ 0.5f, -0.5f, 0 },
+				LinearColor::blue
+			}
+		};
+		core::mem::copy(&slice[0], vertices, slice.len());
+	});
+
+	bool first_show = false;
 	while (true) {
 		gui::pump_events();
+
+		auto command_list = GraphicsCommandList::make();
+		command_list.record([&](GraphicsCommandRecorder& gcr) {
+			auto& back_buffer = window->swapchain().back_buffer();
+			gcr.texture_barrier(
+				back_buffer,
+				Layout::Present,
+				Layout::ColorAttachment
+			).render_pass(back_buffer, nullptr, [&](RenderPassRecorder& rpr) {
+				rpr
+					.set_pipeline(pipeline)
+					.clear_color(LinearColor::black)
+					.set_vertices(triangle_vertices)
+					.draw(3, 0);
+			}).texture_barrier(
+				back_buffer,
+				Layout::ColorAttachment,
+				Layout::Present
+			);
+		});
+		command_list.submit();
+
+		window->swapchain().present();
+
+		// Show the window after we've drawn to the window once
+		if (!first_show) {
+			window->set_visible(true);
+			first_show = true;
+		}
 	}
 }

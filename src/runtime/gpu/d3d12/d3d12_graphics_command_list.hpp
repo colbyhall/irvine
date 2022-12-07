@@ -24,7 +24,7 @@ public:
         m_textures_in_use(core::move(move.m_textures_in_use)),
         m_buffers_in_use(core::move(move.m_buffers_in_use))
 	{
-        m_command_list.Reset();
+        //m_command_list.Reset();
         m_bound_color_buffer = nullptr;
         m_bound_depth_buffer = nullptr;
 	}
