@@ -8,13 +8,15 @@ TEST_MAIN()
 #include <core/math/vec3.hpp>
 #include <core/math/color.hpp>
 
-#include <gui/window.hpp>
-
+#include <gpu/context.hpp>
 #include <gpu/buffer.hpp>
 #include <gpu/graphics_command_list.hpp>
 #include <gpu/graphics_pipeline.hpp>
 
 #include <dxc/dxc.hpp>
+
+#include <gui/context.hpp>
+#include <gui/window.hpp>
 
 static const char* source = R"#(
 struct PSInput
@@ -48,6 +50,9 @@ struct Vertex {
 };
 
 TEST_CASE("guis can create windows") {
+	gpu::init();
+	gui::init();
+
 	// Create a window that is invisible
 	gui::WindowConfig config = {
 		.title = "Test",

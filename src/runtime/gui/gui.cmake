@@ -3,9 +3,10 @@ set(GUI_ROOT ${RUNTIME_ROOT}/gui)
 
 # Source files
 set(GUI_SRC_FILES
+	${GUI_ROOT}/context.hpp
+	${GUI_ROOT}/context.cpp
 	${GUI_ROOT}/gui.cmake
 	${GUI_ROOT}/gui.hpp
-	${GUI_ROOT}/gui.cpp
 	${GUI_ROOT}/window.hpp
 	${GUI_ROOT}/window.cpp
 	${GUI_ROOT}/widget/widget.hpp

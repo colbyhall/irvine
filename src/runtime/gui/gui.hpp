@@ -14,15 +14,3 @@
 #define GUI_NAMESPACE_END																	\
 	}																						\
 	SUPPRESS_WARNING_POP
-
-GUI_NAMESPACE_BEGIN
-
-class Context {
-public:
-	static Context& the();
-
-	Context();
-private:
-};
-
-GUI_NAMESPACE_END

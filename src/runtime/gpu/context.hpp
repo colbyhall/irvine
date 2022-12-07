@@ -36,9 +36,11 @@ private:
     inline Context(Unique<ContextInterface>&& interface) 
         : m_interface(core::forward< Unique<ContextInterface>>(interface)) {}
 
-    friend const Context& the();
+    friend void init();
 
     Unique<ContextInterface> m_interface;
 };
+
+void init();
 
 GPU_NAMESPACE_END

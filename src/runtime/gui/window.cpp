@@ -7,24 +7,7 @@
 #include <core/containers/wstring.hpp>
 #include <core/platform/library.hpp>
 
-#define UNICODE
 #include <core/platform/windows.hpp>
-
-typedef enum PROCESS_DPI_AWARENESS {
-	PROCESS_DPI_UNAWARE,
-	PROCESS_SYSTEM_DPI_AWARE,
-	PROCESS_PER_MONITOR_DPI_AWARE
-} PROCESS_DPI_AWARENESS;
-
-enum MONITOR_DPI_TYPE {
-	MDT_EFFECTIVE_DPI,
-	MDT_ANGULAR_DPI,
-	MDT_RAW_DPI,
-	MDT_DEFAULT
-};
-
-typedef HRESULT(*SetProcessDPIAwareness)(PROCESS_DPI_AWARENESS value);
-typedef HRESULT(*GetDPIForMonitor)(HMONITOR hmonitor, MONITOR_DPI_TYPE dpiType, UINT* dpiX, UINT* dpiY);
 
 // NOTE: Could #include <hidusage.h> for these defines
 #ifndef HID_USAGE_PAGE_GENERIC
@@ -82,17 +65,9 @@ Shared<Window> Window::make(const WindowConfig& config) {
 	window_class.lpszClassName = L"window_class";
 	window_class.hIconSm = ::LoadIconW(hInstance, nullptr);
 
-	static bool first = true;
-	static auto shcore = Library::open("shcore.dll");
-	if (first) {
-		first = false;
-
-		if (shcore) {
-			auto& actual = shcore.as_mut().unwrap();
-			auto SetProcessDpiAwareness = (SetProcessDPIAwareness)actual.find("SetProcessDpiAwareness");
-			if (SetProcessDpiAwareness) SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE);
-		}
-
+	static bool registered = true;
+	if (registered) {
+		registered = false;
 		const ATOM atom = RegisterClassExW(&window_class);
 		ASSERT(atom != 0);
 	}
@@ -202,4 +177,5 @@ void pump_events() {
 }
 
 GUI_NAMESPACE_END
+
 #endif

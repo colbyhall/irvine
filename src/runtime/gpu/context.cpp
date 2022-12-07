@@ -6,14 +6,16 @@
 
 GPU_NAMESPACE_BEGIN
 
+static Option<Context> g_context = nullptr;
+
 const Context& Context::the() {
-	static Option<Context> context = nullptr;
-	if (!context) {
-		Unique<ContextInterface> interface = make_unique<D3D12Context>();
-		context = Context(core::move(interface));
-		context.as_mut().unwrap().m_interface->post_init();
-	}
-	return context.as_ref().unwrap();
+	return g_context.as_ref().unwrap();
+}
+
+void init() {
+	Unique<ContextInterface> interface = make_unique<D3D12Context>();
+	g_context = Context(core::move(interface));
+	g_context.as_mut().unwrap().m_interface->post_init();
 }
 
 GPU_NAMESPACE_END
