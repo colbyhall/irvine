@@ -9,8 +9,10 @@ using namespace gpu;
 
 #include <draw/font.hpp>
 
-#include <stb/stb_truetype.h>
+SUPPRESS_WARNINGS_STD_BEGIN
 #include <stb/stb_rect_pack.h>
+#include <stb/stb_truetype.h>
+SUPPRESS_WARNINGS_STD_END
 
 DRAW_NAMESPACE_BEGIN
 
@@ -18,11 +20,11 @@ Option<Font> Font::import(PathView path) {
 	auto result = File::open(path, FF_Read);
 	if (!result.is_ok()) return nullptr;
 	File file = result.unwrap();
-	const auto size = file.size();
+	const auto file_size = file.size();
 
 	Array<u8> bytes;
-	bytes.reserve(size + 1);
-	bytes.set_len(size);
+	bytes.reserve(file_size + 1);
+	bytes.set_len(file_size);
 	file.read({ &bytes[0], bytes.len() });
 	bytes.push(0);
 

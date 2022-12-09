@@ -4,6 +4,7 @@
 
 #include <core/containers/string_view.hpp>
 #include <core/math/aabb2.hpp>
+
 #include <draw/shape.hpp>
 
 DRAW_NAMESPACE_BEGIN
@@ -13,7 +14,7 @@ class Font;
 class Text final : public Shape {
 public:
     FORCE_INLINE Text(StringView text, const AABB2f32& bounds, const Font& font, f32 size)
-    : m_text(text), m_bounds(bounds), m_font(font), m_size(size) {}
+    : m_bounds(bounds), m_text(text), m_font(font), m_size(size) {}
 
     FORCE_INLINE Text& monospace() { m_monospace = true; }
 

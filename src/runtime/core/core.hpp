@@ -154,6 +154,8 @@
 	MSVC_SUPPRESS_WARNING(4514)																\
 	MSVC_SUPPRESS_WARNING(5262) /* implicit fall-through occurs here; are you missing a break statement? Use [[fallthrough]] when a break statement is intentionally omitted between cases */ \
 	MSVC_SUPPRESS_WARNING(5264)																\
+	MSVC_SUPPRESS_WARNING(4365)																\
+	MSVC_SUPPRESS_WARNING(5219)																\
 																							\
 	GCC_SUPPRESS_WARNING("-Wstringop-overflow=")
 

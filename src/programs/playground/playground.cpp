@@ -9,7 +9,7 @@ int main(int argc, char** argv) {
 	gui::WindowConfig config = {
 		.title = "Test",
 	};
-	auto window = gui::make_window(config);
+	auto window = gui::Window::make(config);
 
 	while(true) {
 		gui::pump_events();

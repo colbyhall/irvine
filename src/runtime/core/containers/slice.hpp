@@ -22,9 +22,9 @@ public:
 	FORCE_INLINE bool is_valid_index(usize index) const { return index < m_len; }
 
 	template <typename = EnabledIf<!is_const<T>>>
-	FORCE_INLINE T* begin() { return m_ptr; }
+	FORCE_INLINE T* begin() const { return m_ptr; }
 	template <typename = EnabledIf<!is_const<T>>>
-	FORCE_INLINE T* end() { return m_ptr + m_len; }
+	FORCE_INLINE T* end() const { return m_ptr + m_len; }
 
 	FORCE_INLINE T const* cbegin() const { return m_ptr; }
 	FORCE_INLINE T const* cend() const { return m_ptr + m_len; }

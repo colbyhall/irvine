@@ -1,6 +1,14 @@
+// Copyright Colby Hall. All Rights Reserved.
+
 #include <draw/canvas.hpp>
+#include <draw/shape.hpp>
 
 DRAW_NAMESPACE_BEGIN
+
+Canvas& Canvas::paint(const Shape& t) {
+	t.triangulate(*this);
+	return *this;
+}
 
 Canvas& Canvas::add_vertex(const Vec3f32& position, Vec2f32 uv, u32 texture) {
 	Vec4f32 scissor = 0;

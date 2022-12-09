@@ -28,11 +28,7 @@ public:
     static Canvas make() { return Canvas{}; }
 
     Canvas& add_vertex(const Vec3f32& position, Vec2f32 uv = 0, u32 texture = 0);
-
-    FORCE_INLINE Canvas& paint(const Shape& t) {
-        t.triangulate(*this);
-        return *this;
-    }
+    Canvas& paint(const Shape& t);
 
     FORCE_INLINE Canvas& set_color(const LinearColor& color) { m_color = color; return *this; }
     FORCE_INLINE Canvas& set_scissor(const AABB2f32& scissor) { m_scissor = scissor; return *this; }
