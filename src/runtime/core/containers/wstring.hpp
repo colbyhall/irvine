@@ -19,15 +19,15 @@ public:
     operator Slice<wchar const>() const;
     operator WStringView() const;
 
-    FORCE_INLINE wchar* ptr() { return &m_chars[0]; }
-    FORCE_INLINE wchar const* ptr() const { return &m_chars[0]; }
-    FORCE_INLINE const wchar* operator*() const { return &m_chars[0]; }
+    FORCE_INLINE wchar* ptr() { return m_chars.begin(); }
+    FORCE_INLINE wchar const* ptr() const { return m_chars.cbegin(); }
+    FORCE_INLINE const wchar* operator*() const { return m_chars.cbegin(); }
 
     FORCE_INLINE usize len() const { return m_chars.len() > 0 ? m_chars.len() - 1 : 0; }
     FORCE_INLINE usize cap() const { return m_chars.cap(); }
     FORCE_INLINE void set_len(usize len) { 
-        m_chars[len] = 0;
         m_chars.set_len(len + 1);
+        m_chars[len] = 0;
     }
 
     FORCE_INLINE wchar* begin() { return m_chars.begin(); }

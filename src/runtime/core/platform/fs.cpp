@@ -23,13 +23,13 @@ Path cwd() {
 	buffer.set_len(len);
 
 	// Copy all data to String
-	return {String::from(buffer) };
+	return { String::from(buffer) };
 }
 
 Result<File, FileOpenError> File::open(PathView path, FileFlags flags) {
-	const bool read = flags & FF_Read != 0;
-	const bool write = flags & FF_Write != 0;
-	const bool create = flags & FF_Create != 0;
+	const bool read = (flags & FF_Read) != 0;
+	const bool write = (flags & FF_Write) != 0;
+	const bool create = (flags & FF_Create) != 0;
 	ASSERT(read || write);
 
 	DWORD access = 0;
@@ -56,7 +56,7 @@ Result<File, FileOpenError> File::open(PathView path, FileFlags flags) {
 	);
 
 	const DWORD err = GetLastError();
-	ASSERT(err != 0, "TODO File open error handling");
+	ASSERT(err == 0, "TODO File open error handling");
 
 	return File{ handle, flags };
 }
@@ -86,13 +86,13 @@ usize File::seek(Seek method, isize distance) {
 }
 
 void File::set_eof() {
-	ASSERT(m_flags & FF_Write != 0, "Can only write to file that has been open with FF_Write");
+	ASSERT((m_flags & FF_Write) != 0, "Can only write to file that has been open with FF_Write");
 	const bool ok = SetEndOfFile(m_handle);
 	ASSERT(ok);
 }
 
 usize File::read(Slice<u8> buffer) {
-	ASSERT(m_flags & FF_Read != 0, "Can only read a file that has been open with FF_Read");
+	ASSERT((m_flags & FF_Read) != 0, "Can only read a file that has been open with FF_Read");
 
 	DWORD amount_read;
 	const bool ok = ReadFile(
@@ -110,11 +110,11 @@ usize File::read(Slice<u8> buffer) {
 }
 
 void File::write(Slice<const u8> buffer) {
-	ASSERT(m_flags & FF_Write != 0, "Can only write to file that has been open with FF_Write");
+	ASSERT((m_flags & FF_Write) != 0, "Can only write to file that has been open with FF_Write");
 
 	const bool ok = WriteFile(
 		m_handle,
-		buffer.begin(),
+		buffer.cbegin(),
 		(DWORD)buffer.len(),
 		nullptr,
 		nullptr
@@ -146,7 +146,7 @@ static void read_directory_impl(PathView path, bool recursive, Array<DirectoryIt
 	wpath.set_len(wpath_len);
 
 	if (find_handle == INVALID_HANDLE_VALUE) {
-		const auto error = GetLastError();
+		//const auto error = GetLastError();
 		ASSERT(true, "Check error");
 	}
 
@@ -177,18 +177,18 @@ static void read_directory_impl(PathView path, bool recursive, Array<DirectoryIt
 			if (w == 0) break;
 			wpath.push(w);
 		}
-		auto path = Path::from(wpath);
+		auto new_path = Path::from(wpath);
 
 		if (find_data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
 			item.type = DirectoryItemType::Directory;
 
-			if (recursive) read_directory_impl(path, recursive, items);
+			if (recursive) read_directory_impl(new_path, recursive, items);
 
-			item.path = core::move(path);
+			item.path = core::move(new_path);
 		}
 		else {
 			item.type = DirectoryItemType::File;
-			item.path = core::move(path);
+			item.path = core::move(new_path);
 
 			item.meta_data.read_only = (find_data.dwFileAttributes & FILE_ATTRIBUTE_READONLY) != 0;
 			item.meta_data.size = find_data.nFileSizeLow;

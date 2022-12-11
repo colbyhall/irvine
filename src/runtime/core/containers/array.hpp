@@ -13,39 +13,10 @@ template <typename T>
 class Array : private NonCopyable {
 public:
     FORCE_INLINE Array() = default;
-	FORCE_INLINE explicit Array(Slice<const T> slice) : m_ptr(nullptr), m_len(slice.len()), m_cap(0) {
-		reserve(slice.len());
-		for (u32 i = 0; i < slice.len(); ++i) {
-			T copy = slice[i];
-			new (m_ptr + i) T(core::move(copy));
-		}
-	}
-	FORCE_INLINE Array(Array<T>&& move) noexcept
-		: m_ptr(move.m_ptr), m_len(move.m_len), m_cap(move.m_cap) {
-		move.m_ptr = nullptr;
-		move.m_len = 0;
-		move.m_cap = 0;
-	}
-	FORCE_INLINE Array& operator=(Array<T>&& move) noexcept {
-		Array<T> to_destroy = core::move(*this);
-		m_ptr = move.m_ptr;
-		m_len = move.m_len;
-		m_cap = move.m_cap;
-		move.m_ptr = nullptr;
-		move.m_len = 0;
-		move.m_cap = 0;
-		return *this;
-	}
-	~Array() {
-		if (m_ptr) {
-			for (usize i = 0; i < m_len; ++i) {
-				T& item = m_ptr[i];
-				item.~T();
-			}
-			mem::free(m_ptr);
-			m_ptr = nullptr;
-		}
-	}
+	explicit FORCE_INLINE Array(Slice<const T> slice);
+	FORCE_INLINE Array(Array<T>&& move) noexcept;
+	FORCE_INLINE Array& operator=(Array<T>&& move) noexcept;
+	~Array();
 	
 	FORCE_INLINE usize len() const { return m_len; }
 	FORCE_INLINE usize cap() const { return m_cap; }
@@ -62,92 +33,22 @@ public:
 	FORCE_INLINE const T* cbegin() const { return m_ptr; }
 	FORCE_INLINE const T* cend() const { return m_ptr + m_len; }
 
-	FORCE_INLINE T& operator[](usize index) {
-		ASSERT(is_valid_index(index), "Index out of bounds");
-		return m_ptr[index];
-	}
-	FORCE_INLINE const T& operator[](usize index) const {
-		ASSERT(is_valid_index(index), "Index out of bounds");
-		return m_ptr[index];
-	}
+	FORCE_INLINE T& operator[](usize index);
+	FORCE_INLINE const T& operator[](usize index) const;
 
-	FORCE_INLINE Option<T&> last() {
-		if (len() > 0) return m_ptr[len() - 1];
-		return {};
-	}
-	FORCE_INLINE Option<T const&> last() const {
-		if (len() > 0) return m_ptr[len() - 1];
-		return {};
-	}
+	FORCE_INLINE Option<T&> last();
+	FORCE_INLINE Option<T const&> last() const;
 
-	FORCE_INLINE void set_len(usize len) {
-		ASSERT(len <= m_cap);
-		// FIXME: Delete the items that are lost and initialize any gained to default
-		m_len = len;
-	}
+	// FIXME: Delete the items that are lost and initialize any gained to default
+	FORCE_INLINE void set_len(usize len);
 
-	void reserve(usize amount) {
-		// FIXME: Find proper way of allocating in larger blocks to prevent allocation per push
-		const auto old_cap = m_cap;
-		auto new_cap = old_cap + amount;
-		while (m_cap < new_cap) {
-			m_cap += new_cap >> 1;
-			m_cap += 1;
-		}
-
-		// FIXME: Custom allocator support
-		if (m_ptr == nullptr) {
-			void* ptr = mem::alloc(mem::Layout::array<T>(m_cap));
-			m_ptr = static_cast<T*>(ptr);
-		}
-		else {
-			void* ptr = mem::realloc(m_ptr, mem::Layout::array<T>(old_cap), mem::Layout::array<T>(m_cap));
-			m_ptr = static_cast<T*>(ptr);
-		}
-	}
-
-	void insert(usize index, T&& item) {
-		ASSERT(index <= m_len);
-		if (len() == cap()) reserve(1);
-
-		auto* src = m_ptr + index;
-		if (index != len()) {
-			mem::move(src + 1, src, (len() - index) * sizeof(T));
-			mem::set(src, 0, sizeof(T));
-		}
-
-		new (src) T(core::forward<T>(item));
-		m_len += 1;
-	}
-
-	FORCE_INLINE void insert(usize index, const T& item) {
-		T copy = item;
-		insert(index, core::move(copy));
-	}
-
-	T remove(usize index) {
-		ASSERT(index < m_len);
-
-		T result = core::move(m_ptr[index]);
-		void* clear = &m_ptr[index];
-		mem::set(clear, 0, sizeof(T));
-		if (index < m_len - 1) {
-			auto* src = m_ptr + index;
-			mem::move(src, src + 1, (len() - index) * sizeof(T));
-		}
-		m_len -= 1;
-		return result;
-	}
-
-	FORCE_INLINE usize push(T&& item) {
-		const auto index = len();
-		insert(index, core::move(item));
-		return index;
-	}
-	FORCE_INLINE usize push(const T& item) {
-		T copy = item;
-		return push(core::move(copy));
-	}
+	void reserve(usize amount);
+	void insert(usize index, T&& item);
+	void insert(usize index, const T& item);
+	T remove(usize index);
+	FORCE_INLINE usize push(T&& item);
+	FORCE_INLINE usize push(const T& item);
+	FORCE_INLINE Option<T> pop();
 
 private:
     T* m_ptr = nullptr;
@@ -157,6 +58,8 @@ private:
 };
 
 CORE_NAMESPACE_END
+
+#include <core/containers/array.inl>
 
 // Export Array out of core namespace
 using core::Array;

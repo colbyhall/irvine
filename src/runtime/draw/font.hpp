@@ -38,6 +38,7 @@ public:
     FORCE_INLINE f32 ascent() const { return m_ascent; }
     FORCE_INLINE f32 descent() const { return m_descent; }
     FORCE_INLINE f32 line_gap() const { return m_line_gap; }
+    FORCE_INLINE f32 new_line() const { return (ascent() - descent()) + line_gap(); };
 
     f32 find_kerning(Codepoint a, Codepoint b) const;
 

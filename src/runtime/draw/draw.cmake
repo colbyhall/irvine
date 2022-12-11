@@ -22,5 +22,5 @@ source_group(TREE ${DRAW_ROOT} FILES ${DRAW_SRC_FILES})
 # Create draw lib
 add_library(draw STATIC ${DRAW_SRC_FILES})
 target_include_directories(draw PUBLIC ${RUNTIME_ROOT} ${THIRD_PARTY_ROOT})
-target_link_libraries(draw LINK_PUBLIC core gpu)
+target_link_libraries(draw LINK_PUBLIC core gpu stb)
 set_target_properties(draw PROPERTIES FOLDER "runtime")

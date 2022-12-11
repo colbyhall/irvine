@@ -11,7 +11,7 @@ void Text::triangulate(Canvas& canvas) const {
 	const auto origin = m_bounds.top_left();
 	const f32 size = Font::sdf_size;
 	const f32 scale = m_size / size;
-	const f32 new_line = (m_font.ascent() - m_font.descent()) + m_font.line_gap();
+	const f32 new_line = m_font.new_line();
 
 	auto position = origin;
 	position.y -= size * scale;

@@ -52,7 +52,7 @@ Option<Font> Font::import(PathView path) {
 	nodes.reserve(atlas_size.width * atlas_size.height);
 
 	stbrp_context packer = {};
-	stbrp_init_target(&packer, atlas_size.width, atlas_size.height, &nodes[0], (int)nodes.cap());
+	stbrp_init_target(&packer, atlas_size.width, atlas_size.height, nodes.begin(), (int)nodes.cap());
 
 	Array<u8> bitmap;
 	bitmap.reserve(atlas_size.width * atlas_size.height);

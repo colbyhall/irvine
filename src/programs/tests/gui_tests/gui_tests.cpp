@@ -6,8 +6,9 @@ TEST_MAIN()
 
 #include <core/memory.hpp>
 #include <core/math/color.hpp>
-#include <core/math/vec3.hpp>
 #include <core/math/mat4.hpp>
+#include <core/math/quat.hpp>
+#include <core/math/vec3.hpp>
 
 #include <gpu/context.hpp>
 #include <gpu/buffer.hpp>
@@ -22,7 +23,9 @@ using namespace gpu;
 #include <gui/window.hpp>
 
 #include <draw/canvas.hpp>
+#include <draw/font.hpp>
 #include <draw/shapes/rect.hpp>
+#include <draw/shapes/text.hpp>
 
 using namespace draw;
 
@@ -31,36 +34,56 @@ cbuffer bufs : register(b0) {
 	float4x4 local_to_projection;
 }
 
-struct VSInput
-{
-	float4 position : POSITION;
-	float4 color : COLOR;
-};
+Texture2D texture2d_table[] : register(t0);
+SamplerState sampler_table : register(s0);
 
-
-struct PSInput
-{
+struct PSInput {
 	float4 position : SV_POSITION;
 	float4 color : COLOR;
 	float4 scissor : SCISSOR;
 	float2 uv : UV;
-	uint texture : TEXTURE;
+	float2 screen_pos : SCREEN_POS;
+	uint tex2d : TEX;
 };
 
-PSInput vs_main(VSInput input)
-{
+struct VSInput {
+	float3 position : POSITION;
+	float4 color : COLOR;
+	float4 scissor : SCISSOR;
+	float2 uv : UV;
+	uint tex2d : TEX;
+};
+
+PSInput vs_main(VSInput input) {
 	PSInput result;
 
-	float4 adjusted = float4(input.position.x, input.position.y, input.position.z, 1.0);
-	result.position = mul(local_to_projection, adjusted);
+	result.position = mul(local_to_projection, float4(input.position, 1.0));
 	result.color = input.color;
+	result.scissor = input.scissor;
+	result.uv = input.uv;
+	result.screen_pos = input.position.xy;
+	result.tex2d = input.tex2d;
 
 	return result;
 }
 
-float4 ps_main(PSInput input) : SV_TARGET
-{
-	return input.color;
+float4 ps_main(PSInput input) : SV_TARGET {
+	bool in_scissor =
+		input.screen_pos.x >= input.scissor.x &&
+		input.screen_pos.y >= input.scissor.y &&
+		input.screen_pos.x <= input.scissor.z &&
+		input.screen_pos.y <= input.scissor.w;
+
+	float4 output = input.color;
+	if (true) {
+		if (input.tex2d == 0) {
+			return input.color;
+		}
+		float dist_alpha_mask = texture2d_table[input.tex2d].Sample(sampler_table, input.uv, 0).x;
+		output.w *= smoothstep(0.65, 0.7, dist_alpha_mask);
+	}
+	return output;
+
 }
 )#";
 
@@ -100,9 +123,16 @@ TEST_CASE("guis can create windows") {
 	GraphicsPipelineConfig pipeline_config = {
 		.vertex_shader = core::move(vertex_shader),
 		.pixel_shader = core::move(pixel_shader),
+		.blend_enabled = true,
+		.src_color_blend_factor = BlendFactor::SrcAlpha,
+		.dst_color_blend_factor = BlendFactor::OneMinusSrcAlpha,
 	};
 	pipeline_config.color_attachments.push(Format::RGBA_U8);
 	auto pipeline = GraphicsPipeline::make(core::move(pipeline_config));
+
+	//auto cwd = core::cwd();
+
+	auto font = Font::import("../../res/consola.ttf").unwrap();
 
 	f32 x = 0.f;
 
@@ -112,6 +142,9 @@ TEST_CASE("guis can create windows") {
 
 		x += 0.1f;
 
+		auto& back_buffer = window->swapchain().back_buffer();
+		const auto back_buffer_size = back_buffer.size().cast<f32>();
+
 		auto canvas = Canvas::make();
 		{
 			const auto bounds = AABB2f32::from_center(
@@ -119,6 +152,14 @@ TEST_CASE("guis can create windows") {
 				200.f
 			);
 			canvas.paint(Rect{ bounds });
+		}
+		{
+			const Vec2f32 min = { 0, back_buffer_size.height - font.new_line()};
+			const Vec2f32 max = Vec2f32(back_buffer_size.width, back_buffer_size.height);
+
+			const auto bounds = AABB2f32::from_min_max(min, max);
+			canvas.paint(Text("Hello World", bounds, font, (core::sin(x * 0.1f) + 1.f) * 20.f + 64.f));
+			//canvas.paint(Rect{ bounds });
 		}
 		const auto vertices = canvas.vertices();
 
@@ -135,15 +176,20 @@ TEST_CASE("guis can create windows") {
 
 		auto command_list = GraphicsCommandList::make();
 		command_list.record([&](GraphicsCommandRecorder& gcr) {
-			auto& back_buffer = window->swapchain().back_buffer();
-			const auto back_buffer_size = back_buffer.size();
-
 			const auto projection = Mat4f32::orthographic(
-				(f32)back_buffer_size.width,
-				(f32)back_buffer_size.height,
+				back_buffer_size.width,
+				back_buffer_size.height,
 				0.1f,
 				1000.f
 			);
+
+			const auto view = Mat4f32::transform(
+				{ -back_buffer_size.width / 2.f, -back_buffer_size.height / 2.f, 0 },
+				Quatf32::identity,
+				1
+			);
+
+			const auto local_to_projection = projection * view;
 
 			gcr.texture_barrier(
 				back_buffer,
@@ -151,7 +197,7 @@ TEST_CASE("guis can create windows") {
 				Layout::ColorAttachment
 			).render_pass(back_buffer, nullptr, [&](RenderPassRecorder& rpr) {
 				rpr
-					.push_constants(&projection)
+					.push_constants(&local_to_projection)
 					.set_pipeline(pipeline)
 					.clear_color(LinearColor::black)
 					.set_vertices(vertex_buffer)

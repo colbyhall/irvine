@@ -210,7 +210,8 @@
 	MSVC_SUPPRESS_WARNING(4582) /* 'X': constructor is not implicitly called */				\
 	MSVC_SUPPRESS_WARNING(5219) /* implicit conversion from 'X' to 'Y', possible loss of data  */ \
 	MSVC_SUPPRESS_WARNING(4826) /* Conversion from 'X *' to 'JPH::uint64' is sign-extended. This may cause unexpected runtime behavior. (32-bit) */ \
-	MSVC_SUPPRESS_WARNING(5264) /* 'X': 'const' variable is not used */
+	MSVC_SUPPRESS_WARNING(5264) /* 'X': 'const' variable is not used */						\
+	MSVC_SUPPRESS_WARNING(4127)
 
 // Begin the core namespace
 #define CORE_NAMESPACE_BEGIN																\
