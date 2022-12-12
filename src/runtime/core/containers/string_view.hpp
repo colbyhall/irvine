@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <core/hash.hpp>
 #include <core/containers/slice.hpp>
 
 CORE_NAMESPACE_BEGIN
@@ -67,3 +68,5 @@ CORE_NAMESPACE_END
 using core::Codepoint;
 using core::StringView;
 using core::CodepointsIterator;
+
+void hash(Hasher& hasher, const StringView& view);

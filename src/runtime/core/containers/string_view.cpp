@@ -84,15 +84,19 @@ Codepoint CodepointsIterator::get() const {
 }
 
 bool StringView::operator==(const StringView& right) const {
-        // If our string are not the same length they can not be equal
-        if (len() != right.len()) return false;
+    // If our string are not the same length they can not be equal
+    if (len() != right.len()) return false;
 
-        // Compare bytes of strings
-        for (usize i = 0; i < len(); i++) {
-            if (m_bytes[i] != right.m_bytes[i]) return false;
-        }
-
-        return true;
+    // Compare bytes of strings
+    for (usize i = 0; i < len(); i++) {
+        if (m_bytes[i] != right.m_bytes[i]) return false;
     }
 
+    return true;
+}
+
 CORE_NAMESPACE_END
+
+void hash(Hasher& hasher, const StringView& view) {
+	hasher.write(Slice<u8 const>((u8 const*)*view, view.len()));
+}
