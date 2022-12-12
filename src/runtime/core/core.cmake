@@ -16,6 +16,8 @@ set(CORE_SRC_FILES
 	${CORE_ROOT}/containers/allocators.hpp
 	${CORE_ROOT}/containers/array.hpp
 	${CORE_ROOT}/containers/array.inl
+	${CORE_ROOT}/containers/bucket_array.hpp
+	${CORE_ROOT}/containers/bucket_array.inl
 	${CORE_ROOT}/containers/function.hpp
 	${CORE_ROOT}/containers/hash_map.hpp
 	${CORE_ROOT}/containers/hash_map.inl

@@ -36,7 +36,7 @@ public:
 	FORCE_INLINE T& operator[](usize index);
 	FORCE_INLINE const T& operator[](usize index) const;
 
-	FORCE_INLINE Option<T&> last();
+	FORCE_INLINE Option<T&> last_mut();
 	FORCE_INLINE Option<T const&> last() const;
 
 	// FIXME: Delete the items that are lost and initialize any gained to default
