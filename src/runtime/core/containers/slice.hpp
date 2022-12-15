@@ -17,6 +17,27 @@ public:
 		ASSERT(ptr != nullptr || (ptr == nullptr && len == 0), "If we have no ptr we must not have len"); 
 	}
 
+	FORCE_INLINE constexpr Slice(const Slice<T>& c) : m_ptr(c.m_ptr), m_len(c.m_len) {}
+	FORCE_INLINE constexpr Slice<T>& operator=(const Slice<T>& c) {
+		m_ptr = c.m_ptr;
+		m_len = c.m_len;
+		return *this;
+	}
+
+	FORCE_INLINE Slice(Slice<T>&& m) : m_ptr(m.m_ptr), m_len(m.m_len) {
+		m.m_ptr = nullptr;
+		m.m_len = 0;
+	}
+	FORCE_INLINE Slice<T>& operator=(Slice<T>&& m) {
+		m_ptr = m.m_ptr;
+		m_len = m.m_len;
+
+		m.m_ptr = nullptr;
+		m.m_len = 0;
+
+		return *this;
+	}
+
 	FORCE_INLINE usize len() const { return m_len; }
 	FORCE_INLINE bool is_empty() const { return m_len == 0; }
 	FORCE_INLINE bool is_valid_index(usize index) const { return index < m_len; }

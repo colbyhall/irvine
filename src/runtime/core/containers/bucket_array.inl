@@ -2,57 +2,54 @@
 
 CORE_NAMESPACE_BEGIN
 
-template <usize count, typename T>
-usize BucketArray<count, T>::len() const {
-	const auto assumed = (m_buckets.len() - 1) * count;
-	auto last = m_buckets.last();
-	if (last.is_set()) {
-		auto& real = last.unwrap();
-		return assumed + real.len();
+template <usize size, typename T>
+usize BucketArray<size, T>::len() const {
+	usize result = 0;
+	for (usize i = 0; i < m_buckets.len(); ++i) {
+		result += m_buckets[i].values.len();
 	}
-	return assumed;
+	return result;
 }
 
-template <usize count, typename T>
-usize BucketArray<count, T>::cap() const {
-	return m_buckets.len() * count;
+template <usize size, typename T>
+usize BucketArray<size, T>::cap() const {
+	return m_buckets.len() * size;
 }
 
-template <usize count, typename T>
-T& BucketArray<count, T>::operator[](usize index) {
-	const auto bucket = index / count;
-	const auto remainder = index & count;
+template <usize size, typename T>
+T& BucketArray<size, T>::operator[](usize index) {
+	const auto bucket = index / size;
+	const auto remainder = index & size;
 	return m_buckets[bucket].values[remainder];
 }
 
-template <usize count, typename T>
-const T& BucketArray<count, T>::operator[](usize index) const {
-	const auto bucket = index / count;
-	const auto remainder = index & count;
+template <usize size, typename T>
+const T& BucketArray<size, T>::operator[](usize index) const {
+	const auto bucket = index / size;
+	const auto remainder = index & size;
 	return m_buckets[bucket].values[remainder];
 }
 
-template <usize count, typename T>
-void BucketArray<count, T>::reserve(usize amount) {
+template <usize size, typename T>
+void BucketArray<size, T>::reserve(usize amount) {
 	m_buckets.reserve(amount);
 }
 
-template <usize count, typename T>
-usize BucketArray<count, T>::push(T&& item) {
-	const auto assumed = (m_buckets.len() - 1) * count;
-
+template <usize size, typename T>
+usize BucketArray<size, T>::push(T&& item) {
 	auto last = m_buckets.last_mut();
-	if (last.is_set()) {
+	if (last) {
 		auto& real = last.unwrap();
-		const auto len = real.len();
+		const auto len = real.values.len();
 
-		if (len < count) {
-			real.push(core::forward<T>(item));
-			return assumed + len;
+		if (len < size) {
+			real.values.push(core::forward<T>(item));
+			return m_buckets.len() * size + len;
 		}
 	}
 
 	Array<T> values;
+	values.reserve(size);
 	values.push(core::forward<T>(item));
 	m_buckets.push(Bucket {
 		core::move(values),
@@ -61,14 +58,12 @@ usize BucketArray<count, T>::push(T&& item) {
 	return 0;
 }
 
-template <usize count, typename T>
-Option<T> BucketArray<count, T>::pop() {
-	const auto assumed = (m_buckets.len() - 1) * count;
-
+template <usize size, typename T>
+Option<T> BucketArray<size, T>::pop() {
 	auto last = m_buckets.last_mut();
 	if (last.is_set()) {
 		auto& real = last.unwrap();
-		auto value = real.pop();
+		auto value = real.values.pop();
 
 		if (real.is_empty()) {
 			m_buckets.pop();

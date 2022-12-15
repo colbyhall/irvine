@@ -6,9 +6,15 @@ set(GAME_SRC_FILES
 	${GAME_ROOT}/game.cmake
 	${GAME_ROOT}/game.hpp
 	${GAME_ROOT}/ecs/archetype.hpp
+	${GAME_ROOT}/ecs/archetype.cpp
+	${GAME_ROOT}/ecs/archetype_id.hpp
+	${GAME_ROOT}/ecs/archetype_id.cpp
 	${GAME_ROOT}/ecs/component.hpp
+	${GAME_ROOT}/ecs/component.cpp
 	${GAME_ROOT}/ecs/entity.hpp
+	${GAME_ROOT}/ecs/storage.hpp
 	${GAME_ROOT}/ecs/world.hpp
+	${GAME_ROOT}/ecs/world.cpp
 )
 
 # Group source files

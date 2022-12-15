@@ -7,7 +7,7 @@
 
 CORE_NAMESPACE_BEGIN
 
-template <usize count, typename T>
+template <usize size, typename T>
 class BucketArray {
 public:
     struct Bucket {

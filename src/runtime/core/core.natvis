@@ -1,3 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type Name="core::Array&lt;*&gt;">
+		<DisplayString>{{ len={m_len}, cap={m_cap} }}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>m_len</Size>
+				<ValuePointer>m_ptr</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+	<Type Name="core::Slice&lt;*&gt;">
+		<DisplayString>{{ len={m_len} }}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>m_len</Size>
+				<ValuePointer>m_ptr</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
 </AutoVisualizer>

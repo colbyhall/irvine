@@ -9,9 +9,9 @@ void HashMap<Key, Value, Hasher>::reserve(usize amount) {
 }
 
 template <typename Key, typename Value, typename Hasher>
-void HashMap<Key, Value, Hasher>::insert(Key&& key, Value&& value) {
+void HashMap<Key, Value, Hasher>::insert(const Key& key, Value&& value) {
 	m_buckets.push(Bucket {
-		core::forward<Key>(key),
+		key,
 		core::forward<Value>(value),
 		-1
 	});
@@ -31,6 +31,32 @@ void HashMap<Key, Value, Hasher>::insert(const Key& key, const Value& value) {
 }
 
 template <typename Key, typename Value, typename Hasher>
+Option<Value> HashMap<Key, Value, Hasher>::remove(const Key& key) {
+	if (m_buckets.is_empty()) {
+		return nullptr;
+	}
+
+	const auto index = key_to_layout_index(key);
+	const auto mapped = m_layout[index];
+	if (mapped == -1) {
+		return nullptr;
+	}
+
+	Bucket* bucket = &m_buckets[mapped];
+	i32 bucket_index = -1;
+	while (true) {
+		bucket_index = bucket->next;
+		if (bucket->key == key) return bucket->value;
+		if (bucket->next == -1) break;
+		bucket = &m_buckets[bucket->next];
+	}
+
+	Bucket result = m_buckets.remove((usize)bucket_index);
+	refresh_layout();
+	return result.value;
+}
+
+template <typename Key, typename Value, typename Hasher>
 Option<Value&> HashMap<Key, Value, Hasher>::find_mut(const Key& key) {
 	if (m_buckets.is_empty()) {
 		return nullptr;
@@ -42,11 +68,11 @@ Option<Value&> HashMap<Key, Value, Hasher>::find_mut(const Key& key) {
 		return nullptr;
 	}
 
-	Bucket& bucket = m_buckets[mapped];
+	Bucket* bucket = &m_buckets[mapped];
 	while (true) {
-		if (bucket.key == key) return bucket.value;
-		if (bucket.next == -1) break;
-		bucket = m_buckets[bucket.next];
+		if (bucket->key == key) return bucket->value;
+		if (bucket->next == -1) break;
+		bucket = &m_buckets[bucket->next];
 	}
 
 	return nullptr;
@@ -106,11 +132,23 @@ void HashMap<Key, Value, Hasher>::refresh_layout() {
 		}
 		else {
 			// If its valid then descend the bucket tree until an empty spot is found
-			auto& other = m_buckets[found];
-			while (other.next != -1) other = m_buckets[(usize)other.next];
-			other.next = (i32)i;
+			auto* other = &m_buckets[found];
+			while (other->next != -1) other = &m_buckets[(usize)other->next];
+			other->next = (i32)i;
 		}
 	}
 }
+
+template <typename Key, typename Value, typename Hasher>
+FORCE_INLINE ConstHashMapIterator<Key, Value, Hasher> HashMap<Key, Value, Hasher>::iter() const {
+	return ConstHashMapIterator(*this);
+}
+
+
+template <typename Key, typename Value, typename Hasher>
+FORCE_INLINE HashMapIterator<Key, Value, Hasher> HashMap<Key, Value, Hasher>::iter_mut() {
+	return HashMapIterator(*this);
+}
+
 
 CORE_NAMESPACE_END

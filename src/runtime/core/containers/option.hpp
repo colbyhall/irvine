@@ -11,7 +11,7 @@ CORE_NAMESPACE_BEGIN
 template <typename T>
 class Option {
 public:
-    explicit Option() = default;
+    Option() = default;
 	FORCE_INLINE constexpr Option(NullPtr) : m_set(false), m_data() {}
 	FORCE_INLINE Option(T&& t) : m_set(true), m_data() {
 		auto* p = m_data;

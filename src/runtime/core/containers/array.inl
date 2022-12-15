@@ -58,13 +58,13 @@ FORCE_INLINE const T& Array<T>::operator[](usize index) const {
 template <typename T>
 FORCE_INLINE Option<T&> Array<T>::last_mut() {
 	if (len() > 0) return m_ptr[len() - 1];
-	return {};
+	return nullptr;
 }
 
 template <typename T>
 FORCE_INLINE Option<T const&> Array<T>::last() const {
 	if (len() > 0) return m_ptr[len() - 1];
-	return {};
+	return nullptr;
 }
 
 template <typename T>

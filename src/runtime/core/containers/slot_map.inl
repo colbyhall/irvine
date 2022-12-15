@@ -12,7 +12,7 @@ void SlotMap<T>::reserve(usize amount) {
 template <typename T>
 SlotKey SlotMap<T>::insert(T&& t) {
 	// If we have an item in the free list then reuse the slot
-	const auto possible_index = m_free_list.pop();
+	auto possible_index = m_free_list.pop();
 	if (possible_index) {
 		const auto index = possible_index.unwrap();
 		ASSERT(!m_values[index].is_set(), "Free list indies must point to null value");
@@ -21,7 +21,7 @@ SlotKey SlotMap<T>::insert(T&& t) {
 		m_values[index] = core::forward<T>(t);
 
 		return SlotKey{
-			.generation = m_generations[value],
+			.generation = m_generations[index],
 			.index = index
 		};
 	}

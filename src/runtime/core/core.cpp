@@ -8,6 +8,7 @@
 
 SUPPRESS_WARNINGS_STD_BEGIN
 #include <cstdio>
+#include <any>
 SUPPRESS_WARNINGS_STD_END
 
 bool _assert_failed(bool must_crash, const char* expression, const char* message, const char* file, u32 line) {

@@ -9,7 +9,7 @@
 CORE_NAMESPACE_BEGIN
 
 template <typename Base>
-class Unique : NonCopyable {
+class Unique : private NonCopyable {
 public:
     template <typename Derived = Base>
     Unique(Unique<Derived>&& move) noexcept : m_ptr(move.m_ptr) {
