@@ -4,8 +4,8 @@
 
 #ifdef PLATFORM_WINDOWS
 
+#include <core/library.h>
 #include <core/containers/wstring.h>
-#include <core/platform/library.h>
 
 #include <core/platform/windows.h>
 

@@ -66,6 +66,9 @@ set(CORE_SRC_FILES
 	${CORE_ROOT}/math/vec4.inl
 	${CORE_ROOT}/platform/windows.h
 	${CORE_ROOT}/sync/atomic.h
+	${CORE_ROOT}/sync/atomic.inl
+	${CORE_ROOT}/sync/mpmc.h
+	${CORE_ROOT}/sync/mpmc.inl
 	${CORE_ROOT}/templates/decay.h
 	${CORE_ROOT}/templates/enable_if.h
 	${CORE_ROOT}/templates/invoke.h
@@ -74,6 +77,10 @@ set(CORE_SRC_FILES
 	${CORE_ROOT}/templates/method_outer.h
 	${CORE_ROOT}/templates/remove.h
 	${CORE_ROOT}/templates/type_traits.h
+	${CORE_ROOT}/thread/fiber.h
+	${CORE_ROOT}/thread/fiber.cpp
+	${CORE_ROOT}/thread/thread.h
+	${CORE_ROOT}/thread/thread.cpp
 )
 
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
