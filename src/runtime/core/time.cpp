@@ -1,8 +1,8 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <core/platform/time.h>
-
+#include <core/time.h>
 #include <core/containers/option.h>
+
 #ifdef PLATFORM_WINDOWS
 	#include <core/platform/windows.h>
 #endif

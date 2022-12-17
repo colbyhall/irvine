@@ -2,8 +2,8 @@
 
 #pragma once
 
+#include <core/library.h>
 #include <core/containers/array.h>
-#include <core/platform/library.h>
 #include <core/sync/atomic.h>
 
 #include <gpu/buffer.h>

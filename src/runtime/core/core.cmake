@@ -12,6 +12,10 @@ set(CORE_SRC_FILES
 	${CORE_ROOT}/memory.cpp
 	${CORE_ROOT}/non_copyable.h
 	${CORE_ROOT}/source_location.h
+	${CORE_ROOT}/library.h
+	${CORE_ROOT}/library.cpp
+	${CORE_ROOT}/time.h
+	${CORE_ROOT}/time.cpp
 	${CORE_ROOT}/containers/allocators.h
 	${CORE_ROOT}/containers/array.h
 	${CORE_ROOT}/containers/array.inl
@@ -60,11 +64,7 @@ set(CORE_SRC_FILES
 	${CORE_ROOT}/math/vec3.inl
 	${CORE_ROOT}/math/vec4.h
 	${CORE_ROOT}/math/vec4.inl
-	${CORE_ROOT}/platform/library.h
-	${CORE_ROOT}/platform/library.cpp
 	${CORE_ROOT}/platform/windows.h
-	${CORE_ROOT}/platform/time.h
-	${CORE_ROOT}/platform/time.cpp
 	${CORE_ROOT}/sync/atomic.h
 	${CORE_ROOT}/templates/decay.h
 	${CORE_ROOT}/templates/enable_if.h
