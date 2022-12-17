@@ -1,7 +1,7 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <doctest/doctest.hpp>
-#include <core/math/math.hpp>
+#include <doctest/doctest.h>
+#include <core/math/math.h>
 
 TEST_CASE("Min returns the minimum value") {
 	CHECK(core::min(4, 5) == 4);

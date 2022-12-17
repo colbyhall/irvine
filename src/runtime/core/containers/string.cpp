@@ -1,6 +1,6 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <core/containers/string.hpp>
+#include <core/containers/string.h>
 
 CORE_NAMESPACE_BEGIN
 

@@ -1,9 +1,9 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <draw/canvas.hpp>
-#include <draw/font.hpp>
-#include <draw/shapes/rect.hpp>
-#include <draw/shapes/text.hpp>
+#include <draw/canvas.h>
+#include <draw/font.h>
+#include <draw/shapes/rect.h>
+#include <draw/shapes/text.h>
 
 DRAW_NAMESPACE_BEGIN
 

@@ -1,6 +1,6 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <core/memory.hpp>
+#include <core/memory.h>
 
 SUPPRESS_WARNINGS_STD_BEGIN
 

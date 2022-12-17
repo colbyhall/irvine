@@ -1,6 +1,6 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <game/ecs/world.hpp>
+#include <game/ecs/world.h>
 
 GAME_NAMESPACE_BEGIN
 

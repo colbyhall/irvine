@@ -1,6 +1,6 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <core/core.hpp>
+#include <core/core.h>
 
 SUPPRESS_WARNINGS_STD_BEGIN
 MSVC_SUPPRESS_WARNING(5039)

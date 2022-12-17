@@ -1,5 +1,5 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <doctest/doctest.hpp>
-#include <core/containers/result.hpp>
+#include <doctest/doctest.h>
+#include <core/containers/result.h>
 

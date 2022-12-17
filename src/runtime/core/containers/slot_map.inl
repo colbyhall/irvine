@@ -2,73 +2,31 @@
 
 CORE_NAMESPACE_BEGIN
 
+#if 0
 template <typename T>
-void SlotMap<T>::reserve(usize amount) {
-	m_generations.reserve(amount);
-	m_values.reserve(amount);
-	m_free_list.reserve(amount);
+inline SlotMap<T>::Key SlotMap<T>::insert(T&& t) {
+
 }
 
 template <typename T>
-SlotKey SlotMap<T>::insert(T&& t) {
-	// If we have an item in the free list then reuse the slot
-	auto possible_index = m_free_list.pop();
-	if (possible_index) {
-		const auto index = possible_index.unwrap();
-		ASSERT(!m_values[index].is_set(), "Free list indies must point to null value");
+inline bool SlotMap<T>::remove(SlotMap<T>::Key key) {
 
-		m_generations[index] += 1;
-		m_values[index] = core::forward<T>(t);
-
-		return SlotKey{
-			.generation = m_generations[index],
-			.index = index
-		};
-	}
-
-	// Create a new slot for the value
-	m_generations.push(0);
-	m_values.push(core::forward<T>(t));
-
-	return SlotKey{
-		.generation = 0,
-		.index = (u32)(m_values.len() - 1),
-	};
 }
 
 template <typename T>
-bool SlotMap<T>::remove(SlotKey key) {
-	const bool can_remove = m_values.is_valid_index(key.index) &&
-		m_generations[key.index] == key.index &&
-		m_values[key.index].is_set();
-	if (can_remove) {
-		m_values[key.index] = nullptr;
-		return true;
-	}
-	return false;
+inline bool SlotMap<T>::contains(SlotMap<T>::Key key) const {
+
 }
 
 template <typename T>
-inline bool SlotMap<T>::contains(SlotKey key) const {
-	return m_values.is_valid_index(key.index) &&
-		m_generations[key.index] == key.index &&
-		m_values[key.index].is_set();
+inline Option<const T&> SlotMap<T>::get(SlotMap<T>::Key key) const {
+
 }
 
 template <typename T>
-inline Option<const T&> SlotMap<T>::get(SlotKey key) const {
-	if (contains(key)) {
-		return m_values[key.index].as_ref();
-	}
-	return nullptr;
-}
+inline Option<T&> SlotMap<T>::get_mut(SlotMap<T>::Key key) {
 
-template <typename T>
-inline Option<T&> SlotMap<T>::get_mut(SlotKey key) {
-	if (contains(key)) {
-		return m_values[key.index].as_mut();
-	}
-	return nullptr;
 }
+#endif
 
 CORE_NAMESPACE_END

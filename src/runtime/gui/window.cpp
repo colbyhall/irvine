@@ -1,13 +1,13 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <gui/window.hpp>
+#include <gui/window.h>
 
 #ifdef PLATFORM_WINDOWS
 
-#include <core/containers/wstring.hpp>
-#include <core/platform/library.hpp>
+#include <core/containers/wstring.h>
+#include <core/platform/library.h>
 
-#include <core/platform/windows.hpp>
+#include <core/platform/windows.h>
 
 // NOTE: Could #include <hidusage.h> for these defines
 #ifndef HID_USAGE_PAGE_GENERIC

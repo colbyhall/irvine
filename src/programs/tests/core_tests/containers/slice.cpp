@@ -1,7 +1,7 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <doctest/doctest.hpp>
-#include <core/containers/slice.hpp>
+#include <doctest/doctest.h>
+#include <core/containers/slice.h>
 
 TEST_CASE("Slice's can reference arrays") {
 	int buffer[] = { 1, 2, 3, 4 };

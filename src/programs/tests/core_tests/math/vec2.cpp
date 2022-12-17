@@ -1,8 +1,8 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <doctest/doctest.hpp>
-#include <core/math/vec2.hpp>
-#include <core/math/mat3.hpp>
+#include <doctest/doctest.h>
+#include <core/math/vec2.h>
+#include <core/math/mat3.h>
 
 TEST_CASE("Vec2 math operations") {
 	auto a = Vec2f32{ 10.f, 15.f };

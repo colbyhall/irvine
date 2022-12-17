@@ -5,7 +5,7 @@ set(DOCTEST_ROOT ${THIRD_PARTY_ROOT}/doctest)
 set(DOCTEST_SRC_FILES
 	${DOCTEST_ROOT}/doctest.cmake
 	${DOCTEST_ROOT}/doctest_internal.h
-	${DOCTEST_ROOT}/doctest.hpp
+	${DOCTEST_ROOT}/doctest.h
 	${DOCTEST_ROOT}/doctest.cpp
 )
 

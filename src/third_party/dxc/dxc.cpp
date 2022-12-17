@@ -1,9 +1,9 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <core/memory.hpp>
-#include <core/containers/wstring.hpp>
+#include <core/memory.h>
+#include <core/containers/wstring.h>
 
-#include <dxc/dxc.hpp>
+#include <dxc/dxc.h>
 
 SUPPRESS_WARNING_PUSH
 SUPPRESS_WARNINGS
@@ -18,7 +18,7 @@ MSVC_SUPPRESS_WARNING(5220)
 MSVC_SUPPRESS_WARNING(4986)
 MSVC_SUPPRESS_WARNING(4062)
 
-#include <core/platform/windows.hpp>
+#include <core/platform/windows.h>
 
 #include <dxc/dxcapi.h>
 #include <dxc/d3d12shader.h>

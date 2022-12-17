@@ -1,7 +1,7 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <doctest/doctest.hpp>
-#include <core/containers/non_null.hpp>
+#include <doctest/doctest.h>
+#include <core/containers/non_null.h>
 
 TEST_CASE("NonNull's can reference variables") {
 	int x = 45;

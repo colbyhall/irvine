@@ -1,6 +1,6 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <game/ecs/archetype.hpp>
+#include <game/ecs/archetype.h>
 
 GAME_NAMESPACE_BEGIN
 

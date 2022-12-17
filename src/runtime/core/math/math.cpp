@@ -1,6 +1,6 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <core/math/math.hpp>
+#include <core/math/math.h>
 
 SUPPRESS_WARNINGS_STD_BEGIN
 #include <cmath>

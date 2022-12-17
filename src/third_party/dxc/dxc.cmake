@@ -6,7 +6,7 @@ set(DXC_SRC_FILES
 	${DXC_ROOT}/d3d12shader.h
 	${DXC_ROOT}/dxcapi.h
 	${DXC_ROOT}/dxc.cmake
-	${DXC_ROOT}/dxc.hpp
+	${DXC_ROOT}/dxc.h
 	${DXC_ROOT}/dxc.cpp
 )
 

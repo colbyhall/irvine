@@ -1,12 +1,12 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <core/containers/option.hpp>
+#include <core/containers/option.h>
 #ifdef PLATFORM_WINDOWS
-	#include <core/platform/windows.hpp>
-	#include <core/platform/library.hpp>
+	#include <core/platform/windows.h>
+	#include <core/platform/library.h>
 #endif
 
-#include <gui/context.hpp>
+#include <gui/context.h>
 
 #ifdef PLATFORM_WINDOWS
 	typedef enum PROCESS_DPI_AWARENESS {

@@ -1,7 +1,7 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <gpu/context.hpp>
-#include <gpu/d3d12/d3d12_texture.hpp>
+#include <gpu/context.h>
+#include <gpu/d3d12/d3d12_texture.h>
 
 GPU_NAMESPACE_BEGIN
 

@@ -1,7 +1,7 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <doctest/doctest.hpp>
-#include <core/containers/string.hpp>
+#include <doctest/doctest.h>
+#include <core/containers/string.h>
 
 TEST_CASE("Strings are utf8") {
 	SUBCASE("StringViews can be created from string literals") {

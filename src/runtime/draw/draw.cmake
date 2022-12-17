@@ -3,16 +3,16 @@ set(DRAW_ROOT ${RUNTIME_ROOT}/draw)
 
 # Source files
 set(DRAW_SRC_FILES
-	${DRAW_ROOT}/canvas.hpp
+	${DRAW_ROOT}/canvas.h
 	${DRAW_ROOT}/canvas.cpp
 	${DRAW_ROOT}/draw.cmake
-	${DRAW_ROOT}/draw.hpp
-	${DRAW_ROOT}/font.hpp
+	${DRAW_ROOT}/draw.h
+	${DRAW_ROOT}/font.h
 	${DRAW_ROOT}/font.cpp
-	${DRAW_ROOT}/shape.hpp
-	${DRAW_ROOT}/shapes/rect.hpp
+	${DRAW_ROOT}/shape.h
+	${DRAW_ROOT}/shapes/rect.h
 	${DRAW_ROOT}/shapes/rect.cpp
-	${DRAW_ROOT}/shapes/text.hpp
+	${DRAW_ROOT}/shapes/text.h
 	${DRAW_ROOT}/shapes/text.cpp
 )
 

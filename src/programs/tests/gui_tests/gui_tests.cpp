@@ -1,31 +1,31 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <doctest/doctest.hpp>
+#include <doctest/doctest.h>
 
 TEST_MAIN()
 
-#include <core/memory.hpp>
-#include <core/math/color.hpp>
-#include <core/math/mat4.hpp>
-#include <core/math/quat.hpp>
-#include <core/math/vec3.hpp>
+#include <core/memory.h>
+#include <core/math/color.h>
+#include <core/math/mat4.h>
+#include <core/math/quat.h>
+#include <core/math/vec3.h>
 
-#include <gpu/context.hpp>
-#include <gpu/buffer.hpp>
-#include <gpu/graphics_command_list.hpp>
-#include <gpu/graphics_pipeline.hpp>
+#include <gpu/context.h>
+#include <gpu/buffer.h>
+#include <gpu/graphics_command_list.h>
+#include <gpu/graphics_pipeline.h>
 
 using namespace gpu;
 
-#include <dxc/dxc.hpp>
+#include <dxc/dxc.h>
 
-#include <gui/context.hpp>
-#include <gui/window.hpp>
+#include <gui/context.h>
+#include <gui/window.h>
 
-#include <draw/canvas.hpp>
-#include <draw/font.hpp>
-#include <draw/shapes/rect.hpp>
-#include <draw/shapes/text.hpp>
+#include <draw/canvas.h>
+#include <draw/font.h>
+#include <draw/shapes/rect.h>
+#include <draw/shapes/text.h>
 
 using namespace draw;
 
@@ -83,7 +83,6 @@ float4 ps_main(PSInput input) : SV_TARGET {
 		output.w *= smoothstep(0.65, 0.7, dist_alpha_mask);
 	}
 	return output;
-
 }
 )#";
 

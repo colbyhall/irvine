@@ -1,10 +1,10 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <core/containers/wstring.hpp>
-#include <core/platform/library.hpp>
+#include <core/containers/wstring.h>
+#include <core/platform/library.h>
 
 #ifdef PLATFORM_WINDOWS
-	#include <core/platform/windows.hpp>
+	#include <core/platform/windows.h>
 #endif
 
 CORE_NAMESPACE_BEGIN

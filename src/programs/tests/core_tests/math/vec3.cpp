@@ -1,7 +1,7 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <doctest/doctest.hpp>
-#include <core/math/vec3.hpp>
+#include <doctest/doctest.h>
+#include <core/math/vec3.h>
 
 TEST_CASE("Vec3 math operations") {
 	auto a = Vec3f32{ 10.f, 15.f, 0.f };

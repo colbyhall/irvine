@@ -1,10 +1,10 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <gpu/d3d12/d3d12_buffer.hpp>
-#include <gpu/d3d12/d3d12_context.hpp>
-#include <gpu/d3d12/d3d12_graphics_command_list.hpp>
-#include <gpu/d3d12/d3d12_graphics_pipeline.hpp>
-#include <gpu/d3d12/d3d12_texture.hpp>
+#include <gpu/d3d12/d3d12_buffer.h>
+#include <gpu/d3d12/d3d12_context.h>
+#include <gpu/d3d12/d3d12_graphics_command_list.h>
+#include <gpu/d3d12/d3d12_graphics_pipeline.h>
+#include <gpu/d3d12/d3d12_texture.h>
 
 GPU_NAMESPACE_BEGIN
 

@@ -1,8 +1,8 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <gpu/buffer.hpp>
-#include <gpu/context.hpp>
-#include <gpu/d3d12/d3d12_graphics_command_list.hpp>
+#include <gpu/buffer.h>
+#include <gpu/context.h>
+#include <gpu/d3d12/d3d12_graphics_command_list.h>
 
 GPU_NAMESPACE_BEGIN
 

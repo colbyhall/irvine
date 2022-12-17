@@ -1,10 +1,10 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <core/platform/time.hpp>
+#include <core/platform/time.h>
 
-#include <core/containers/option.hpp>
+#include <core/containers/option.h>
 #ifdef PLATFORM_WINDOWS
-	#include <core/platform/windows.hpp>
+	#include <core/platform/windows.h>
 #endif
 
 CORE_NAMESPACE_BEGIN

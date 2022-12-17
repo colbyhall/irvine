@@ -1,10 +1,10 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <doctest/doctest.hpp>
+#include <doctest/doctest.h>
 
 TEST_MAIN()
 
-#include <game/ecs/world.hpp>
+#include <game/ecs/world.h>
 
 SUPPRESS_WARNING_PUSH
 SUPPRESS_WARNINGS
@@ -16,10 +16,6 @@ public:
 	DECLARE_COMPONENT(TestComponentA);
 
 	explicit TestComponentA() = default;
-	TestComponentA(TestComponentA&& move) noexcept {}
-	TestComponentA& operator=(TestComponentA&& m) noexcept {
-		return *this;
-	}
 
 	StringView a = "Foo";
 };
@@ -29,12 +25,6 @@ public:
 	DECLARE_COMPONENT(ABC);
 
 	explicit ABC() = default;
-	ABC(ABC&& move) noexcept {}
-	ABC& operator=(ABC&& m) noexcept {
-		return *this;
-	}
-
-	StringView a = "Bar";
 };
 
 TEST_CASE("Archetypes hold entities components") {

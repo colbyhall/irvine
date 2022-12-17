@@ -1,11 +1,11 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <doctest/doctest.hpp>
+#include <doctest/doctest.h>
 
 TEST_MAIN()
 
-#include <core/containers/string_view.hpp>
-#include <core/containers/hash_map.hpp>
+#include <core/containers/string_view.h>
+#include <core/containers/hash_map.h>
 
 TEST_CASE("hash") {
 	HashMap<StringView, i32> map;

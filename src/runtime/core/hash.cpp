@@ -1,6 +1,6 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <core/hash.hpp>
+#include <core/hash.h>
 
 CORE_NAMESPACE_BEGIN
 

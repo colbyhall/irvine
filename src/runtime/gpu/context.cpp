@@ -1,8 +1,8 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <core/containers/option.hpp>
+#include <core/containers/option.h>
 
-#include <gpu/d3d12/d3d12_context.hpp>
+#include <gpu/d3d12/d3d12_context.h>
 
 GPU_NAMESPACE_BEGIN
 

@@ -1,7 +1,7 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <doctest/doctest.hpp>
-#include <core/containers/array.hpp>
+#include <doctest/doctest.h>
+#include <core/containers/array.h>
 
 TEST_CASE("Array's are the std::vector equivilent") {
 	SUBCASE("Pushing int to Array") {

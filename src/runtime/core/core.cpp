@@ -1,10 +1,10 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <core/core.hpp>
+#include <core/core.h>
 
 #ifdef PLATFORM_WINDOWS
 
-#include <core/platform/windows.hpp>
+#include <core/platform/windows.h>
 
 SUPPRESS_WARNINGS_STD_BEGIN
 #include <cstdio>

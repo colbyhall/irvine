@@ -1,7 +1,7 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <doctest/doctest.hpp>
-#include <core/containers/unique.hpp>
+#include <doctest/doctest.h>
+#include <core/containers/unique.h>
 
 struct Base {
 	int a;

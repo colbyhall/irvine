@@ -1,6 +1,6 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <core/math/color.hpp>
+#include <core/math/color.h>
 
 CORE_NAMESPACE_BEGIN
 
