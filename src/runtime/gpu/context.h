@@ -34,7 +34,7 @@ public:
 
 private:
     inline Context(Unique<ContextInterface>&& interface)
-        : m_interface(core::forward< Unique<ContextInterface>>(interface)) {}
+        : m_interface(core::forward<Unique<ContextInterface>>(interface)) {}
 
     friend void init();
 

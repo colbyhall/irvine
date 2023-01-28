@@ -3,11 +3,14 @@
 CORE_NAMESPACE_BEGIN
 
 template <typename T>
-MPMCQueue MPMCQueue<T>::make(usize size) {
+MPMCQueue<T> MPMCQueue<T>::make(usize size) {
 	// Verify that size is a power of 2
 	ASSERT(size >= 2 && (size & size - 1) == 0);
 
-	Cell* buffer = mem::alloc<Cell>(mem::Layout::array<Cell>(size));
+	const auto layout = mem::Layout::array<Cell>(size);
+	void* memory = mem::alloc(layout);
+	mem::set(memory, 0, layout.size);
+	Cell* buffer = (Cell*)memory;
 	for (usize i = 0; i < size; ++i) {
 		Cell& cell = buffer[i];
 		cell.sequence.store((int)i, Order::Relaxed);
@@ -54,7 +57,7 @@ template <typename T>
 bool MPMCQueue<T>::push(T&& t) const {
 	Cell* cell = nullptr;
 	auto pos = m_enqueue_pos.load();
-	for(;;) {
+	while (true) {
 		cell = &m_buffer[pos & m_buffer_mask];
 		const auto seq = cell->sequence.load();
 		const auto dif = seq - pos;
@@ -80,7 +83,7 @@ template <typename T>
 Option<T> MPMCQueue<T>::pop() const {
 	Cell* cell = nullptr;
 	auto pos = m_dequeue_pos.load();
-	for (;;) {
+	while (true) {
 		cell = &m_buffer[pos & m_buffer_mask];
 		const auto seq = cell->sequence.load();
 		const auto dif = seq - (pos + 1);
@@ -88,7 +91,7 @@ Option<T> MPMCQueue<T>::pop() const {
 		if (dif == 0) {
 			if (!m_dequeue_pos.compare_exchange_weak(pos, pos + 1).is_set())
 				break;
-		} else if (dif < 0) return NONE;
+		} else if (dif < 0) return nullptr;
 		else pos = m_dequeue_pos.load();
 	}
 	T t = cell->data.unwrap();

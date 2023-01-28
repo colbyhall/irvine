@@ -50,6 +50,6 @@ private:
 
 CORE_NAMESPACE_END
 
-#include <core/sync/mpmc.h>
+#include <core/sync/mpmc.inl>
 
-using core::MPMCQueue
+using core::MPMCQueue;

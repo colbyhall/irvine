@@ -22,6 +22,25 @@ public:
 		new (p) T(t);
 	}
 
+	Option(const Option<T&>& copy) = delete;
+	Option& operator=(const Option<T>& copy) = delete;
+
+	FORCE_INLINE Option(Option<T>&& move) noexcept : m_set(move.m_set) {
+		mem::copy(m_data, move.m_data, sizeof(T));
+		move.m_set = false;
+	}
+
+	FORCE_INLINE Option& operator=(Option<T>&& m) noexcept {
+		if (m_set) {
+			auto* p = reinterpret_cast<T*>(&m_data[0]);
+			p->~T();
+		}
+		m_set = true;
+		m.m_set = false;
+		mem::copy(m_data, m.m_data, sizeof(T));
+		return *this;
+	}
+
 	FORCE_INLINE Option& operator=(T&& t) {
 		if (m_set) {
 			auto* p = reinterpret_cast<T*>(&m_data[0]);

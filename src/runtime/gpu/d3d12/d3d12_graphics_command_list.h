@@ -19,8 +19,8 @@ public:
 
     FORCE_INLINE D3D12GraphicsCommandList(D3D12GraphicsCommandList&& move) noexcept :
         m_command_list(move.m_command_list),
-        m_bound_color_buffer(move.m_bound_color_buffer),
-        m_bound_depth_buffer(move.m_bound_depth_buffer),
+        m_bound_color_buffer(core::move(move.m_bound_color_buffer)),
+        m_bound_depth_buffer(core::move(move.m_bound_depth_buffer)),
         m_textures_in_use(core::move(move.m_textures_in_use)),
         m_buffers_in_use(core::move(move.m_buffers_in_use))
 	{

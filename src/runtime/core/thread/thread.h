@@ -3,6 +3,7 @@
 #pragma once
 
 #include <core/non_copyable.h>
+#include <core/time.h>
 #include <core/containers/function.h>
 
 CORE_NAMESPACE_BEGIN
@@ -29,6 +30,7 @@ public:
 		return *this;
 	}
 
+	void set_affinity(u32 core) const;
 	void resume() const;
 
 	FORCE_INLINE Handle handle() const { return m_handle; }
@@ -44,8 +46,6 @@ private:
 
 class JoinHandle {
 public:
-	~JoinHandle();
-
 	bool join();
 	FORCE_INLINE const Thread& thread() const { return m_thread; }
 
@@ -57,6 +57,11 @@ private:
 	Thread m_thread;
 	bool m_joined;
 };
+
+void sleep(const Duration& duration);
+
+// FIXME: Find a better place for this when appropriate
+u32 logical_core_count();
 
 CORE_NAMESPACE_END
 

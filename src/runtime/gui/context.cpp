@@ -3,7 +3,7 @@
 #include <core/containers/option.h>
 #ifdef PLATFORM_WINDOWS
 	#include <core/platform/windows.h>
-	#include <core/platform/library.h>
+	#include <core/library.h>
 #endif
 
 #include <gui/context.h>

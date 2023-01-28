@@ -20,12 +20,6 @@ bool JoinHandle::join() {
 	return true;
 }
 
-JoinHandle::~JoinHandle() {
-	if (!m_joined) {
-		join();
-	}
-}
-
 static DWORD WINAPI ThreadProc(_In_ LPVOID lpParameter) {
 	auto& info = *reinterpret_cast<Thread::Function*>(lpParameter);
 	info();
@@ -60,8 +54,23 @@ Thread Thread::current() {
 	return Thread{ GetCurrentThread(), GetCurrentThreadId() };
 }
 
+void Thread::set_affinity(u32 core) const {
+	auto result = SetThreadAffinityMask((HANDLE)m_handle, (DWORD_PTR)((u64)1 << (u64)(core + 1)));
+	ASSERT(result != 0);
+}
+
 void Thread::resume() const {
 	ResumeThread(m_handle);
+}
+
+void sleep(const Duration& duration) {
+	Sleep((DWORD)duration.as_millis());
+}
+
+u32 logical_core_count() {
+	SYSTEM_INFO info = {};
+	GetSystemInfo(&info);
+	return (u32)info.dwNumberOfProcessors;
 }
 
 CORE_NAMESPACE_END

@@ -158,6 +158,7 @@ namespace hidden {
             auto* f = (FunctionWrapperInterface*)m_ptr;
             return f->ptr();
         }
+
     private:
         void* m_ptr = nullptr;
     };

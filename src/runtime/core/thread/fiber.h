@@ -2,18 +2,22 @@
 
 #pragma once
 
-#include <core/non_copyable.h>
 #include <core/containers/function.h>
 
 CORE_NAMESPACE_BEGIN
 
-class Fiber final : private NonCopyable {
+class Fiber final {
 public:
 	using Handle = void*;
 	using Function = core::Function<void()>;
 
-	Fiber spawn(Function&& spawn);
-	Fiber convert();
+	struct Inner {
+		Handle handle;
+
+	};
+
+	static Fiber spawn(Function&& spawn);
+	static Fiber convert();
 
 	FORCE_INLINE Fiber(Fiber&& move) noexcept
 			: m_thread(move.m_thread), m_handle(move.m_handle){

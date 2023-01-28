@@ -137,6 +137,8 @@
 	#define BUILD_DEBUG
 #endif
 
+#define THREAD_LOCAL __declspec(thread)
+
 // Crashes the application
 #define CRASH																				\
 	SUPPRESS_WARNING_PUSH																	\

@@ -18,4 +18,11 @@
 			</ArrayItems>
 		</Expand>
 	</Type>
+	<Type Name="core::Option&lt;*&gt;">
+		<DisplayString Condition="!m_set">None</DisplayString>
+
+		<Expand>
+			<ExpandedItem Condition="m_set">($T1*)(m_data)</ExpandedItem>
+		</Expand>
+	</Type>
 </AutoVisualizer>

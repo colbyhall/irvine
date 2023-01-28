@@ -9,14 +9,6 @@
 
 CORE_NAMESPACE_BEGIN
 
-f32 Duration::as_secs_f32() const {
-	return (f32)m_secs + ((f32)m_nanos / (f32)NANOS_PER_SEC);
-}
-
-f64 Duration::as_secs_f64() const {
-	return (f64)m_secs + ((f64)m_nanos / (f64)NANOS_PER_SEC);
-}
-
 #ifdef PLATFORM_WINDOWS
 
 // Thread local so we don't have to lock
@@ -41,7 +33,7 @@ Duration Instant::duration_since(Instant earlier) const {
 	auto duration =  m_tick - earlier.m_tick;
 	const auto secs = duration / freq;
 	duration -= secs * freq;
-	const auto nanos = (u32)(duration * (NANOS_PER_SEC / freq));
+	const auto nanos = (u32)(duration * (nanos_per_sec / freq));
 
 	return Duration(secs, nanos);
 }
