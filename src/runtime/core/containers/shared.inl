@@ -4,12 +4,12 @@ CORE_NAMESPACE_BEGIN
 
 template <typename T, SMode Mode, typename... Args>
 FORCE_INLINE Shared<T, Mode> make_shared(Args&&... args) {
-	constexpr auto counter_layout = mem::Layout::single<SharedCounter<Mode>>;
-	auto layout = mem::Layout::single<T>;
+	constexpr auto counter_layout = core::Layout::single<SharedCounter<Mode>>;
+	auto layout = core::Layout::single<T>;
 	layout.alignment = core::max(layout.alignment, counter_layout.alignment);
 	layout.size += counter_layout.size;
 
-	void* ptr = mem::alloc(layout);
+	void* ptr = core::alloc(layout);
 	void* result = new (ptr) SharedCounter<Mode>(1, 0);
 	ptr = &((SharedCounter<Mode>*)ptr)[1];
 	new (ptr) T(forward<Args>(args)...);
@@ -32,7 +32,7 @@ Shared<Base, Mode>::~Shared() {
 
 			// Free the memory if we have no weak references
 			if (weak_count == 0) {
-				mem::free(m_ptr);
+				core::free(m_ptr);
 			}
 
 			m_ptr = nullptr;
@@ -65,7 +65,7 @@ Weak<Base, Mode>::~Weak() {
 
 		// If there are no strong and weak references free the memory
 		if (strong_count == 0 && weak_count == 0) {
-			mem::free(m_ptr);
+			core::free(m_ptr);
 			m_ptr = nullptr;
 		}
 	}
@@ -87,6 +87,11 @@ Weak<Base, Mode> Weak<Base, Mode>::clone() const {
 	auto& c = counter();
 	c.add_weak();
 	return Weak<Base, Mode>(m_ptr);
+}
+
+template<typename T, SMode Mode>
+Shared<T, Mode> SharedFromThis<T, Mode>::to_shared() const {
+	return m_this.as_ref().unwrap().upgrade().unwrap();
 }
 
 CORE_NAMESPACE_END

@@ -24,12 +24,12 @@ static DWORD WINAPI ThreadProc(_In_ LPVOID lpParameter) {
 	auto& info = *reinterpret_cast<Thread::Function*>(lpParameter);
 	info();
 	info.~Function();
-	mem::free(&info);
+	core::free(&info);
 	return 0;
 }
 
 JoinHandle Thread::spawn(bool start, Thread::Function&& spawn) {
-	auto memory = mem::alloc(mem::Layout::single<Thread::Function>);
+	auto memory = core::alloc(core::Layout::single<Thread::Function>);
 	Thread::Function* param = new(memory) Thread::Function(forward<Thread::Function>(spawn));
 
 	auto flags = 0;

@@ -104,7 +104,7 @@ Result<Output, String> compile(const Input& input) {
 			String error;
 			error.reserve(output->GetBufferSize());
 			error.set_len(output->GetBufferSize());
-			core::mem::copy(*error, output->GetBufferPointer(), error.len());
+			core::copy(*error, output->GetBufferPointer(), error.len());
 			OutputDebugStringA(*error);
 			// return error;
 		}
@@ -141,7 +141,7 @@ Result<Output, String> compile(const Input& input) {
 			String semantic_name;
 			semantic_name.push(param_desc.SemanticName);
 
-			const u32 num_bits = core::mem::count_ones(param_desc.Mask);
+			const u32 num_bits = core::count_ones(param_desc.Mask);
 
 			gpu::Primitive primitive = gpu::Primitive::Int32;
 			switch (param_desc.ComponentType) {
@@ -188,7 +188,7 @@ Result<Output, String> compile(const Input& input) {
 	Array<u8> binary;
 	binary.reserve(output->GetBufferSize());
 	binary.set_len(output->GetBufferSize());
-	core::mem::copy(&binary[0], output->GetBufferPointer(), binary.len());
+	core::copy(&binary[0], output->GetBufferPointer(), binary.len());
 
 	shader_output.binary = core::move(binary);
 

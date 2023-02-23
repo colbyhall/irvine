@@ -58,7 +58,7 @@ Option<Font> Font::import(PathView path) {
 	Array<u8> bitmap;
 	bitmap.reserve(atlas_size.width * atlas_size.height);
 	bitmap.set_len(atlas_size.width * atlas_size.height);
-	core::mem::set(&bitmap[0], 0, bitmap.len());
+	core::set(&bitmap[0], 0, bitmap.len());
 
 	for (int glyph = 0; glyph < 256; ++glyph) {
 		int width, height, xoff, yoff;
@@ -120,7 +120,7 @@ Option<Font> Font::import(PathView path) {
 		sizeof(u8)
 	);
 	pixels_buffer.map([&bitmap](Slice<u8> slice) {
-		core::mem::copy(&slice[0], &bitmap[0], slice.len());
+		core::copy(&slice[0], &bitmap[0], slice.len());
 	});
 
 	auto pixels_texture = Texture::make(
@@ -191,6 +191,54 @@ Font::Font(
 
 f32 Font::find_kerning(Codepoint a, Codepoint b) const {
 	return (f32)stbtt_GetCodepointKernAdvance(m_info, (int)a, (int)b) * m_scale;
+}
+
+Vec2f32 Font::text_size(StringView text, f32 size, bool monospace) const {
+	const auto origin = Vec2f32::zero;
+	const f32 scale = size / sdf_size;
+
+	auto position = origin;
+	position.y -= sdf_size * scale;
+
+	f32 max_x = 0.f;
+
+	for (auto iter = text.codepoints(); iter; ++iter) {
+		auto c = *iter;
+
+		switch (c) {
+			case '\n': {
+				position.x = origin.x;
+				position.y -= new_line() * scale;
+			} break;
+			case '\r': {
+				position.x = origin.x;
+			} break;
+			case '\t': {
+				auto& space_glyph = glyph(' ');
+				position.x += space_glyph.advance * scale;
+			} break;
+			default: {
+				auto& glyph = this->glyph(c);
+				position.x += glyph.advance * scale;
+				auto peek = iter;
+				if (peek && !monospace) {
+					++peek;
+
+					const auto next = *peek;
+					const auto kern = find_kerning(c, next) * scale;
+					if (kern != 0.f) {
+						position.x += kern;
+					}
+				}
+			} break;
+		}
+
+		if (position.x > max_x) {
+			max_x = position.x;
+		}
+	};
+
+	return Vec2f32 { max_x, -position.y };
 }
 
 DRAW_NAMESPACE_END

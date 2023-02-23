@@ -7,9 +7,9 @@ MPMCQueue<T> MPMCQueue<T>::make(usize size) {
 	// Verify that size is a power of 2
 	ASSERT(size >= 2 && (size & size - 1) == 0);
 
-	const auto layout = mem::Layout::array<Cell>(size);
-	void* memory = mem::alloc(layout);
-	mem::set(memory, 0, layout.size);
+	const auto layout = core::Layout::array<Cell>(size);
+	void* memory = core::alloc(layout);
+	core::set(memory, 0, layout.size);
 	Cell* buffer = (Cell*)memory;
 	for (usize i = 0; i < size; ++i) {
 		Cell& cell = buffer[i];
@@ -49,7 +49,7 @@ template <typename T>
 MPMCQueue<T>::~MPMCQueue() {
 	if (m_buffer) {
 		// FIXME: Free elements
-		mem::free(m_buffer);
+		core::free(m_buffer);
 	}
 }
 

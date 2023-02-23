@@ -57,6 +57,19 @@ Option<Value> HashMap<Key, Value, Hasher>::remove(const Key& key) {
 }
 
 template <typename Key, typename Value, typename Hasher>
+void HashMap<Key, Value, Hasher>::retain(FunctionRef<bool(const Key&, const Value&)> keep) {
+	i32 index = static_cast<i32>(m_buckets.len());
+	for (; index >= 0; index--) {
+		auto& bucket = m_buckets[index];
+		if (!keep(bucket.key, bucket.value))
+		{
+			m_buckets.remove(index);
+		}
+	}
+	refresh_layout();
+}
+
+template <typename Key, typename Value, typename Hasher>
 Option<Value&> HashMap<Key, Value, Hasher>::find_mut(const Key& key) {
 	if (m_buckets.is_empty()) {
 		return nullptr;

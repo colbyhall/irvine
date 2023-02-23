@@ -14,6 +14,7 @@ public:
 	explicit D3D12Swapchain(void* window_handle);
 
 	FORCE_INLINE D3D12Swapchain(D3D12Swapchain&& move) noexcept :
+		m_hwnd(move.m_hwnd),
 		m_swapchain(move.m_swapchain),
 		m_back_buffers(core::move(move.m_back_buffers)),
 		m_current(move.m_current),
@@ -26,9 +27,12 @@ public:
 	const Texture& back_buffer() const override;
 	void present() override;
 	void wait_for_previous() override;
+	void resize() override;
     // ~SwapchainInterface
 
 private:
+	HWND m_hwnd;
+
 	ComPtr<IDXGISwapChain3> m_swapchain;
 	Array<Texture> m_back_buffers;
 	u8 m_current;

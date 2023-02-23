@@ -30,7 +30,7 @@ public:
     ~Unique() {
         if (m_ptr) {
             m_ptr->~Base();
-            mem::free(m_ptr);
+            core::free(m_ptr);
             m_ptr = nullptr;
         }
     }
@@ -54,7 +54,7 @@ private:
     friend class Unique;
 
     FORCE_INLINE explicit Unique(Base&& base) {
-        void* ptr = mem::alloc(mem::Layout::single<Base>);
+        void* ptr = core::alloc(core::Layout::single<Base>);
         m_ptr = new (ptr) Base(core::forward<Base>(base));
     }
 

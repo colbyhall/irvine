@@ -18,7 +18,7 @@ struct SlotKey {
 };
 
 template <typename T>
-class SlotMap : private NonCopyable {
+class SlotMap {
 public:
     SlotMap() = default;
 

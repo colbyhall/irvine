@@ -38,7 +38,7 @@ public:
 
     virtual void begin_render_pass(const Texture& color, Option<Texture const&> depth) = 0;
 
-    virtual void set_scissor(Option<AABB2f32> scissor) = 0;
+    virtual void set_scissor(Option<Aabb2f32> scissor) = 0;
     virtual void clear_color(const LinearColor& color) = 0;
     virtual void clear_depth_stencil(f32 depth, u8 stencil) = 0;
     virtual void set_pipeline(const GraphicsPipeline& pipeline) = 0;

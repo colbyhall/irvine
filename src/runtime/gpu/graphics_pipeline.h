@@ -1,6 +1,6 @@
 // Copyright Colby Hall. All Rights Reserved.
 
-#include <core/non_copyable.h>
+#pragma once
 
 #include <gpu/shader.h>
 #include <gpu/texture.h>

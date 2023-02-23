@@ -26,7 +26,7 @@ public:
 	Option& operator=(const Option<T>& copy) = delete;
 
 	FORCE_INLINE Option(Option<T>&& move) noexcept : m_set(move.m_set) {
-		mem::copy(m_data, move.m_data, sizeof(T));
+		core::copy(m_data, move.m_data, sizeof(T));
 		move.m_set = false;
 	}
 
@@ -37,7 +37,7 @@ public:
 		}
 		m_set = true;
 		m.m_set = false;
-		mem::copy(m_data, m.m_data, sizeof(T));
+		core::copy(m_data, m.m_data, sizeof(T));
 		return *this;
 	}
 

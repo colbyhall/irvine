@@ -46,6 +46,7 @@ public:
 	void insert(usize index, T&& item);
 	void insert(usize index, const T& item);
 	T remove(usize index);
+	void reset();
 	FORCE_INLINE usize push(T&& item);
 	FORCE_INLINE usize push(const T& item);
 	FORCE_INLINE Option<T> pop();

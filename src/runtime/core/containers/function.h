@@ -134,7 +134,7 @@ namespace hidden {
         UniqueStorage() = default;
         template <typename F>
         ReferenceRemoved<F>* bind(F&& f) {
-            void* memory = mem::alloc(mem::Layout::single<FunctionWrapper<F>>);
+            void* memory = core::alloc(core::Layout::single<FunctionWrapper<F>>);
             auto* result = new(memory) FunctionWrapper<F>(forward<F>(f));
             m_ptr = memory;
 
@@ -149,7 +149,7 @@ namespace hidden {
             if (m_ptr) {
                 auto* f = (FunctionWrapperInterface*)m_ptr;
                 f->~FunctionWrapperInterface();
-                mem::free(m_ptr);
+                core::free(m_ptr);
                 m_ptr = nullptr;
             }
         }

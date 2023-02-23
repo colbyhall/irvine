@@ -11,7 +11,6 @@ SUPPRESS_WARNINGS_STD_BEGIN
 SUPPRESS_WARNINGS_STD_END
 
 CORE_NAMESPACE_BEGIN
-CORE_MEM_NAMESPACE_BEGIN
 
 NonNull<void> alloc(Layout layout) {
 	void* result = std::malloc(layout.size);
@@ -41,7 +40,6 @@ NonNull<void> set(NonNull<void> ptr, u8 value, usize count) {
 	return std::memset(ptr, value, count);
 }
 
-
 #define B2(n) n, n + 1, n + 1, n + 2
 #define B4(n) B2(n), B2(n + 1), B2(n + 1), B2(n + 2)
 #define B6(n) B4(n), B4(n + 1), B4(n + 1), B4(n + 2)
@@ -53,5 +51,4 @@ u8 count_ones(u8 b) {
 	return count_set_bits_table[b];
 }
 
-CORE_MEM_NAMESPACE_END
 CORE_NAMESPACE_END

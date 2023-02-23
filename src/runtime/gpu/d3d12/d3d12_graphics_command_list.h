@@ -35,7 +35,7 @@ public:
 	void copy_buffer_to_buffer(const Buffer& dst, const Buffer& src) override;
 	void texture_barrier(const Texture& texture, Layout old_layout, Layout new_layout) override;
 	void begin_render_pass(const Texture& color, Option<const Texture&> depth) override;
-	void set_scissor(Option<AABB2f32> scissor) override;
+	void set_scissor(Option<Aabb2f32> scissor) override;
 	void clear_color(const LinearColor& color) override;
 	void clear_depth_stencil(f32 depth, u8 stencil) override;
 	void set_pipeline(const GraphicsPipeline& pipeline) override;

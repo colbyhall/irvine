@@ -155,7 +155,7 @@ void D3D12GraphicsCommandList::begin_render_pass(const Texture& color, Option<co
 	// m_textures_in_use.push(color.clone());
 }
 
-void D3D12GraphicsCommandList::set_scissor(Option<AABB2f32> scissor) {
+void D3D12GraphicsCommandList::set_scissor(Option<Aabb2f32> scissor) {
 	ASSERT(false, "TODO");
 }
 

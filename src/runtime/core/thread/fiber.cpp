@@ -24,11 +24,11 @@ static void WINAPI FiberProc(_In_ LPVOID lpParameter) {
 	auto& info = *reinterpret_cast<Function<void()>*>(lpParameter);
 	info();
 	info.~Function();
-	mem::free(&info);
+	core::free(&info);
 }
 
 Fiber Fiber::spawn(Fiber::Function&& spawn) {
-	auto memory = mem::alloc(mem::Layout::single<Fiber::Function>);
+	auto memory = core::alloc(core::Layout::single<Fiber::Function>);
 	Fiber::Function* param = new(memory) Fiber::Function(forward<Fiber::Function>(spawn));
 
 	auto* handle = CreateFiber(0, &FiberProc, param);

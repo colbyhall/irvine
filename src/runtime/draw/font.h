@@ -42,6 +42,8 @@ public:
 
     f32 find_kerning(Codepoint a, Codepoint b) const;
 
+	Vec2f32 text_size(StringView text, f32 size, bool monospace = false) const;
+
 private:
     Font(
         Array<u8>&& bytes,

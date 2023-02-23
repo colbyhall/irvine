@@ -31,14 +31,14 @@ public:
     Canvas& paint(const Shape& t);
 
     FORCE_INLINE Canvas& set_color(const LinearColor& color) { m_color = color; return *this; }
-    FORCE_INLINE Canvas& set_scissor(const AABB2f32& scissor) { m_scissor = scissor; return *this; }
+    FORCE_INLINE Canvas& set_scissor(const Aabb2f32& scissor) { m_scissor = scissor; return *this; }
     FORCE_INLINE Slice<Vertex const> vertices() const { return m_vertices; }
 
 private:
     explicit Canvas() {}
 
     LinearColor m_color = LinearColor::white;
-    AABB2f32 m_scissor = AABB2f32::from_center(0, { core::F32_MIN, core::F32_MAX });
+    Aabb2f32 m_scissor = Aabb2f32::from_center(0, { core::F32_MIN, core::F32_MAX });
 
     Array<Vertex> m_vertices;
 };

@@ -13,7 +13,7 @@ class Font;
 
 class Text final : public Shape {
 public:
-    FORCE_INLINE Text(StringView text, const AABB2f32& bounds, const Font& font, f32 size)
+    FORCE_INLINE Text(StringView text, const Aabb2f32& bounds, const Font& font, f32 size)
     : m_bounds(bounds), m_text(text), m_font(font), m_size(size) {}
 
     FORCE_INLINE Text& monospace() { m_monospace = true; }
@@ -23,7 +23,7 @@ public:
     // ~Shape Interface
 
 private:
-    AABB2f32 m_bounds;
+    Aabb2f32 m_bounds;
     StringView m_text;
     const Font& m_font;
     f32 m_size;

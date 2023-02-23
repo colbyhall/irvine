@@ -5,6 +5,7 @@
 #include <core/hash.h>
 #include <core/non_copyable.h>
 #include <core/containers/array.h>
+#include <core/containers/function.h>
 #include <core/templates/type_traits.h>
 
 CORE_NAMESPACE_BEGIN
@@ -61,6 +62,8 @@ public:
     void insert(const Key& key, Value&& value);
     void insert(const Key& key, const Value& value);
     Option<Value> remove(const Key& key);
+
+	void retain(FunctionRef<bool(const Key&, const Value&)> keep);
 
     Option<Value const&> find(const Key& key) const;
     Option<Value&> find_mut(const Key& key);

@@ -7,9 +7,10 @@ GPU_NAMESPACE_BEGIN
 
 D3D12Swapchain::D3D12Swapchain(void* window_handle) {
 	auto& context = Context::the().interface<D3D12Context>();
+	m_hwnd = (HWND)window_handle;
 
 	RECT rect;
-	GetClientRect((HWND)window_handle, &rect);
+	GetClientRect(m_hwnd, &rect);
 	const Vec2u32 size = { (u32)(rect.right - rect.left), (u32)(rect.bottom - rect.top) };
 
 	DXGI_SWAP_CHAIN_DESC1 desc = {};
@@ -92,6 +93,35 @@ void D3D12Swapchain::wait_for_previous() {
 	}
 
 	m_current = (u8)m_swapchain->GetCurrentBackBufferIndex();
+}
+
+void D3D12Swapchain::resize() {
+	wait_for_previous();
+
+	m_back_buffers.reset();
+
+	RECT rect;
+	GetClientRect(m_hwnd, &rect);
+	const Vec2u32 size = { (u32)(rect.right - rect.left), (u32)(rect.bottom - rect.top) };
+
+	throw_if_failed(m_swapchain->ResizeBuffers(0, size.width, size.height, DXGI_FORMAT_UNKNOWN, 0));
+
+	for (int i = 0; i < D3D12Swapchain::frame_count; ++i) {
+		ComPtr<ID3D12Resource> resource;
+		throw_if_failed(m_swapchain->GetBuffer(i, IID_PPV_ARGS(&resource)));
+
+		const Vec3u32 buffer_size = { size.width, size.height, 1 };
+
+		Shared<TextureInterface, SMode::Atomic> interface = make_shared<D3D12Texture, SMode::Atomic>(
+			TU_ColorAttachment | TU_Swapchain,
+			Format::RGBA_U8,
+			buffer_size,
+			resource
+		);
+		m_back_buffers.push(Texture(core::move(interface)));
+	}
+
+	wait_for_previous();
 }
 
 GPU_NAMESPACE_END

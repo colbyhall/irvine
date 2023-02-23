@@ -8,17 +8,8 @@ SUPPRESS_WARNINGS_STD_BEGIN
 #include <new>
 SUPPRESS_WARNINGS_STD_END
 
-#define CORE_MEM_NAMESPACE_BEGIN                                                \
-    SUPPRESS_WARNING_PUSH                                                       \
-    MSVC_SUPPRESS_WARNING(4268)                                                 \
-    namespace mem {
-
-#define CORE_MEM_NAMESPACE_END                                                  \
-    SUPPRESS_WARNING_POP                                                        \
-    }
-
 CORE_NAMESPACE_BEGIN
-CORE_MEM_NAMESPACE_BEGIN
+MSVC_SUPPRESS_WARNING(4268)
 
 struct Layout {
     usize size;
@@ -57,5 +48,4 @@ inline u32 count_ones(T t) {
 	return result;
 }
 
-CORE_MEM_NAMESPACE_END
 CORE_NAMESPACE_END

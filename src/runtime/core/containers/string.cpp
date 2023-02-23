@@ -59,7 +59,7 @@ String& String::push(Codepoint c) {
 	// Add the null terminator if the string len was 0
 	if (m_bytes.len() == 0) m_bytes.push(0);
 
-	// SPEED: Could be made faster if used mem::copy
+	// SPEED: Could be made faster if used core::copy
 	for (usize i = 0; i < char_len; ++i) m_bytes.insert(m_bytes.len() - 1, local[i]);
 
 	return *this;
@@ -73,7 +73,7 @@ String& String::push(StringView string) {
 	// Add the null terminator if the string len was 0
 	if (m_bytes.len() == 0) m_bytes.push(0);
 
-	// SPEED: could be made faster if used mem::copy
+	// SPEED: could be made faster if used core::copy
 	for (u32 i = 0; i < string.len(); ++i) m_bytes.insert(m_bytes.len() - 1, (*string)[i]);
 
 	return *this;

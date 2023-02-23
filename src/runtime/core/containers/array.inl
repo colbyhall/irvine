@@ -38,7 +38,7 @@ Array<T>::~Array() {
 			T& item = m_ptr[i];
 			item.~T();
 		}
-		mem::free(m_ptr);
+		core::free(m_ptr);
 		m_ptr = nullptr;
 	}
 }
@@ -86,11 +86,11 @@ void Array<T>::reserve(usize amount) {
 
 	// FIXME: Custom allocator support
 	if (m_ptr == nullptr) {
-		void* ptr = mem::alloc(mem::Layout::array<T>(m_cap));
+		void* ptr = core::alloc(core::Layout::array<T>(m_cap));
 		m_ptr = static_cast<T*>(ptr);
 	}
 	else {
-		void* ptr = mem::realloc(m_ptr, mem::Layout::array<T>(old_cap), mem::Layout::array<T>(m_cap));
+		void* ptr = core::realloc(m_ptr, core::Layout::array<T>(old_cap), core::Layout::array<T>(m_cap));
 		m_ptr = static_cast<T*>(ptr);
 	}
 }
@@ -102,8 +102,8 @@ void Array<T>::insert(usize index, T&& item) {
 
 	auto* src = m_ptr + index;
 	if (index != len()) {
-		mem::move(src + 1, src, (len() - index) * sizeof(T));
-		mem::set(src, 0, sizeof(T));
+		core::move(src + 1, src, (len() - index) * sizeof(T));
+		core::set(src, 0, sizeof(T));
 	}
 
 	new (src) T(core::forward<T>(item));
@@ -122,13 +122,21 @@ T Array<T>::remove(usize index) {
 
 	T result = core::move(m_ptr[index]);
 	void* clear = &m_ptr[index];
-	mem::set(clear, 0, sizeof(T));
+	core::set(clear, 0, sizeof(T));
 	if (index < m_len - 1) {
 		auto* src = m_ptr + index;
-		mem::move(src, src + 1, (len() - index) * sizeof(T));
+		core::move(src, src + 1, (len() - index) * sizeof(T));
 	}
 	m_len -= 1;
 	return result;
+}
+
+template <typename T>
+void Array<T>::reset() {
+	const i32 count = (i32)len();
+	for (i32 i = count - 1; i >= 0; --i) {
+		remove(i);
+	}
 }
 
 template <typename T>

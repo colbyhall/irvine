@@ -171,6 +171,8 @@ class SharedFromThis {
 public:
     using Counter = SharedCounter<Mode>;
 
+	Shared<T, Mode> to_shared() const;
+
 private:
     Option<Weak<T, Mode>> m_this;
 };
