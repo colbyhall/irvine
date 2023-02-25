@@ -31,7 +31,7 @@ void Text::triangulate(Canvas& canvas) const {
 				auto& space_glyph = m_font.glyph(' ');
 				position.x += space_glyph.advance * scale;
 			} break;
-			default:
+			default: {
 				auto& glyph = m_font.glyph(c);
 
 				const auto xy = position + glyph.bearing * scale;
@@ -50,8 +50,7 @@ void Text::triangulate(Canvas& canvas) const {
 						position.x += kern;
 					}
 				}
-
-				break;
+			} break;
 		}
 	};
 }
