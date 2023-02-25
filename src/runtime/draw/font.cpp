@@ -129,13 +129,11 @@ Option<Font> Font::import(PathView path) {
 		{ atlas_size.width, atlas_size.height, 1 }
 	);
 
-	auto command_list = GraphicsCommandList::make();
-	command_list.record([&](GraphicsCommandRecorder& gcr) {
+	GraphicsCommandList::record([&](GraphicsCommandRecorder& gcr) {
 		gcr.texture_barrier(pixels_texture, Layout::General, Layout::TransferDst);
 		gcr.copy_buffer_to_texture(pixels_texture, pixels_buffer);
 		gcr.texture_barrier(pixels_texture, Layout::TransferDst, Layout::General);
-	});
-	command_list.submit();
+	}).submit();
 
 	Array<Codepoint> codepoints_to_glyphs;
 	codepoints_to_glyphs.reserve(0x110000);

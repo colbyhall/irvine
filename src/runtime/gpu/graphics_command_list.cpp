@@ -6,30 +6,27 @@
 
 GPU_NAMESPACE_BEGIN
 
-GraphicsCommandList GraphicsCommandList::make() {
+GraphicsCommandList GraphicsCommandList::record(FunctionRef<void(GraphicsCommandRecorder&)> callable) {
 	auto& context = Context::the();
 
-	Option<Unique<GraphicsCommandListInterface>> interface = nullptr;
+	Option<Shared<GraphicsCommandListInterface, SMode::Atomic>> interface = nullptr;
 	switch (context.backend()) {
-		case Backend::D3D12:
-			interface = make_unique<D3D12GraphicsCommandList>();
-			break;
+	case Backend::D3D12:
+		interface = make_shared<D3D12GraphicsCommandList, SMode::Atomic>();
+		break;
 	}
 
-	return GraphicsCommandList { interface.unwrap() };
-}
-
-void GraphicsCommandList::record(FunctionRef<void(GraphicsCommandRecorder&)> callable) {
-	GraphicsCommandListInterface& interface = *m_interface;
-	interface.begin_recording();
-	GraphicsCommandRecorder recorder(interface);
+	auto result = GraphicsCommandList { interface.unwrap() };
+	result.m_interface->begin_recording();
+	GraphicsCommandRecorder recorder(*result.m_interface);
 	callable(recorder);
-	interface.end_recording();
+	result.m_interface->end_recording();
+	return result;
 }
 
 void GraphicsCommandList::submit() {
 	GraphicsCommandListInterface& interface = *m_interface;
-	interface.submit();
+	interface.submit(*this);
 }
 
 GraphicsCommandRecorder& GraphicsCommandRecorder::copy_buffer_to_texture(const Texture& dst, const Buffer& src) {

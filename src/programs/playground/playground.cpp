@@ -23,6 +23,7 @@ int APIENTRY WinMain(
 			.title = "Hello World"
 		};
 		ui.window(config, [](gui::Builder& ui) {
+			ui.heading("Hello World");
 			ui.label("Hello World");
 			ui.label("Hello World");
 			ui.label("Hello World");

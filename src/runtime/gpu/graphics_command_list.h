@@ -3,7 +3,7 @@
 #pragma once
 
 #include <core/non_copyable.h>
-#include <core/containers/unique.h>
+#include <core/containers/shared.h>
 #include <core/containers/function.h>
 #include <core/math/aabb2.h>
 #include <core/math/color.h>
@@ -15,6 +15,7 @@ GPU_NAMESPACE_BEGIN
 class Buffer;
 class Texture;
 class GraphicsPipeline;
+class GraphicsCommandList;
 
 enum class Layout : u8 {
     Undefined,
@@ -53,7 +54,7 @@ public:
     virtual void end_render_pass() = 0;
 
     virtual void end_recording() = 0;
-    virtual void submit() = 0;
+    virtual void submit(const GraphicsCommandList& command_list) = 0;
     // fn submit(self, wait_on: &[Receipt]) -> Result<Arc<backend::Receipt>>;
 
     virtual ~GraphicsCommandListInterface() {}
@@ -64,16 +65,15 @@ class RenderPassRecorder;
 
 class GraphicsCommandList {
 public:
-    static GraphicsCommandList make();
-
-    void record(FunctionRef<void(GraphicsCommandRecorder&)> callable);
+    static GraphicsCommandList record(FunctionRef<void(GraphicsCommandRecorder&)> callable);
     void submit();
+	FORCE_INLINE GraphicsCommandList clone() const { return m_interface.clone(); }
 
 private:
-    GraphicsCommandList(Unique<GraphicsCommandListInterface>&& interface)
+    GraphicsCommandList(Shared<GraphicsCommandListInterface, SMode::Atomic>&& interface)
         : m_interface(core::move(interface)) {}
 
-    Unique<GraphicsCommandListInterface> m_interface;
+    Shared<GraphicsCommandListInterface, SMode::Atomic> m_interface;
 };
 
 class GraphicsCommandRecorder {

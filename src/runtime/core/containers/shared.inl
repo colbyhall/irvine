@@ -27,7 +27,7 @@ Shared<Base, Mode>::~Shared() {
 		const auto weak_count = c.weak();
 
 		// If there are no strong references deconstruct the object
-		if (strong_count == 0) {
+		if (strong_count == 1) {
 			value().~Base();
 
 			// Free the memory if we have no weak references

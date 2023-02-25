@@ -8,6 +8,7 @@
 
 #include <gpu/buffer.h>
 #include <gpu/context.h>
+#include <gpu/graphics_command_list.h>
 #include <gpu/texture.h>
 #include <gpu/d3d12/d3d12.h>
 
@@ -68,8 +69,7 @@ typedef HRESULT(__stdcall* PFN_DXGI1_3_CREATE_DXGI_FACTORY2)(
 
 struct D3D12QueuedWork {
 	ComPtr<ID3D12Fence> fence;
-	Array<Texture> textures;
-	Array<Buffer> buffers;
+	GraphicsCommandList command_list;
 };
 
 class D3D12Context : public ContextInterface {
@@ -102,6 +102,7 @@ public:
     // ContextInterface
     Backend backend() const override { return Backend::D3D12; }
     void post_init() override;
+	void flush_queue() const override;
     // ~ContextInterface
 
     Library d3d12_library;

@@ -46,7 +46,7 @@ public:
 	void draw_indexed(usize index_count, usize first_index) override;
 	void end_render_pass() override;
 	void end_recording() override;
-	void submit() override;
+	void submit(const GraphicsCommandList& command_list) override;
     // ~GraphicsCommandListInterface
 
 private:

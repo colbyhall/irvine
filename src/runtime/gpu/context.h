@@ -5,7 +5,7 @@
 #include <core/non_copyable.h>
 #include <core/containers/unique.h>
 
-#include <gpu/gpu.h>
+#include <gpu/graphics_command_list.h>
 
 GPU_NAMESPACE_BEGIN
 
@@ -17,6 +17,7 @@ class ContextInterface : private NonCopyable {
 public:
     virtual Backend backend() const = 0;
     virtual void post_init() = 0;
+	virtual void flush_queue() const = 0;
     virtual ~ContextInterface() {}
 };
 
@@ -25,6 +26,7 @@ public:
     static const Context& the();
 
     FORCE_INLINE Backend backend() const { return m_interface->backend(); }
+	FORCE_INLINE void flush_queue() const { return m_interface->flush_queue(); }
 
     template <typename T = ContextInterface>
     T const& interface() const {

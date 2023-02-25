@@ -194,8 +194,25 @@ struct WindowMemory : public Memory {
 #define HID_USAGE_GENERIC_MOUSE        ((USHORT) 0x02)
 #endif
 
+static Option<Aabb2f32> get_screen_space_bounds(HWND hWnd) {
+	const auto dpi = (f32)GetDpiForWindow(hWnd) / 96.f;
+	RECT rect;
+	if (GetClientRect(hWnd, &rect)) {
+		POINT MIN = { rect.left, rect.bottom };
+		POINT MAX = { rect.right, rect.top };
+		ClientToScreen(hWnd, &MIN);
+		ClientToScreen(hWnd, &MAX);
+
+		const int monitor_height = GetSystemMetrics(SM_CYSCREEN);
+		const auto min = Vec2f32{ (f32)MIN.x, (f32)(monitor_height - MIN.y) } / dpi;
+		const auto max = Vec2f32{ (f32)MAX.x, (f32)(monitor_height - MAX.y) } / dpi;
+		return Aabb2f32::from_min_max(min, max);
+	}
+	return nullptr;
+}
+
 static LRESULT CALLBACK window_proc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam) {
-	auto id = (Id)GetWindowLongPtrW(hWnd, GWLP_USERDATA);
+	auto id = Id::from_raw((u64)GetWindowLongPtrW(hWnd, GWLP_USERDATA));
 	auto opt_window = g_app->memory().get_mut<WindowMemory>(id);
 	if (!opt_window) {
 		return DefWindowProcW(hWnd, Msg, wParam, lParam);
@@ -208,22 +225,16 @@ static LRESULT CALLBACK window_proc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 		ExitProcess(0);
 		break;
 	case WM_MOVE: {
-		RECT rect;
-		if (GetClientRect(hWnd, &rect)) {
-			const int monitor_height = GetSystemMetrics(SM_CYSCREEN);
-			const Vec2f32 min = { (f32)rect.left, (f32)(monitor_height - rect.bottom) };
-			const Vec2f32 max = { (f32)rect.right, (f32)(monitor_height - rect.top) };
-			window.bounds = Aabb2f32::from_min_max(min, max);
+		auto opt_bounds = get_screen_space_bounds(hWnd);
+		if (opt_bounds) {
+			window.bounds = opt_bounds.unwrap();
 		}
 		return 0;
 	}
 	case WM_SIZE: {
-		RECT rect;
-		if (GetClientRect(hWnd, &rect)) {
-			const int monitor_height = GetSystemMetrics(SM_CYSCREEN);
-			const Vec2f32 min = { (f32)rect.left, (f32)(monitor_height - rect.bottom) };
-			const Vec2f32 max = { (f32)rect.right, (f32)(monitor_height - rect.top) };
-			window.bounds = Aabb2f32::from_min_max(min, max);
+		auto opt_bounds = get_screen_space_bounds(hWnd);
+		if (opt_bounds) {
+			window.bounds = opt_bounds.unwrap();
 		}
 		window.swapchain.resize();
 		return 0;
@@ -322,10 +333,15 @@ void AppBuilder::window(const WindowConfig& config, FunctionRef<void(Builder&)> 
 		auto swapchain = Swapchain::make(handle);
 		SetWindowLongPtrW(handle, GWLP_USERDATA, (LONG_PTR)(u64)id);
 
+		// Windows screen coordinates originate in top left corner where +Y is down
+		// ours is bottom left corner where +Y is up
+		const auto min = Vec2f32 { (f32)x, (f32)(monitor_height - (y + height)) } / dpi;
+		const auto max = min + size.cast<f32>();
+
 		return WindowMemory(
 			handle,
 			core::move(swapchain),
-			Aabb2f32::from_min_max(0.f, size.cast<f32>()),
+			Aabb2f32::from_min_max(min, max),
 			dpi
 		);
 	});
@@ -360,10 +376,9 @@ void AppBuilder::window(const WindowConfig& config, FunctionRef<void(Builder&)> 
 	const auto vertices = draw_canvas.vertices();
 
 	auto& back_buffer = memory.swapchain.back_buffer();
-	auto back_buffer_size = back_buffer.size().cast<f32>() / memory.dpi;
+	const auto bounds = memory.bounds;
 
 	// Draw the gui on the gpu
-	auto command_list = GraphicsCommandList::make();
 	if (!vertices.is_empty()) {
 		// Upload the vertices to the gpu
 		auto vertex_buffer = Buffer::make(
@@ -376,16 +391,17 @@ void AppBuilder::window(const WindowConfig& config, FunctionRef<void(Builder&)> 
 			core::copy(slice.begin(), vertices.cbegin(), slice.len());
 		});
 
-		command_list.record([&](GraphicsCommandRecorder& gcr) {
+		GraphicsCommandList::record([&](GraphicsCommandRecorder& gcr) {
+			const auto bounds_size = bounds.size();
 			const auto projection = Mat4f32::orthographic(
-				back_buffer_size.width,
-				back_buffer_size.height,
+				bounds_size.width,
+				bounds_size.height,
 				0.1f,
 				1000.f
 			);
 
 			const auto view = Mat4f32::transform(
-				{ -back_buffer_size.width / 2.f, -back_buffer_size.height / 2.f, 0 },
+				{ -bounds.position().x, -bounds.position().y, 0 },
 				Quatf32::identity,
 				1
 			);
@@ -408,25 +424,22 @@ void AppBuilder::window(const WindowConfig& config, FunctionRef<void(Builder&)> 
 				Layout::ColorAttachment,
 				Layout::Present
 			);
-		});
+		}).submit();
 	} else {
-		command_list.record([&](GraphicsCommandRecorder& gcr) {
+		GraphicsCommandList::record([&](GraphicsCommandRecorder& gcr) {
 			gcr.texture_barrier(
 				back_buffer,
 				Layout::Present,
 				Layout::ColorAttachment
 			).render_pass(back_buffer, nullptr, [&](RenderPassRecorder& rpr) {
-				rpr
-					.clear_color(LinearColor::black);
+				rpr.clear_color(LinearColor::black);
 			}).texture_barrier(
 				back_buffer,
 				Layout::ColorAttachment,
 				Layout::Present
 			);
-		});
+		}).submit();
 	}
-	command_list.submit();
-
 	memory.swapchain.present();
 }
 

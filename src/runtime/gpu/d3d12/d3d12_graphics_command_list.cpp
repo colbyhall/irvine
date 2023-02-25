@@ -117,12 +117,14 @@ void D3D12GraphicsCommandList::texture_barrier(const Texture& texture, Layout ol
 }
 
 void D3D12GraphicsCommandList::begin_render_pass(const Texture& color, Option<const Texture&> depth) {
+	m_textures_in_use.push(color.clone());
+
 	const D3D12_CPU_DESCRIPTOR_HANDLE* depth_handle = nullptr;
 	if (depth) {
 		auto& depth_texture = depth.unwrap();
 		auto& interface = depth_texture.interface<D3D12Texture>();
 		depth_handle = &interface.m_dsv_handle;
-		// m_textures_in_use.push(depth_texture.clone());
+		m_textures_in_use.push(depth_texture.clone());
 	}
 
 	const auto& interface = color.interface<D3D12Texture>();
@@ -151,8 +153,6 @@ void D3D12GraphicsCommandList::begin_render_pass(const Texture& color, Option<co
 
 	m_bound_color_buffer = interface.m_rtv_handle;
 	if (depth_handle) m_bound_depth_buffer = *depth_handle;
-
-	// m_textures_in_use.push(color.clone());
 }
 
 void D3D12GraphicsCommandList::set_scissor(Option<Aabb2f32> scissor) {
@@ -247,7 +247,7 @@ void D3D12GraphicsCommandList::end_recording() {
 	throw_if_failed(m_command_list->Close());
 }
 
-void D3D12GraphicsCommandList::submit() {
+void D3D12GraphicsCommandList::submit(const GraphicsCommandList& command_list) {
 	auto& context = Context::the().interface<D3D12Context>();
 
 	ID3D12CommandList* ppCommandLists[] = { m_command_list.Get() };
@@ -261,18 +261,11 @@ void D3D12GraphicsCommandList::submit() {
 	));
 	throw_if_failed(context.queue->Signal(fence.Get(), 1));
 
-	for (usize i = 0; i < context.work_queue.len(); ++i) {
-		const auto value = context.work_queue[i].fence->GetCompletedValue();
-		if (value > 0) {
-			context.work_queue.remove(i);
-			i -= 1;
-		}
-	}
+	context.flush_queue();
 
 	context.work_queue.push(D3D12QueuedWork{
 		fence,
-		core::move(m_textures_in_use),
-		core::move(m_buffers_in_use)
+		command_list.clone(),
 	});
 }
 

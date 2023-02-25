@@ -293,4 +293,14 @@ void D3D12Context::post_init() {
 	bindless_texture = Texture::make(TU_Sampled, Format::RGBA_U8, { 8, 8, 1});
 }
 
+void D3D12Context::flush_queue() const {
+	for (usize i = 0; i < work_queue.len(); ++i) {
+		const auto value = work_queue[i].fence->GetCompletedValue();
+		if (value > 0) {
+			work_queue.remove(i);
+			i -= 1;
+		}
+	}
+}
+
 GPU_NAMESPACE_END

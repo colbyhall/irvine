@@ -27,11 +27,11 @@ public:
     FORCE_INLINE u32 strong() const { return m_strong; }
     FORCE_INLINE u32 weak() const { return m_weak; }
 
-    FORCE_INLINE u32 add_strong() const { m_strong += 1; return m_strong; }
-    FORCE_INLINE u32 remove_strong() const { m_strong -= 1; return m_strong; }
+    FORCE_INLINE u32 add_strong() const { m_strong += 1; return m_strong - 1; }
+    FORCE_INLINE u32 remove_strong() const { m_strong -= 1; return m_strong + 1; }
 
-    FORCE_INLINE u32 add_weak() const { m_weak += 1; return m_weak; }
-    FORCE_INLINE u32 remove_weak() const { m_weak -= 1; return m_weak; }
+    FORCE_INLINE u32 add_weak() const { m_weak += 1; return m_weak - 1; }
+    FORCE_INLINE u32 remove_weak() const { m_weak -= 1; return m_weak + 1; }
 
 private:
     mutable u32 m_strong;

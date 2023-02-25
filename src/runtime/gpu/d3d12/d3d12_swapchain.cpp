@@ -86,19 +86,20 @@ void D3D12Swapchain::wait_for_previous() {
 	throw_if_failed(context.queue->Signal(m_fence.Get(), fence_value));
 	m_fence_value += 1;
 
-	// Wait until the previous frame is finished.
+	// Wait until the previous frame is finished and then flush the work from the graphics queue
 	if (m_fence->GetCompletedValue() < fence_value) {
 		throw_if_failed(m_fence->SetEventOnCompletion(fence_value, m_fence_event));
 		WaitForSingleObject(m_fence_event, INFINITE);
 	}
+	context.flush_queue();
 
 	m_current = (u8)m_swapchain->GetCurrentBackBufferIndex();
 }
 
 void D3D12Swapchain::resize() {
-	wait_for_previous();
-
 	m_back_buffers.reset();
+
+	wait_for_previous();
 
 	RECT rect;
 	GetClientRect(m_hwnd, &rect);
