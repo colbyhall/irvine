@@ -27,12 +27,16 @@ class Canvas {
 public:
     static Canvas make() { return Canvas{}; }
 
-    Canvas& add_vertex(const Vec3f32& position, Vec2f32 uv = 0, u32 texture = 0);
+    u32 add_vertex(const Vec3f32& position, Vec2f32 uv = 0, u32 texture = 0);
+	void add_index(u32 index);
+
     Canvas& paint(const Shape& t);
 
     FORCE_INLINE Canvas& set_color(const LinearColor& color) { m_color = color; return *this; }
     FORCE_INLINE Canvas& set_scissor(const Aabb2f32& scissor) { m_scissor = scissor; return *this; }
+
     FORCE_INLINE Slice<Vertex const> vertices() const { return m_vertices; }
+	FORCE_INLINE Slice<u32 const> indices() const { return m_indices; }
 
 private:
     explicit Canvas() {}
@@ -41,6 +45,7 @@ private:
     Aabb2f32 m_scissor = Aabb2f32::from_center(0, { core::F32_MIN, core::F32_MAX });
 
     Array<Vertex> m_vertices;
+	Array<u32> m_indices;
 };
 
 DRAW_NAMESPACE_END

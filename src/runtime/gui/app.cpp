@@ -357,11 +357,12 @@ void AppBuilder::window(const WindowConfig& config, FunctionRef<void(Builder&)> 
 		draw_canvas.set_color(shape.color);
 		switch (shape.type) {
 			case ShapeType::Rect: {
-				draw_canvas.paint(draw::Rect(shape.bounds));
-			} break;
-			case ShapeType::Stroke: {
-				draw_canvas.paint(draw::Rect(shape.bounds));
-				ASSERT(false); // TODO
+				auto rect = draw::Rect(shape.bounds);
+				rect.round(shape.rect.round);
+				if (shape.rect.stroke) {
+					rect.stroke(shape.rect.stroke.unwrap());
+				}
+				draw_canvas.paint(rect);
 			} break;
 			case ShapeType::Text: {
 				draw_canvas.paint(draw::Text(
@@ -374,13 +375,14 @@ void AppBuilder::window(const WindowConfig& config, FunctionRef<void(Builder&)> 
 		}
 	}
 	const auto vertices = draw_canvas.vertices();
+	const auto indices = draw_canvas.indices();
 
 	auto& back_buffer = memory.swapchain.back_buffer();
 	const auto bounds = memory.bounds;
 
 	// Draw the gui on the gpu
 	if (!vertices.is_empty()) {
-		// Upload the vertices to the gpu
+		// Upload the vertices and indices to the gpu
 		auto vertex_buffer = Buffer::make(
 			BU_Vertex,
 			BufferKind::Upload,
@@ -389,6 +391,16 @@ void AppBuilder::window(const WindowConfig& config, FunctionRef<void(Builder&)> 
 		);
 		vertex_buffer.map([&](Slice<u8> slice) {
 			core::copy(slice.begin(), vertices.cbegin(), slice.len());
+		});
+
+		auto index_buffer = Buffer::make(
+			BU_Index,
+			BufferKind::Upload,
+			indices.len(),
+			sizeof(u32)
+		);
+		index_buffer.map([&](Slice<u8> slice) {
+			core::copy(slice.begin(), indices.cbegin(), slice.len());
 		});
 
 		GraphicsCommandList::record([&](GraphicsCommandRecorder& gcr) {
@@ -418,7 +430,8 @@ void AppBuilder::window(const WindowConfig& config, FunctionRef<void(Builder&)> 
 					.set_pipeline(m_app.m_pipeline)
 					.clear_color(LinearColor::black)
 					.set_vertices(vertex_buffer)
-					.draw(vertices.len(), 0);
+					.set_indices(index_buffer)
+					.draw_index(indices.len(), 0);
 			}).texture_barrier(
 				back_buffer,
 				Layout::ColorAttachment,

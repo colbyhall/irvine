@@ -14,7 +14,7 @@ void Text::triangulate(Canvas& canvas) const {
 	const f32 new_line = m_font.new_line();
 
 	auto position = origin;
-	position.y -= size * scale;
+	position.y -= size * scale + m_font.descent() * scale;
 
 	for (auto iter = m_text.codepoints(); iter; ++iter) {
 		auto c = *iter;
@@ -36,7 +36,7 @@ void Text::triangulate(Canvas& canvas) const {
 
 				const auto xy = position + glyph.bearing * scale;
 				Rect rect = Aabb2f32::from_min_max(xy, xy + glyph.size * scale);
-				rect.set_texture(m_font.atlas(), glyph.uv0, glyph.uv1);
+				rect.texture(m_font.atlas(), glyph.uv0, glyph.uv1);
 				canvas.paint(rect);
 				position.x += glyph.advance * scale;
 

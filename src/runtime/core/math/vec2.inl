@@ -3,6 +3,11 @@
 CORE_NAMESPACE_BEGIN
 
 template <typename T>
+FORCE_INLINE Vec2<T> Vec2<T>::from_rad(T theta) {
+	return { core::sin(theta), core::cos(theta) };
+}
+
+template <typename T>
 const Vec2<T> Vec2<T>::zero = { 0 };
 
 template <typename T>

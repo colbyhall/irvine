@@ -10,7 +10,7 @@ Canvas& Canvas::paint(const Shape& t) {
 	return *this;
 }
 
-Canvas& Canvas::add_vertex(const Vec3f32& position, Vec2f32 uv, u32 texture) {
+u32 Canvas::add_vertex(const Vec3f32& position, Vec2f32 uv, u32 texture) {
 	Vec4f32 scissor = 0;
 	const auto bottom_left = m_scissor.bottom_left();
 	scissor.x = bottom_left.x;
@@ -20,6 +20,7 @@ Canvas& Canvas::add_vertex(const Vec3f32& position, Vec2f32 uv, u32 texture) {
 	scissor.z = top_right.x;
 	scissor.w = top_right.y;
 
+	const auto result = m_vertices.len();
 	m_vertices.push({
 		position,
 		m_color,
@@ -27,8 +28,11 @@ Canvas& Canvas::add_vertex(const Vec3f32& position, Vec2f32 uv, u32 texture) {
 		uv,
 		texture
 	});
-	return *this;
+	return (u32)result;
 }
 
+void Canvas::add_index(u32 index) {
+	m_indices.push(index);
+}
 
 DRAW_NAMESPACE_END

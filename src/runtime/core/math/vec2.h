@@ -21,6 +21,8 @@ struct Vec2 {
     FORCE_INLINE constexpr Vec2(T xy) : x(xy), y(xy) { }
     FORCE_INLINE constexpr Vec2(T x, T y) : u(x), v(y) { }
 
+	FORCE_INLINE static Vec2<T> from_rad(T theta);
+
     static const Vec2<T> zero;
     static const Vec2<T> one;
     static const Vec2<T> infinite;

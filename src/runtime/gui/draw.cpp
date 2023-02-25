@@ -19,21 +19,6 @@ Canvas& Canvas::rect(
 	return *this;
 }
 
-Canvas& Canvas::stroke(
-	Aabb2f32 bounds, 
-	LinearColor color, 
-	StrokeShape shape
-) {
-	Shape result = {};
-	result.bounds = bounds;
-	result.color = color;
-	result.type = ShapeType::Stroke;
-	result.stroke = shape;
-
-	m_shapes.push(core::move(result));
-	return *this;
-}
-
 Canvas& Canvas::text(
 	Aabb2f32 bounds, 
 	LinearColor color, 

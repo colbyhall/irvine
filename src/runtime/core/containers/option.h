@@ -8,7 +8,7 @@
 
 CORE_NAMESPACE_BEGIN
 
-template <typename T>
+template <typename T, typename Enable = void>
 class Option {
 public:
     Option() = default;
@@ -22,7 +22,7 @@ public:
 		new (p) T(t);
 	}
 
-	Option(const Option<T&>& copy) = delete;
+	Option(const Option<T>& copy) = delete;
 	Option& operator=(const Option<T>& copy) = delete;
 
 	FORCE_INLINE Option(Option<T>&& move) noexcept : m_set(move.m_set) {
@@ -96,11 +96,10 @@ private:
     alignas(T) u8 m_data[sizeof(T)];
 };
 
-#if 0
-template <typename T, typename EnabledIf<core::is_trivially_copyable<T>>>
-class Option {
+template <typename T>
+class Option<T, EnabledIf<core::is_trivially_copyable<T>>> {
 public:
-	explicit Option() = default;
+	Option() = default;
 	FORCE_INLINE constexpr Option(NullPtr) : m_set(false), m_data() {}
 	FORCE_INLINE Option(const T& t) : m_set(true), m_data() {
 		auto* p = m_data;
@@ -110,12 +109,12 @@ public:
 	FORCE_INLINE bool is_set() const { return m_set; }
 	FORCE_INLINE explicit operator bool() const { return is_set(); }
 
-	FORCE_INLINE T unwrap() {
+	FORCE_INLINE T unwrap() const {
 		ASSERT(is_set(), "Value must be set to be unwrapped");
 
 		// Do not reset m_set for trivially copyable types
 
-		auto* p = reinterpret_cast<T*>(&m_data[0]);
+		auto* p = reinterpret_cast<const T*>(&m_data[0]);
 		return *p;
 	}
 
@@ -151,7 +150,6 @@ private:
 	bool m_set = false;
 	alignas(T) u8 m_data[sizeof(T)];
 };
-#endif
 
 template <typename T>
 class Option<T&> {
