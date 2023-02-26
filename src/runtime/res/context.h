@@ -6,6 +6,6 @@
 
 RES_NAMESPACE_BEGIN
 
-
+void init();
 
 RES_NAMESPACE_END

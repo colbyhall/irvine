@@ -1,7 +1,7 @@
 // Copyright Colby Hall. All Rights Reserved.
 
 #include <core/containers/wstring.h>
-#include <core/fs/dir.hpp>
+#include <core/fs/dir.h>
 
 #ifdef PLATFORM_WINDOWS
 	#include <core/platform/windows.h>

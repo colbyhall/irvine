@@ -33,7 +33,7 @@ public:
 	}
 
 	// Storage
-	Unique<Storage> make_empty() const {
+	Unique<Storage> make_empty() const override {
 		return make_unique<BucketStorage<T>>();
 	}
 

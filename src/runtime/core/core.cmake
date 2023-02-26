@@ -40,7 +40,7 @@ set(CORE_SRC_FILES
 	${CORE_ROOT}/containers/wstring_view.h
 	${CORE_ROOT}/containers/wstring.h
 	${CORE_ROOT}/containers/wstring.cpp
-	${CORE_ROOT}/fs/dir.hpp
+	${CORE_ROOT}/fs/dir.h
 	${CORE_ROOT}/fs/dir.cpp
 	${CORE_ROOT}/fs/file.h
 	${CORE_ROOT}/fs/file.cpp

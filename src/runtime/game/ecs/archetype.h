@@ -15,16 +15,10 @@
 
 GAME_NAMESPACE_BEGIN
 
-class Archetype : private NonCopyable {
+class Archetype {
 public:
     explicit Archetype(const ArchetypeId& id) : m_id(id) {}
-    FORCE_INLINE Archetype(Archetype&& move) :
-        m_id(move.m_id),
-        m_entities(core::move(move.m_entities)),
-        m_components(core::move(move.m_components)),
-        m_free_list(core::move(move.m_free_list)),
-        m_lookup(core::move(move.m_lookup)) {}
-
+    
     void spawn(EntityId entity);
     void transfer(EntityId entity, Archetype& dst);
 

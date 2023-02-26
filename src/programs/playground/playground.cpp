@@ -3,6 +3,9 @@
 #include <gpu/context.h>
 #include <gui/app.h>
 #include <gui/builder.h>
+
+#include <res/context.h>
+
 #include <core/platform/windows.h>
 
 int APIENTRY WinMain(
@@ -17,6 +20,8 @@ int APIENTRY WinMain(
 	(void)nShowCmd;
 
 	gpu::init();
+	res::init();
+
 	auto app = gui::App::make();
 	app.run([](gui::AppBuilder& ui) {
 		gui::WindowConfig config = {
@@ -27,12 +32,6 @@ int APIENTRY WinMain(
 			ui.label("Hello World");
 			ui.direction(gui::Direction::LeftToRight, [](auto& ui) {
 				ui.heading("Hello World");
-				ui.label("Hello World");
-				ui.label("Hello World");
-				ui.label("Hello World");
-				ui.label("Hello World");
-				ui.label("Hello World");
-				ui.label("Hello World");
 				ui.label("Hello World");
 			});
 		});

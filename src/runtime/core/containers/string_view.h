@@ -47,8 +47,10 @@ private:
 class StringView {
 public:
     FORCE_INLINE constexpr StringView() : m_bytes() {}
-    FORCE_INLINE constexpr StringView(Slice<char const> bytes) : m_bytes(bytes) {}
-    FORCE_INLINE constexpr StringView(const char* ptr) : m_bytes({ ptr, strlen(ptr) }) {}
+    FORCE_INLINE constexpr StringView(Slice<char const> bytes) :
+		m_bytes(bytes) {}
+    FORCE_INLINE constexpr StringView(const char* ptr) :
+		m_bytes({ ptr, strlen(ptr) }) {}
 
     FORCE_INLINE operator Slice<char const>() const { return m_bytes; }
     FORCE_INLINE const char* operator*() const { return &m_bytes[0]; }
