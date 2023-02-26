@@ -92,7 +92,7 @@ public:
         return nullptr;
     }
 
-    FORCE_INLINE ArchetypeId id() const { return m_id; }
+    inline ArchetypeId id() const { return m_id; }
 
 private:
     ArchetypeId m_id;

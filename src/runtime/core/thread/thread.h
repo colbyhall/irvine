@@ -19,12 +19,12 @@ public:
 	static JoinHandle spawn(bool start, Thread::Function&& function);
 	static Thread current();
 
-	FORCE_INLINE Thread(Thread&& move) noexcept
+	inline Thread(Thread&& move) noexcept
 		: m_handle(move.m_handle), m_id(move.m_id) {
 		move.m_handle = nullptr;
 		move.m_id = 0;
 	}
-	FORCE_INLINE Thread& operator=(Thread&& move) noexcept {
+	inline Thread& operator=(Thread&& move) noexcept {
 		m_handle = move.m_handle;
 		m_id = move.m_id;
 		return *this;
@@ -33,11 +33,11 @@ public:
 	void set_affinity(u32 core) const;
 	void resume() const;
 
-	FORCE_INLINE Handle handle() const { return m_handle; }
-	FORCE_INLINE Id id() const { return m_id; }
+	inline Handle handle() const { return m_handle; }
+	inline Id id() const { return m_id; }
 
 private:
-	FORCE_INLINE explicit Thread(void* handle, Id id) : m_handle(handle), m_id(id) {}
+	inline explicit Thread(void* handle, Id id) : m_handle(handle), m_id(id) {}
 	friend JoinHandle;
 
 	Handle m_handle;
@@ -47,10 +47,10 @@ private:
 class JoinHandle {
 public:
 	bool join();
-	FORCE_INLINE const Thread& thread() const { return m_thread; }
+	inline const Thread& thread() const { return m_thread; }
 
 private:
-	FORCE_INLINE explicit JoinHandle(void* handle, Thread::Id id) : m_thread(handle, id), m_joined(false) {}
+	inline explicit JoinHandle(void* handle, Thread::Id id) : m_thread(handle, id), m_joined(false) {}
 
 	friend class Thread;
 

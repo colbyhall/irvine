@@ -22,16 +22,16 @@ class SharedCounter;
 template <>
 class SharedCounter<SMode::NonAtomic> {
 public:
-    FORCE_INLINE SharedCounter(u32 strong, u32 weak) : m_strong(strong), m_weak(weak) {}
+    inline SharedCounter(u32 strong, u32 weak) : m_strong(strong), m_weak(weak) {}
 
-    FORCE_INLINE u32 strong() const { return m_strong; }
-    FORCE_INLINE u32 weak() const { return m_weak; }
+    inline u32 strong() const { return m_strong; }
+    inline u32 weak() const { return m_weak; }
 
-    FORCE_INLINE u32 add_strong() const { m_strong += 1; return m_strong - 1; }
-    FORCE_INLINE u32 remove_strong() const { m_strong -= 1; return m_strong + 1; }
+    inline u32 add_strong() const { m_strong += 1; return m_strong - 1; }
+    inline u32 remove_strong() const { m_strong -= 1; return m_strong + 1; }
 
-    FORCE_INLINE u32 add_weak() const { m_weak += 1; return m_weak - 1; }
-    FORCE_INLINE u32 remove_weak() const { m_weak -= 1; return m_weak + 1; }
+    inline u32 add_weak() const { m_weak += 1; return m_weak - 1; }
+    inline u32 remove_weak() const { m_weak -= 1; return m_weak + 1; }
 
 private:
     mutable u32 m_strong;
@@ -41,16 +41,16 @@ private:
 template <>
 class SharedCounter<SMode::Atomic> {
 public:
-    FORCE_INLINE SharedCounter(u32 strong, u32 weak) : m_strong(strong), m_weak(weak) {}
+    inline SharedCounter(u32 strong, u32 weak) : m_strong(strong), m_weak(weak) {}
 
-    FORCE_INLINE u32 strong() const { return m_strong.load(); }
-    FORCE_INLINE u32 weak() const { return m_weak.load(); }
+    inline u32 strong() const { return m_strong.load(); }
+    inline u32 weak() const { return m_weak.load(); }
 
-    FORCE_INLINE u32 add_strong() const { return m_strong.fetch_add(1); }
-    FORCE_INLINE u32 remove_strong() const { return m_strong.fetch_sub(1); }
+    inline u32 add_strong() const { return m_strong.fetch_add(1); }
+    inline u32 remove_strong() const { return m_strong.fetch_sub(1); }
 
-    FORCE_INLINE u32 add_weak() const { return m_weak.fetch_add(1); }
-    FORCE_INLINE u32 remove_weak() const { return m_weak.fetch_sub(1); }
+    inline u32 add_weak() const { return m_weak.fetch_add(1); }
+    inline u32 remove_weak() const { return m_weak.fetch_sub(1); }
 
 private:
     Atomic<u32> m_strong;
@@ -86,17 +86,17 @@ public:
     Shared<Base, Mode> clone() const;
 
     // Accessors
-    FORCE_INLINE explicit operator NonNull<Base>() { return &value(); }
-    FORCE_INLINE explicit operator NonNull<Base const>() const { return &value(); }
-    FORCE_INLINE explicit operator Base* () { return &value(); }
-    FORCE_INLINE explicit operator Base const* () const { return &value(); }
-    FORCE_INLINE Base* operator ->() { return &value(); }
-    FORCE_INLINE Base const* operator ->() const { return &value(); }
-    FORCE_INLINE Base& operator *() { return value(); }
-    FORCE_INLINE Base const& operator *() const { return value(); }
+    inline explicit operator NonNull<Base>() { return &value(); }
+    inline explicit operator NonNull<Base const>() const { return &value(); }
+    inline explicit operator Base* () { return &value(); }
+    inline explicit operator Base const* () const { return &value(); }
+    inline Base* operator ->() { return &value(); }
+    inline Base const* operator ->() const { return &value(); }
+    inline Base& operator *() { return value(); }
+    inline Base const& operator *() const { return value(); }
 
-    FORCE_INLINE u32 strong() const { return counter().strong(); }
-    FORCE_INLINE u32 weak() const { return counter().weak(); }
+    inline u32 strong() const { return counter().strong(); }
+    inline u32 weak() const { return counter().weak(); }
 
 private:
     Shared() = default;
@@ -111,8 +111,8 @@ private:
     template <typename Derived, SMode Mode>
     friend class Weak;
 
-    FORCE_INLINE Counter const& counter() const { return *((Counter*)m_ptr); }
-    FORCE_INLINE Base& value() const {
+    inline Counter const& counter() const { return *((Counter*)m_ptr); }
+    inline Base& value() const {
         void* ptr = &((Counter*)m_ptr)[1];
         return *((Base*)ptr);
     }
@@ -121,7 +121,7 @@ private:
 };
 
 template <typename T, SMode Mode, typename... Args>
-FORCE_INLINE Shared<T, Mode> make_shared(Args&&... args);
+inline Shared<T, Mode> make_shared(Args&&... args);
 
 template <typename Base, SMode Mode>
 class Weak : private NonCopyable {
@@ -148,8 +148,8 @@ public:
     Option<Shared<Base, Mode>> upgrade() const;
     Weak<Base, Mode> clone() const;
 
-    FORCE_INLINE u32 strong() const { return counter().strong(); }
-    FORCE_INLINE u32 weak() const { return counter().weak(); }
+    inline u32 strong() const { return counter().strong(); }
+    inline u32 weak() const { return counter().weak(); }
 
 private:
     Weak() = default;
@@ -161,7 +161,7 @@ private:
     template <typename Derived, SMode Mode>
     friend class Weak;
 
-    FORCE_INLINE Counter const& counter() const { return *((Counter*)m_ptr); }
+    inline Counter const& counter() const { return *((Counter*)m_ptr); }
 
     void* m_ptr;
 };

@@ -12,44 +12,44 @@ CORE_NAMESPACE_BEGIN
 template <typename T>
 class Array : private NonCopyable {
 public:
-    FORCE_INLINE Array() = default;
-	explicit FORCE_INLINE Array(Slice<const T> slice);
-	FORCE_INLINE Array(Array<T>&& move) noexcept;
-	FORCE_INLINE Array& operator=(Array<T>&& move) noexcept;
+    inline Array() = default;
+	explicit inline Array(Slice<const T> slice);
+	inline Array(Array<T>&& move) noexcept;
+	inline Array& operator=(Array<T>&& move) noexcept;
 	~Array();
 
-	FORCE_INLINE usize len() const { return m_len; }
-	FORCE_INLINE usize cap() const { return m_cap; }
+	inline usize len() const { return m_len; }
+	inline usize cap() const { return m_cap; }
 
-	FORCE_INLINE bool is_empty() const { return len() == 0; }
+	inline bool is_empty() const { return len() == 0; }
 	explicit operator bool() const { return !is_empty(); }
-	FORCE_INLINE bool is_valid_index(usize index) const { return index < len(); }
+	inline bool is_valid_index(usize index) const { return index < len(); }
 
-	FORCE_INLINE operator Slice<T>() { return { m_ptr, m_len }; }
-	FORCE_INLINE operator Slice<T const>() const { return { m_ptr, m_len }; }
+	inline operator Slice<T>() { return { m_ptr, m_len }; }
+	inline operator Slice<T const>() const { return { m_ptr, m_len }; }
 
-	FORCE_INLINE T* begin() { return m_ptr; }
-	FORCE_INLINE T* end() { return m_ptr + m_len; }
-	FORCE_INLINE const T* cbegin() const { return m_ptr; }
-	FORCE_INLINE const T* cend() const { return m_ptr + m_len; }
+	inline T* begin() { return m_ptr; }
+	inline T* end() { return m_ptr + m_len; }
+	inline const T* cbegin() const { return m_ptr; }
+	inline const T* cend() const { return m_ptr + m_len; }
 
-	FORCE_INLINE T& operator[](usize index);
-	FORCE_INLINE const T& operator[](usize index) const;
+	inline T& operator[](usize index);
+	inline const T& operator[](usize index) const;
 
-	FORCE_INLINE Option<T&> last_mut();
-	FORCE_INLINE Option<T const&> last() const;
+	inline Option<T&> last_mut();
+	inline Option<T const&> last() const;
 
 	// FIXME: Delete the items that are lost and initialize any gained to default
-	FORCE_INLINE void set_len(usize len);
+	inline void set_len(usize len);
 
 	void reserve(usize amount);
 	void insert(usize index, T&& item);
-	void insert(usize index, const T& item);
+	inline void insert(usize index, const T& item);
 	T remove(usize index);
 	void reset();
-	FORCE_INLINE usize push(T&& item);
-	FORCE_INLINE usize push(const T& item);
-	FORCE_INLINE Option<T> pop();
+	inline usize push(T&& item);
+	inline usize push(const T& item);
+	inline Option<T> pop();
 
 private:
     T* m_ptr = nullptr;

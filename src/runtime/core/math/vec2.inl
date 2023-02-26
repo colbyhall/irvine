@@ -3,7 +3,7 @@
 CORE_NAMESPACE_BEGIN
 
 template <typename T>
-FORCE_INLINE Vec2<T> Vec2<T>::from_rad(T theta) {
+inline Vec2<T> Vec2<T>::from_rad(T theta) {
 	return { core::sin(theta), core::cos(theta) };
 }
 
@@ -23,7 +23,7 @@ template <typename T>
 const Vec2<T> Vec2<T>::up = { 0, 1 };
 
 template <typename T>
-FORCE_INLINE Option<Vec2<T>> Vec2<T>::normalized() const {
+inline Option<Vec2<T>> Vec2<T>::normalized() const {
 	if (!is_near_zero()) {
 		return *this / len();
 	}

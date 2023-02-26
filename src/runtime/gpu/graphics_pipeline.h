@@ -95,10 +95,10 @@ class GraphicsPipeline {
 public:
     static GraphicsPipeline make(GraphicsPipelineConfig&& config);
 
-    FORCE_INLINE const GraphicsPipelineConfig& config() const { return m_interface->config(); }
+    inline const GraphicsPipelineConfig& config() const { return m_interface->config(); }
 
     template <typename T = GraphicsPipelineInterface>
-    FORCE_INLINE T const& interface() const {
+    inline T const& interface() const {
         static_assert(core::is_base_of<GraphicsPipelineInterface, T>, "T is not derived of GraphicsPipelineInterface");
         return static_cast<const T&>(*m_interface);
     }

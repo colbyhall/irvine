@@ -14,14 +14,14 @@ public:
         Array<T> values;
     };
 
-    FORCE_INLINE BucketArray() = default;
+    inline BucketArray() = default;
 
     usize len() const;
     usize cap() const;
 
-    FORCE_INLINE bool is_empty() const { return len() == 0; }
-    FORCE_INLINE explicit operator bool() const { return !is_empty(); }
-    FORCE_INLINE bool is_valid_index(usize index) const { return index < len(); }
+    inline bool is_empty() const { return len() == 0; }
+    inline explicit operator bool() const { return !is_empty(); }
+    inline bool is_valid_index(usize index) const { return index < len(); }
 
     T& operator[](usize index);
     const T& operator[](usize index) const;

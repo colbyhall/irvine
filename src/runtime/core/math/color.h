@@ -9,9 +9,9 @@ CORE_NAMESPACE_BEGIN
 struct LinearColor {
     f32 r, g, b, a;
 
-    FORCE_INLINE constexpr LinearColor()
+    inline constexpr LinearColor()
         : r(1), g(1), b(1), a(1) {}
-    FORCE_INLINE constexpr LinearColor(f32 in_r, f32 in_g, f32 in_b, f32 in_a)
+    inline constexpr LinearColor(f32 in_r, f32 in_g, f32 in_b, f32 in_a)
         : r(in_r), g(in_g), b(in_b), a(in_a) {}
 
     static const LinearColor red;

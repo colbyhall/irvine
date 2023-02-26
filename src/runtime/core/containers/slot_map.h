@@ -12,7 +12,7 @@ struct SlotKey {
     u32 generation;
     u32 index;
 
-    FORCE_INLINE bool operator==(const SlotKey& rhs) const {
+    inline bool operator==(const SlotKey& rhs) const {
         return generation == rhs.generation && index == rhs.index;
     }
 };
@@ -46,7 +46,7 @@ using core::SlotMap;
 SUPPRESS_WARNING_PUSH
 SUPPRESS_WARNINGS
 
-FORCE_INLINE void hash(Hasher& hasher, const SlotKey& key) {
+inline void hash(Hasher& hasher, const SlotKey& key) {
     hash(hasher, key.generation);
     hash(hasher, key.index);
 }

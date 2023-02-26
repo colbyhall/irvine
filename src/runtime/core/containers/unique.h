@@ -35,14 +35,14 @@ public:
         }
     }
 
-    FORCE_INLINE explicit operator NonNull<Base>() { return m_ptr; }
-    FORCE_INLINE explicit operator NonNull<Base const>() const { return m_ptr; }
-    FORCE_INLINE explicit operator Base*() { return m_ptr; }
-    FORCE_INLINE explicit operator Base const *() const { return m_ptr; }
-    FORCE_INLINE Base* operator ->() { return m_ptr; }
-    FORCE_INLINE Base const* operator ->() const { return m_ptr; }
-    FORCE_INLINE Base& operator *() { return *m_ptr; }
-    FORCE_INLINE Base const& operator *() const { return *m_ptr; }
+    inline explicit operator NonNull<Base>() { return m_ptr; }
+    inline explicit operator NonNull<Base const>() const { return m_ptr; }
+    inline explicit operator Base*() { return m_ptr; }
+    inline explicit operator Base const *() const { return m_ptr; }
+    inline Base* operator ->() { return m_ptr; }
+    inline Base const* operator ->() const { return m_ptr; }
+    inline Base& operator *() { return *m_ptr; }
+    inline Base const& operator *() const { return *m_ptr; }
 
 private:
     Unique() = default;
@@ -53,7 +53,7 @@ private:
     template <typename Derived>
     friend class Unique;
 
-    FORCE_INLINE explicit Unique(Base&& base) {
+    inline explicit Unique(Base&& base) {
         void* ptr = core::alloc(core::Layout::single<Base>);
         m_ptr = new (ptr) Base(core::forward<Base>(base));
     }
@@ -62,7 +62,7 @@ private:
 };
 
 template <typename T, typename... Args>
-FORCE_INLINE Unique<T> make_unique(Args&&... args) {
+inline Unique<T> make_unique(Args&&... args) {
     return Unique<T>(core::move(T(forward<Args>(args)...)));
 }
 

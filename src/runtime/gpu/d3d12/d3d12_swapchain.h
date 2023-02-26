@@ -13,7 +13,7 @@ class D3D12Swapchain : public SwapchainInterface {
 public:
 	explicit D3D12Swapchain(void* window_handle);
 
-	FORCE_INLINE D3D12Swapchain(D3D12Swapchain&& move) noexcept :
+	inline D3D12Swapchain(D3D12Swapchain&& move) noexcept :
 		m_hwnd(move.m_hwnd),
 		m_swapchain(move.m_swapchain),
 		m_back_buffers(core::move(move.m_back_buffers)),

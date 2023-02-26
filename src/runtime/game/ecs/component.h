@@ -17,7 +17,7 @@ public:
 
 class ComponentId {
 public:
-    FORCE_INLINE constexpr explicit ComponentId(u64 value) : m_value(value) {}
+    inline constexpr explicit ComponentId(u64 value) : m_value(value) {}
 
     template <typename T>
     static ComponentId of() {
@@ -31,10 +31,10 @@ public:
         return ComponentId { type_hash };
     }
 
-    FORCE_INLINE explicit operator u64() const { return m_value; }
+    inline explicit operator u64() const { return m_value; }
 
-    FORCE_INLINE bool operator==(const ComponentId& rhs) const { return m_value == rhs.m_value; }
-    FORCE_INLINE bool operator!=(const ComponentId& rhs) const { return m_value != rhs.m_value; }
+    inline bool operator==(const ComponentId& rhs) const { return m_value == rhs.m_value; }
+    inline bool operator!=(const ComponentId& rhs) const { return m_value != rhs.m_value; }
 
 private:
     u64 m_value;

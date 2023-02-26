@@ -17,7 +17,7 @@ class D3D12GraphicsCommandList : public GraphicsCommandListInterface {
 public:
 	explicit D3D12GraphicsCommandList();
 
-    FORCE_INLINE D3D12GraphicsCommandList(D3D12GraphicsCommandList&& move) noexcept :
+    inline D3D12GraphicsCommandList(D3D12GraphicsCommandList&& move) noexcept :
         m_command_list(move.m_command_list),
         m_bound_color_buffer(core::move(move.m_bound_color_buffer)),
         m_bound_depth_buffer(core::move(move.m_bound_depth_buffer)),

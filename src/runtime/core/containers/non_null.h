@@ -11,13 +11,13 @@ class NonNull {
 public:
 	NonNull() = delete;
 	NonNull(NullPtr) = delete;
-	FORCE_INLINE constexpr NonNull(T* ptr) : m_ptr(ptr) { ASSERT(m_ptr != nullptr, "NonNull only accepts pointers that are not nullptr"); }
+	inline constexpr NonNull(T* ptr) : m_ptr(ptr) { ASSERT(m_ptr != nullptr, "NonNull only accepts pointers that are not nullptr"); }
 
 	// Accessors
-	FORCE_INLINE operator T*() const { return m_ptr; }
-	FORCE_INLINE operator void*() const { return m_ptr; }
-	FORCE_INLINE T* operator ->() const { return m_ptr; }
-	FORCE_INLINE T& operator *() const { return *m_ptr; }
+	inline operator T*() const { return m_ptr; }
+	inline operator void*() const { return m_ptr; }
+	inline T* operator ->() const { return m_ptr; }
+	inline T& operator *() const { return *m_ptr; }
 
 private:
 	T* m_ptr;
@@ -28,10 +28,10 @@ class NonNull<void> {
 public:
 	NonNull() = delete;
 	NonNull(NullPtr) = delete;
-	FORCE_INLINE constexpr NonNull(void* ptr) : m_ptr(ptr) { ASSERT(m_ptr != nullptr, "NonNull only accepts pointers that are not nullptr"); }
+	inline constexpr NonNull(void* ptr) : m_ptr(ptr) { ASSERT(m_ptr != nullptr, "NonNull only accepts pointers that are not nullptr"); }
 
 	// Accessor
-	FORCE_INLINE operator void*() const { return m_ptr; }
+	inline operator void*() const { return m_ptr; }
 
 private:
 	void* m_ptr;
@@ -42,10 +42,10 @@ class NonNull<void const> {
 public:
 	NonNull() = delete;
 	NonNull(NullPtr) = delete;
-	FORCE_INLINE constexpr NonNull(void const* ptr) : m_ptr(ptr) { ASSERT(m_ptr != nullptr, "NonNull only accepts pointers that are not nullptr"); }
+	inline constexpr NonNull(void const* ptr) : m_ptr(ptr) { ASSERT(m_ptr != nullptr, "NonNull only accepts pointers that are not nullptr"); }
 
 	// Accessor
-	FORCE_INLINE operator void const*() const { return m_ptr; }
+	inline operator void const*() const { return m_ptr; }
 
 private:
 	void const* m_ptr;

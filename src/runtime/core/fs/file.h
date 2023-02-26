@@ -29,10 +29,10 @@ class File : private NonCopyable {
 public:
     static Result<File, FileOpenError> open(PathView path, FileFlags flags);
 
-    FORCE_INLINE File(File&& move) noexcept : m_handle(move.m_handle), m_flags(move.m_flags), m_cursor(0) {
+    inline File(File&& move) noexcept : m_handle(move.m_handle), m_flags(move.m_flags), m_cursor(0) {
         move.m_handle = nullptr;
     }
-    FORCE_INLINE File& operator=(File&& move) noexcept {
+    inline File& operator=(File&& move) noexcept {
         File to_destroy = core::move(*this);
         m_handle = move.m_handle;
         m_flags = move.m_flags;
@@ -43,7 +43,7 @@ public:
     usize size() const;
     usize cursor() const { return m_cursor; }
     usize seek(Seek method, isize distance);
-    FORCE_INLINE void rewind() { seek(Seek::Begin, 0); }
+    inline void rewind() { seek(Seek::Begin, 0); }
     void set_eof();
 
     usize read(Slice<u8> buffer);
@@ -52,7 +52,7 @@ public:
     ~File();
 
 private:
-    FORCE_INLINE File(void* handle, FileFlags flags) : m_handle(handle), m_flags(flags), m_cursor(0) {}
+    inline File(void* handle, FileFlags flags) : m_handle(handle), m_flags(flags), m_cursor(0) {}
 
     void* m_handle;
     FileFlags m_flags;

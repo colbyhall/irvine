@@ -3,7 +3,7 @@
 CORE_NAMESPACE_BEGIN
 
 template <typename T>
-FORCE_INLINE Array<T>::Array(Slice<const T> slice) : m_ptr(nullptr), m_len(slice.len()), m_cap(0) {
+inline Array<T>::Array(Slice<const T> slice) : m_ptr(nullptr), m_len(slice.len()), m_cap(0) {
 	reserve(slice.len());
 	for (u32 i = 0; i < slice.len(); ++i) {
 		T copy = slice[i];
@@ -12,7 +12,7 @@ FORCE_INLINE Array<T>::Array(Slice<const T> slice) : m_ptr(nullptr), m_len(slice
 }
 
 template <typename T>
-FORCE_INLINE Array<T>::Array(Array<T>&& move) noexcept
+inline Array<T>::Array(Array<T>&& move) noexcept
 	: m_ptr(move.m_ptr), m_len(move.m_len), m_cap(move.m_cap) {
 	move.m_ptr = nullptr;
 	move.m_len = 0;
@@ -20,7 +20,7 @@ FORCE_INLINE Array<T>::Array(Array<T>&& move) noexcept
 }
 
 template <typename T>
-FORCE_INLINE Array<T>& Array<T>::operator=(Array<T>&& move) noexcept {
+inline Array<T>& Array<T>::operator=(Array<T>&& move) noexcept {
 	Array<T> to_destroy = core::move(*this);
 	m_ptr = move.m_ptr;
 	m_len = move.m_len;
@@ -44,31 +44,31 @@ Array<T>::~Array() {
 }
 
 template <typename T>
-FORCE_INLINE T& Array<T>::operator[](usize index) {
+inline T& Array<T>::operator[](usize index) {
 	ASSERT(is_valid_index(index), "Index out of bounds");
 	return m_ptr[index];
 }
 
 template <typename T>
-FORCE_INLINE const T& Array<T>::operator[](usize index) const {
+inline const T& Array<T>::operator[](usize index) const {
 	ASSERT(is_valid_index(index), "Index out of bounds");
 	return m_ptr[index];
 }
 
 template <typename T>
-FORCE_INLINE Option<T&> Array<T>::last_mut() {
+inline Option<T&> Array<T>::last_mut() {
 	if (len() > 0) return m_ptr[len() - 1];
 	return nullptr;
 }
 
 template <typename T>
-FORCE_INLINE Option<T const&> Array<T>::last() const {
+inline Option<T const&> Array<T>::last() const {
 	if (len() > 0) return m_ptr[len() - 1];
 	return nullptr;
 }
 
 template <typename T>
-FORCE_INLINE void Array<T>::set_len(usize len) {
+inline void Array<T>::set_len(usize len) {
 	ASSERT(len <= m_cap);
 	// FIXME: Delete the items that are lost and initialize any gained to default
 	m_len = len;
@@ -111,7 +111,7 @@ void Array<T>::insert(usize index, T&& item) {
 }
 
 template <typename T>
-FORCE_INLINE void Array<T>::insert(usize index, const T& item) {
+inline void Array<T>::insert(usize index, const T& item) {
 	T copy = item;
 	insert(index, core::move(copy));
 }
@@ -140,20 +140,20 @@ void Array<T>::reset() {
 }
 
 template <typename T>
-FORCE_INLINE usize Array<T>::push(T&& item) {
+inline usize Array<T>::push(T&& item) {
 	const auto index = len();
 	insert(index, core::move(item));
 	return index;
 }
 
 template <typename T>
-FORCE_INLINE usize Array<T>::push(const T& item) {
+inline usize Array<T>::push(const T& item) {
 	T copy = item;
 	return push(core::move(copy));
 }
 
 template <typename T>
-FORCE_INLINE Option<T> Array<T>::pop() {
+inline Option<T> Array<T>::pop() {
 	if (m_len > 0) {
 		m_len -= 1;
 		return core::move(m_ptr[m_len]);

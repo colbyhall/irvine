@@ -23,16 +23,16 @@ class MPMCQueue final : private NonCopyable {
 
 public:
 	static MPMCQueue make(usize size);
-	FORCE_INLINE MPMCQueue(MPMCQueue<T>&& move) noexcept;
-	FORCE_INLINE MPMCQueue& operator=(MPMCQueue<T>&& move) noexcept;
+	inline MPMCQueue(MPMCQueue<T>&& move) noexcept;
+	inline MPMCQueue& operator=(MPMCQueue<T>&& move) noexcept;
 	~MPMCQueue();
 
 	bool push(T&& t) const;
-	FORCE_INLINE bool push(const T& t) const;
+	inline bool push(const T& t) const;
 	Option<T> pop() const;
 
 private:
-	FORCE_INLINE explicit MPMCQueue(Cell* buffer, int size) :
+	inline explicit MPMCQueue(Cell* buffer, int size) :
 		m_buffer(buffer),
 		m_buffer_mask(size - 1),
 		m_enqueue_pos(0),

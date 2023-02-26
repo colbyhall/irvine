@@ -19,12 +19,12 @@ public:
 	static Fiber spawn(Function&& spawn);
 	static Fiber convert();
 
-	FORCE_INLINE Fiber(Fiber&& move) noexcept
+	inline Fiber(Fiber&& move) noexcept
 			: m_thread(move.m_thread), m_handle(move.m_handle){
 		move.m_handle = nullptr;
 	}
 
-	FORCE_INLINE Fiber& operator=(Fiber&& move) noexcept {
+	inline Fiber& operator=(Fiber&& move) noexcept {
 		// FIXME: Is this the best way to do this
 		Fiber to_destroy = core::move(*this);
 		m_handle = move.m_handle;
@@ -37,10 +37,10 @@ public:
 
 	void switch_to();
 
-	FORCE_INLINE Handle handle() const { return m_handle; }
+	inline Handle handle() const { return m_handle; }
 
 private:
-	FORCE_INLINE explicit Fiber(bool thread, Handle handle) : m_thread(thread), m_handle(handle) {}
+	inline explicit Fiber(bool thread, Handle handle) : m_thread(thread), m_handle(handle) {}
 
 	bool m_thread;
 	Handle m_handle;

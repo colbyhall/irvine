@@ -27,11 +27,11 @@ i32 utf8_encode(u32 c, void* dest, u32* errors);
 
 class CodepointsIterator {
 public:
-    FORCE_INLINE explicit CodepointsIterator(Slice<char const> string) : m_string(string), m_index(0), m_decoder_state(0), m_codepoint(0) {}
+    inline explicit CodepointsIterator(Slice<char const> string) : m_string(string), m_index(0), m_decoder_state(0), m_codepoint(0) {}
 
-    FORCE_INLINE explicit operator bool() const { return should_continue(); }
-    FORCE_INLINE CodepointsIterator& operator++() { next(); return *this; }
-    FORCE_INLINE Codepoint operator*() const { return get(); }
+    inline explicit operator bool() const { return should_continue(); }
+    inline CodepointsIterator& operator++() { next(); return *this; }
+    inline Codepoint operator*() const { return get(); }
 
 private:
     bool should_continue() const;
@@ -46,19 +46,19 @@ private:
 
 class StringView {
 public:
-    FORCE_INLINE constexpr StringView() : m_bytes() {}
-    FORCE_INLINE constexpr StringView(Slice<char const> bytes) :
+    inline constexpr StringView() : m_bytes() {}
+    inline constexpr StringView(Slice<char const> bytes) :
 		m_bytes(bytes) {}
-    FORCE_INLINE constexpr StringView(const char* ptr) :
+    inline constexpr StringView(const char* ptr) :
 		m_bytes({ ptr, strlen(ptr) }) {}
 
-    FORCE_INLINE operator Slice<char const>() const { return m_bytes; }
-    FORCE_INLINE const char* operator*() const { return &m_bytes[0]; }
+    inline operator Slice<char const>() const { return m_bytes; }
+    inline const char* operator*() const { return &m_bytes[0]; }
 
-    FORCE_INLINE usize len() const { return m_bytes.len(); }
-    FORCE_INLINE CodepointsIterator codepoints() const { return CodepointsIterator(m_bytes); }
+    inline usize len() const { return m_bytes.len(); }
+    inline CodepointsIterator codepoints() const { return CodepointsIterator(m_bytes); }
     bool operator==(const StringView& right) const;
-    FORCE_INLINE bool operator!=(const StringView& right) const { return !(*this == right); }
+    inline bool operator!=(const StringView& right) const { return !(*this == right); }
 
 private:
     Slice<char const> m_bytes;

@@ -22,37 +22,37 @@ public:
     Atomic() noexcept = default;
     constexpr Atomic(T desired) noexcept : m_atomic(desired) {}
 
-    FORCE_INLINE Atomic(Atomic&& rhs) noexcept
+    inline Atomic(Atomic&& rhs) noexcept
         : m_atomic(rhs.m_atomic.load(std::memory_order_relaxed)) {}
-    FORCE_INLINE Atomic& operator=(Atomic&& rhs) noexcept {
+    inline Atomic& operator=(Atomic&& rhs) noexcept {
         const auto order = std::memory_order_relaxed;
         m_atomic.store(rhs.m_atomic.load(order), order);
     }
 
-    FORCE_INLINE void store(T desired, Order order = Order::SequentiallyConsistent) const noexcept;
-    FORCE_INLINE T load(Order order = Order::SequentiallyConsistent) const noexcept;
-    FORCE_INLINE T exchange(T desired, Order order = Order::SequentiallyConsistent) const noexcept;
+    inline void store(T desired, Order order = Order::SequentiallyConsistent) const noexcept;
+    inline T load(Order order = Order::SequentiallyConsistent) const noexcept;
+    inline T exchange(T desired, Order order = Order::SequentiallyConsistent) const noexcept;
 
-    FORCE_INLINE Option<T> compare_exchange_weak(
+    inline Option<T> compare_exchange_weak(
         T expected,
         T desired,
         Order order = Order::SequentiallyConsistent
     ) const noexcept;
 
-    FORCE_INLINE Option<T> compare_exchange_strong(
+    inline Option<T> compare_exchange_strong(
         T expected,
         T desired,
         Order order = Order::SequentiallyConsistent
     ) const noexcept;
 
-    FORCE_INLINE T fetch_add(T arg, Order order = Order::SequentiallyConsistent) const noexcept;
-    FORCE_INLINE T fetch_sub(T arg, Order order = Order::SequentiallyConsistent) const noexcept;
-    FORCE_INLINE T fetch_and(T arg, Order order = Order::SequentiallyConsistent) const noexcept;
-    FORCE_INLINE T fetch_or(T arg, Order order = Order::SequentiallyConsistent) const noexcept;
-    FORCE_INLINE T fetch_xor(T arg, Order order = Order::SequentiallyConsistent) const noexcept;
+    inline T fetch_add(T arg, Order order = Order::SequentiallyConsistent) const noexcept;
+    inline T fetch_sub(T arg, Order order = Order::SequentiallyConsistent) const noexcept;
+    inline T fetch_and(T arg, Order order = Order::SequentiallyConsistent) const noexcept;
+    inline T fetch_or(T arg, Order order = Order::SequentiallyConsistent) const noexcept;
+    inline T fetch_xor(T arg, Order order = Order::SequentiallyConsistent) const noexcept;
 
 private:
-    FORCE_INLINE std::memory_order to_std(Order order) const {
+    inline std::memory_order to_std(Order order) const {
         static const std::memory_order convert[] = {
                 std::memory_order_relaxed,
                 std::memory_order_seq_cst

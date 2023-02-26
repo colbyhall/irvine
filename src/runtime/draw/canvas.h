@@ -32,11 +32,11 @@ public:
 
     Canvas& paint(const Shape& t);
 
-    FORCE_INLINE Canvas& set_color(const LinearColor& color) { m_color = color; return *this; }
-    FORCE_INLINE Canvas& set_scissor(const Aabb2f32& scissor) { m_scissor = scissor; return *this; }
+    inline Canvas& set_color(const LinearColor& color) { m_color = color; return *this; }
+    inline Canvas& set_scissor(const Aabb2f32& scissor) { m_scissor = scissor; return *this; }
 
-    FORCE_INLINE Slice<Vertex const> vertices() const { return m_vertices; }
-	FORCE_INLINE Slice<u32 const> indices() const { return m_indices; }
+    inline Slice<Vertex const> vertices() const { return m_vertices; }
+	inline Slice<u32 const> indices() const { return m_indices; }
 
 private:
     explicit Canvas() {}

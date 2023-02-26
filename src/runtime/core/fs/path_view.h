@@ -8,15 +8,15 @@ CORE_NAMESPACE_BEGIN
 
 class PathView {
 public:
-    FORCE_INLINE constexpr PathView() : m_string() {}
-    FORCE_INLINE constexpr PathView(Slice<char const> bytes) : m_string(bytes) {}
-    FORCE_INLINE constexpr PathView(const char* ptr) : m_string({ ptr, core::strlen(ptr) }) {}
+    inline constexpr PathView() : m_string() {}
+    inline constexpr PathView(Slice<char const> bytes) : m_string(bytes) {}
+    inline constexpr PathView(const char* ptr) : m_string({ ptr, core::strlen(ptr) }) {}
 
-    FORCE_INLINE operator StringView() const { return m_string; }
-    FORCE_INLINE const char* operator*() const { return *m_string; }
+    inline operator StringView() const { return m_string; }
+    inline const char* operator*() const { return *m_string; }
 
-    FORCE_INLINE usize len() const { return m_string.len(); }
-    FORCE_INLINE CodepointsIterator codepoints() const { return CodepointsIterator(m_string); }
+    inline usize len() const { return m_string.len(); }
+    inline CodepointsIterator codepoints() const { return CodepointsIterator(m_string); }
 
 private:
     StringView m_string;

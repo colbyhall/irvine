@@ -11,13 +11,13 @@ SUPPRESS_WARNINGS_STD_END
 CORE_NAMESPACE_BEGIN
 
 template <typename T>
-constexpr FORCE_INLINE T min(T a, T b) { return a < b ? a : b; }
+constexpr inline T min(T a, T b) { return a < b ? a : b; }
 
 template <typename T>
-constexpr FORCE_INLINE T max(T a, T b) { return a > b ? a : b; }
+constexpr inline T max(T a, T b) { return a > b ? a : b; }
 
 template <typename T>
-constexpr FORCE_INLINE T clamp(T value, T min, T max) {
+constexpr inline T clamp(T value, T min, T max) {
     return core::min<T>(core::max<T>(value, min), max);
 }
 
@@ -85,12 +85,12 @@ f32 fmod(f32 numerator, f32 denominator);
 f64 fmod(f64 numerator, f64 denominator);
 
 template <typename T>
-FORCE_INLINE T abs(T x) { return x < 0 ? -x : x; }
+inline T abs(T x) { return x < 0 ? -x : x; }
 
 template <typename T>
-FORCE_INLINE T is_near_zero(T a) { return abs(a) <= near_zero; }
+inline T is_near_zero(T a) { return abs(a) <= near_zero; }
 
 template <typename T>
-FORCE_INLINE T lerp(T a, T b, T t) { return ((T)1 - t) * a + t * b; }
+inline T lerp(T a, T b, T t) { return ((T)1 - t) * a + t * b; }
 
 CORE_NAMESPACE_END

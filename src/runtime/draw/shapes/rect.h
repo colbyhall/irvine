@@ -41,7 +41,7 @@ struct Round {
 
 class Rect final : public Shape {
 public:
-    FORCE_INLINE Rect(const Aabb2f32& bounds)
+    inline Rect(const Aabb2f32& bounds)
         : m_bounds(bounds), m_uv0(0), m_uv1(0), m_texture(0) {}
 
     Rect& texture(const gpu::Texture& texture, Vec2f32 uv0 = 0.f, Vec2f32 uv1 = 1.f);

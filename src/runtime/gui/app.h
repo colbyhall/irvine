@@ -20,7 +20,7 @@ public:
 	static App make();
 	void run(FunctionRef<void(AppBuilder&)> frame);
 
-	FORCE_INLINE MemoryManager& memory() { return m_memory; }
+	inline MemoryManager& memory() { return m_memory; }
 
 private:
 	App(gpu::GraphicsPipeline&& pipeline, draw::Font&& font) :

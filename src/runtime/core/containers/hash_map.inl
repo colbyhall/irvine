@@ -114,7 +114,7 @@ Option<Value const&> HashMap<Key, Value, Hasher>::find(const Key& key) const {
 }
 
 template <typename Key, typename Value, typename Hasher>
-FORCE_INLINE usize HashMap<Key, Value, Hasher>::key_to_layout_index(const Key& key) const {
+inline usize HashMap<Key, Value, Hasher>::key_to_layout_index(const Key& key) const {
 	Hasher hasher = {};
 	hash(hasher, key);
 	const u64 the_hash = hasher.finish();
@@ -153,13 +153,13 @@ void HashMap<Key, Value, Hasher>::refresh_layout() {
 }
 
 template <typename Key, typename Value, typename Hasher>
-FORCE_INLINE ConstHashMapIterator<Key, Value, Hasher> HashMap<Key, Value, Hasher>::iter() const {
+inline ConstHashMapIterator<Key, Value, Hasher> HashMap<Key, Value, Hasher>::iter() const {
 	return ConstHashMapIterator(*this);
 }
 
 
 template <typename Key, typename Value, typename Hasher>
-FORCE_INLINE HashMapIterator<Key, Value, Hasher> HashMap<Key, Value, Hasher>::iter_mut() {
+inline HashMapIterator<Key, Value, Hasher> HashMap<Key, Value, Hasher>::iter_mut() {
 	return HashMapIterator(*this);
 }
 

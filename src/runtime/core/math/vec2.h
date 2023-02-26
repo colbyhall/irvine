@@ -17,11 +17,11 @@ struct Vec2 {
         T xy[2];
     };
 
-    FORCE_INLINE constexpr Vec2() : x(0), y(0) { }
-    FORCE_INLINE constexpr Vec2(T xy) : x(xy), y(xy) { }
-    FORCE_INLINE constexpr Vec2(T x, T y) : u(x), v(y) { }
+    inline constexpr Vec2() : x(0), y(0) { }
+    inline constexpr Vec2(T xy) : x(xy), y(xy) { }
+    inline constexpr Vec2(T x, T y) : u(x), v(y) { }
 
-	FORCE_INLINE static Vec2<T> from_rad(T theta);
+	inline static Vec2<T> from_rad(T theta);
 
     static const Vec2<T> zero;
     static const Vec2<T> one;
@@ -30,30 +30,30 @@ struct Vec2 {
     static const Vec2<T> right;
     static const Vec2<T> up;
 
-    FORCE_INLINE T dot(const Vec2<T>& rhs) const { return x * rhs.x + y * rhs.y; }
-    FORCE_INLINE T cross(const Vec2<T>& rhs) const { return x * rhs.y - y * rhs.x; };
-    FORCE_INLINE Vec2 perp() const { return { y, -x }; }
-    FORCE_INLINE Option<Vec2> normalized() const;
+    inline T dot(const Vec2<T>& rhs) const { return x * rhs.x + y * rhs.y; }
+    inline T cross(const Vec2<T>& rhs) const { return x * rhs.y - y * rhs.x; };
+    inline Vec2 perp() const { return { y, -x }; }
+    inline Option<Vec2> normalized() const;
 
-    FORCE_INLINE T len_sq() const { return dot(*this); }
-    FORCE_INLINE T len() const { return core::sqrt(len_sq()); }
-    FORCE_INLINE bool is_zero() const { return *this == zero; }
-    FORCE_INLINE bool is_near_zero() const { return core::is_near_zero(len_sq()); }
-    FORCE_INLINE bool has_nan() const { return x == core::nan || y == core::nan; }
-    FORCE_INLINE bool has_infinite() const { return x == core::infinity || y == core::infinity; }
+    inline T len_sq() const { return dot(*this); }
+    inline T len() const { return core::sqrt(len_sq()); }
+    inline bool is_zero() const { return *this == zero; }
+    inline bool is_near_zero() const { return core::is_near_zero(len_sq()); }
+    inline bool has_nan() const { return x == core::nan || y == core::nan; }
+    inline bool has_infinite() const { return x == core::infinity || y == core::infinity; }
 
     template <typename D>
-    FORCE_INLINE Vec2<D> cast() const { return { (D)x, (D)y }; }
+    inline Vec2<D> cast() const { return { (D)x, (D)y }; }
 
-    FORCE_INLINE Vec2 operator+(const Vec2& rhs) const { return { x + rhs.x, y + rhs.y }; }
-    FORCE_INLINE Vec2 operator-(const Vec2& rhs) const { return { x - rhs.x, y - rhs.y }; }
-    FORCE_INLINE Vec2 operator*(const Vec2& rhs) const { return { x * rhs.x, y * rhs.y }; }
-    FORCE_INLINE Vec2 operator/(const Vec2& rhs) const { return { x / rhs.x, y / rhs.y }; }
-    FORCE_INLINE void operator+=(const Vec2& rhs) { *this = *this + rhs; }
-    FORCE_INLINE void operator-=(const Vec2& rhs) { *this = *this - rhs; }
-    FORCE_INLINE void operator*=(const Vec2& rhs) { *this = *this * rhs; }
-    FORCE_INLINE void operator/=(const Vec2& rhs) { *this = *this / rhs; }
-    FORCE_INLINE Vec2 operator-() const { return { -x, -y }; }
+    inline Vec2 operator+(const Vec2& rhs) const { return { x + rhs.x, y + rhs.y }; }
+    inline Vec2 operator-(const Vec2& rhs) const { return { x - rhs.x, y - rhs.y }; }
+    inline Vec2 operator*(const Vec2& rhs) const { return { x * rhs.x, y * rhs.y }; }
+    inline Vec2 operator/(const Vec2& rhs) const { return { x / rhs.x, y / rhs.y }; }
+    inline void operator+=(const Vec2& rhs) { *this = *this + rhs; }
+    inline void operator-=(const Vec2& rhs) { *this = *this - rhs; }
+    inline void operator*=(const Vec2& rhs) { *this = *this * rhs; }
+    inline void operator/=(const Vec2& rhs) { *this = *this / rhs; }
+    inline Vec2 operator-() const { return { -x, -y }; }
 };
 
 CORE_NAMESPACE_END

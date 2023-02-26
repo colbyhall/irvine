@@ -16,7 +16,7 @@ public:
 		usize stride
 	);
 
-	FORCE_INLINE D3D12Buffer(D3D12Buffer&& move) noexcept :
+	inline D3D12Buffer(D3D12Buffer&& move) noexcept :
 		m_usage(move.m_usage),
 		m_kind(move.m_kind),
 		m_len(move.m_len),

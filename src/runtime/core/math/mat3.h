@@ -14,7 +14,7 @@ struct Mat3 {
         T elements[3 * 3];
     };
 
-    FORCE_INLINE constexpr Mat3() : x(0), y(0), z(0) {}
+    inline constexpr Mat3() : x(0), y(0), z(0) {}
     static constexpr Mat3 from_columns(Vec3<T> x, Vec3<T> y, Vec3<T> z);
     static constexpr Mat3 from_rows(Vec3<T> x, Vec3<T> y, Vec3<T> z);
 
@@ -28,7 +28,7 @@ struct Mat3 {
     Vec3<T> operator*(const Vec3<T>& rhs) const;
 
 private:
-    FORCE_INLINE constexpr Mat3(Vec3<T> _x, Vec3<T> _y, Vec3<T> _z)
+    inline constexpr Mat3(Vec3<T> _x, Vec3<T> _y, Vec3<T> _z)
         : x(_x), y(_y), z(_z) {}
 };
 

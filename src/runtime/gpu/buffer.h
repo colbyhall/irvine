@@ -44,12 +44,12 @@ public:
         usize stride
     );
 
-    FORCE_INLINE BufferUsage usage() const { return m_interface->usage(); }
-    FORCE_INLINE BufferKind kind() const { return m_interface->kind(); }
-    FORCE_INLINE usize len() const { return m_interface->len(); }
-    FORCE_INLINE usize stride() const { return m_interface->stride(); }
-    FORCE_INLINE void map(FunctionRef<void (Slice<u8>)> func) { m_interface->map(func); }
-    FORCE_INLINE Buffer clone() const { return m_interface.clone(); }
+    inline BufferUsage usage() const { return m_interface->usage(); }
+    inline BufferKind kind() const { return m_interface->kind(); }
+    inline usize len() const { return m_interface->len(); }
+    inline usize stride() const { return m_interface->stride(); }
+    inline void map(FunctionRef<void (Slice<u8>)> func) { m_interface->map(func); }
+    inline Buffer clone() const { return m_interface.clone(); }
 
     template <typename T = BufferInterface>
     T const& interface() const {

@@ -51,7 +51,7 @@ public:
 	void free_texture2d(D3D12BindlessHandle handle) const;
 	D3D12_GPU_DESCRIPTOR_HANDLE gpu_texture2d_table() const;
 
-	FORCE_INLINE ComPtr<ID3D12DescriptorHeap> heap() const { return m_heap; }
+	inline ComPtr<ID3D12DescriptorHeap> heap() const { return m_heap; }
 
 private:
 	ComPtr<ID3D12DescriptorHeap> m_heap;
@@ -81,7 +81,7 @@ class D3D12Context : public ContextInterface {
 public:
     explicit D3D12Context();
 
-	FORCE_INLINE D3D12Context(D3D12Context&& move) noexcept :
+	inline D3D12Context(D3D12Context&& move) noexcept :
 		d3d12_library(core::move(move.d3d12_library)),
 		create_device(move.create_device),
 		serialize_root_signature(move.serialize_root_signature),

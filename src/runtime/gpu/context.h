@@ -25,8 +25,8 @@ class Context {
 public:
     static const Context& the();
 
-    FORCE_INLINE Backend backend() const { return m_interface->backend(); }
-	FORCE_INLINE void flush_queue() const { return m_interface->flush_queue(); }
+    inline Backend backend() const { return m_interface->backend(); }
+	inline void flush_queue() const { return m_interface->flush_queue(); }
 
     template <typename T = ContextInterface>
     T const& interface() const {

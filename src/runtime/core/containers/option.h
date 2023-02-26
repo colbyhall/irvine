@@ -12,12 +12,12 @@ template <typename T, typename Enable = void>
 class Option {
 public:
     Option() = default;
-	FORCE_INLINE constexpr Option(NullPtr) : m_set(false), m_data() {}
-	FORCE_INLINE Option(T&& t) : m_set(true), m_data() {
+	inline constexpr Option(NullPtr) : m_set(false), m_data() {}
+	inline Option(T&& t) : m_set(true), m_data() {
 		auto* p = m_data;
 		new (p) T(core::forward<T>(t));
 	}
-	FORCE_INLINE Option(const T& t) : m_set(true), m_data() {
+	inline Option(const T& t) : m_set(true), m_data() {
 		auto* p = m_data;
 		new (p) T(t);
 	}
@@ -25,12 +25,12 @@ public:
 	Option(const Option<T>& copy) = delete;
 	Option& operator=(const Option<T>& copy) = delete;
 
-	FORCE_INLINE Option(Option<T>&& move) noexcept : m_set(move.m_set) {
+	inline Option(Option<T>&& move) noexcept : m_set(move.m_set) {
 		core::copy(m_data, move.m_data, sizeof(T));
 		move.m_set = false;
 	}
 
-	FORCE_INLINE Option& operator=(Option<T>&& m) noexcept {
+	inline Option& operator=(Option<T>&& m) noexcept {
 		if (m_set) {
 			auto* p = reinterpret_cast<T*>(&m_data[0]);
 			p->~T();
@@ -41,7 +41,7 @@ public:
 		return *this;
 	}
 
-	FORCE_INLINE Option& operator=(T&& t) {
+	inline Option& operator=(T&& t) {
 		if (m_set) {
 			auto* p = reinterpret_cast<T*>(&m_data[0]);
 			p->~T();
@@ -52,10 +52,10 @@ public:
 		return *this;
 	}
 
-	FORCE_INLINE bool is_set() const { return m_set; }
-	FORCE_INLINE explicit operator bool() const { return is_set(); }
+	inline bool is_set() const { return m_set; }
+	inline explicit operator bool() const { return is_set(); }
 
-	FORCE_INLINE T unwrap() {
+	inline T unwrap() {
 		ASSERT(is_set(), "Value must be set to be unwrapped");
 		m_set = false;
 
@@ -63,7 +63,7 @@ public:
 		return core::move(*p);
 	}
 
-	FORCE_INLINE Option<T&> as_mut() {
+	inline Option<T&> as_mut() {
 		if (is_set()) {
 			auto* p = reinterpret_cast<T*>(&m_data[0]);
 			return Option<T&>(*p);
@@ -73,7 +73,7 @@ public:
 		}
 	}
 
-	FORCE_INLINE Option<T const&> as_ref() const {
+	inline Option<T const&> as_ref() const {
 		if (is_set()) {
 			auto* p = reinterpret_cast<T const*>(&m_data[0]);
 			return Option<T const&>(*p);
@@ -100,16 +100,16 @@ template <typename T>
 class Option<T, EnabledIf<core::is_trivially_copyable<T>>> {
 public:
 	Option() = default;
-	FORCE_INLINE constexpr Option(NullPtr) : m_set(false), m_data() {}
-	FORCE_INLINE Option(const T& t) : m_set(true), m_data() {
+	inline constexpr Option(NullPtr) : m_set(false), m_data() {}
+	inline Option(const T& t) : m_set(true), m_data() {
 		auto* p = m_data;
 		new (p) T(t);
 	}
 
-	FORCE_INLINE bool is_set() const { return m_set; }
-	FORCE_INLINE explicit operator bool() const { return is_set(); }
+	inline bool is_set() const { return m_set; }
+	inline explicit operator bool() const { return is_set(); }
 
-	FORCE_INLINE T unwrap() const {
+	inline T unwrap() const {
 		ASSERT(is_set(), "Value must be set to be unwrapped");
 
 		// Do not reset m_set for trivially copyable types
@@ -118,7 +118,7 @@ public:
 		return *p;
 	}
 
-	FORCE_INLINE Option<T&> as_mut() {
+	inline Option<T&> as_mut() {
 		if (is_set()) {
 			auto* p = reinterpret_cast<T*>(&m_data[0]);
 			return Option<T&>(*p);
@@ -128,7 +128,7 @@ public:
 		}
 	}
 
-	FORCE_INLINE Option<T const&> as_ref() const {
+	inline Option<T const&> as_ref() const {
 		if (is_set()) {
 			auto* p = reinterpret_cast<T const*>(&m_data[0]);
 			return Option<T const&>(*p);
@@ -158,10 +158,10 @@ public:
 	inline constexpr Option(NullPtr) : m_ptr(nullptr) {}
 	inline constexpr Option(T& t) : m_ptr(&t) { }
 
-	FORCE_INLINE bool is_set() const { return m_ptr != nullptr; }
-	FORCE_INLINE explicit operator bool() const { return is_set(); }
+	inline bool is_set() const { return m_ptr != nullptr; }
+	inline explicit operator bool() const { return is_set(); }
 
-	FORCE_INLINE T& unwrap() {
+	inline T& unwrap() {
 		ASSERT(is_set());
 		return *m_ptr;
 	}

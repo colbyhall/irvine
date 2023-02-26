@@ -46,15 +46,15 @@ public:
 
 	MemoryManager& memory();
 	const draw::Font& font() const;
-	FORCE_INLINE Canvas& canvas() { return m_canvas; }
+	inline Canvas& canvas() { return m_canvas; }
 
-	FORCE_INLINE Vec2f32 available_space() const { return m_available.size(); }
+	inline Vec2f32 available_space() const { return m_available.size(); }
 	Aabb2f32 request_space(const Vec2f32& size);
 
-	FORCE_INLINE void label(StringView text) {
+	inline void label(StringView text) {
 		gui::label(*this, Label { .text = text });
 	}
-	FORCE_INLINE void heading(StringView text) {
+	inline void heading(StringView text) {
 		gui::label(*this, Label { .text = text, .heading = true });
 	}
 

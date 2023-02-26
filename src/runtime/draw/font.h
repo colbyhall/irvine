@@ -28,18 +28,18 @@ public:
     static constexpr inline f32 sdf_size = 32.f;
     static Option<Font> import(PathView path);
 
-    FORCE_INLINE Glyph const& glyph(Codepoint c) const {
+    inline Glyph const& glyph(Codepoint c) const {
         const auto index = m_codepoints_to_glyphs[(usize)c];
         if (!m_glphys.is_valid_index(index)) return m_glphys[0];
         return m_glphys[(usize)index];
     }
-    FORCE_INLINE gpu::Texture const& atlas() const { return m_atlas; }
+    inline gpu::Texture const& atlas() const { return m_atlas; }
 
-    FORCE_INLINE f32 ascent() const { return m_ascent; }
-    FORCE_INLINE f32 descent() const { return m_descent; }
-    FORCE_INLINE f32 line_gap() const { return m_line_gap; }
-    FORCE_INLINE f32 new_line() const { return (ascent() - descent()) + line_gap(); };
-	FORCE_INLINE f32 scale(f32 size) { return size / sdf_size; }
+    inline f32 ascent() const { return m_ascent; }
+    inline f32 descent() const { return m_descent; }
+    inline f32 line_gap() const { return m_line_gap; }
+    inline f32 new_line() const { return (ascent() - descent()) + line_gap(); };
+	inline f32 scale(f32 size) { return size / sdf_size; }
 
     f32 find_kerning(Codepoint a, Codepoint b) const;
 

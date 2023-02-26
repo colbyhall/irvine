@@ -13,10 +13,10 @@ class Font;
 
 class Text final : public Shape {
 public:
-    FORCE_INLINE Text(StringView text, const Aabb2f32& bounds, const Font& font, f32 size)
+    inline Text(StringView text, const Aabb2f32& bounds, const Font& font, f32 size)
     : m_bounds(bounds), m_text(text), m_font(font), m_size(size) {}
 
-    FORCE_INLINE Text& monospace() { m_monospace = true; }
+    inline Text& monospace() { m_monospace = true; }
 
     // Shape Interface
     void triangulate(Canvas& canvas) const override;

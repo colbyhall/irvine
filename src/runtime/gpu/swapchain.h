@@ -25,10 +25,10 @@ class Swapchain {
 public:
     static Swapchain make(void* window_handle);
 
-    FORCE_INLINE const Texture& back_buffer() const { return m_interface->back_buffer(); }
-    FORCE_INLINE void present() { m_interface->present(); }
-    FORCE_INLINE void wait_for_previous() { m_interface->wait_for_previous(); }
-	FORCE_INLINE void resize() { m_interface->resize(); }
+    inline const Texture& back_buffer() const { return m_interface->back_buffer(); }
+    inline void present() { m_interface->present(); }
+    inline void wait_for_previous() { m_interface->wait_for_previous(); }
+	inline void resize() { m_interface->resize(); }
 
     template <typename T = SwapchainInterface>
     T const& interface() const {

@@ -15,31 +15,31 @@ struct Vec4 {
         T xyzw[4];
     };
 
-    FORCE_INLINE constexpr Vec4() : x(0), y(0), z(0), w(0) { }
-    FORCE_INLINE constexpr Vec4(T xyzw) : x(xyzw), y(xyzw), z(xyzw), w(xyzw) { }
-    FORCE_INLINE constexpr Vec4(T x, T y, T z, T w) : r(x), g(y), b(z), a(w) { }
-    FORCE_INLINE constexpr Vec4(Vec3<T> xyz, T w) : r(xyz.x), g(xyz.y), b(xyz.z), a(w) { }
+    inline constexpr Vec4() : x(0), y(0), z(0), w(0) { }
+    inline constexpr Vec4(T xyzw) : x(xyzw), y(xyzw), z(xyzw), w(xyzw) { }
+    inline constexpr Vec4(T x, T y, T z, T w) : r(x), g(y), b(z), a(w) { }
+    inline constexpr Vec4(Vec3<T> xyz, T w) : r(xyz.x), g(xyz.y), b(xyz.z), a(w) { }
 
-    FORCE_INLINE T dot(const Vec4& rhs) const;
-    FORCE_INLINE Option<Vec4<T>> normalized() const;
+    inline T dot(const Vec4& rhs) const;
+    inline Option<Vec4<T>> normalized() const;
 
-    FORCE_INLINE T len_sq() const { return dot(*this); }
-    FORCE_INLINE T len() const { return core::sqrt(len_sq()); }
-    FORCE_INLINE bool is_near_zero() const { return core::is_near_zero(len_sq()); }
-    FORCE_INLINE bool has_nan() const { return x == core::nan || y == core::nan || z == core::nan || w == core::nan; }
-    FORCE_INLINE bool has_infinite() const { return x == core::infinity || y == core::infinity || z == core::infinity || w == core::infinity; }
+    inline T len_sq() const { return dot(*this); }
+    inline T len() const { return core::sqrt(len_sq()); }
+    inline bool is_near_zero() const { return core::is_near_zero(len_sq()); }
+    inline bool has_nan() const { return x == core::nan || y == core::nan || z == core::nan || w == core::nan; }
+    inline bool has_infinite() const { return x == core::infinity || y == core::infinity || z == core::infinity || w == core::infinity; }
 
     template <typename D>
-    FORCE_INLINE Vec4<D> cast() const { return { (D)x, (D)y, (D)z, (D)w }; }
+    inline Vec4<D> cast() const { return { (D)x, (D)y, (D)z, (D)w }; }
 
-    FORCE_INLINE Vec4 operator+(const Vec4& b) const { return { x + b.x, y + b.y, z + b.z, w + b.w }; }
-    FORCE_INLINE Vec4 operator-(const Vec4& b) const { return { x - b.x, y - b.y, z - b.z, w - b.w }; }
-    FORCE_INLINE Vec4 operator*(const Vec4& b) const { return { x * b.x, y * b.y, z * b.z, w * b.w }; }
-    FORCE_INLINE Vec4 operator/(const Vec4& b) const { return { x / b.x, y / b.y, z / b.z, w / b.w }; }
-    FORCE_INLINE void operator+=(const Vec4& b) { *this = *this + b; }
-    FORCE_INLINE void operator-=(const Vec4& b) { *this = *this - b; }
-    FORCE_INLINE void operator*=(const Vec4& b) { *this = *this * b; }
-    FORCE_INLINE void operator/=(const Vec4& b) { *this = *this / b; }
+    inline Vec4 operator+(const Vec4& b) const { return { x + b.x, y + b.y, z + b.z, w + b.w }; }
+    inline Vec4 operator-(const Vec4& b) const { return { x - b.x, y - b.y, z - b.z, w - b.w }; }
+    inline Vec4 operator*(const Vec4& b) const { return { x * b.x, y * b.y, z * b.z, w * b.w }; }
+    inline Vec4 operator/(const Vec4& b) const { return { x / b.x, y / b.y, z / b.z, w / b.w }; }
+    inline void operator+=(const Vec4& b) { *this = *this + b; }
+    inline void operator-=(const Vec4& b) { *this = *this - b; }
+    inline void operator*=(const Vec4& b) { *this = *this * b; }
+    inline void operator/=(const Vec4& b) { *this = *this / b; }
 };
 
 CORE_NAMESPACE_END

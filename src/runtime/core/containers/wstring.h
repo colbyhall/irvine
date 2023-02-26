@@ -19,26 +19,26 @@ public:
     operator Slice<wchar const>() const;
     operator WStringView() const;
 
-    FORCE_INLINE wchar* ptr() { return m_chars.begin(); }
-    FORCE_INLINE wchar const* ptr() const { return m_chars.cbegin(); }
-    FORCE_INLINE const wchar* operator*() const { return m_chars.cbegin(); }
+    inline wchar* ptr() { return m_chars.begin(); }
+    inline wchar const* ptr() const { return m_chars.cbegin(); }
+    inline const wchar* operator*() const { return m_chars.cbegin(); }
 
-    FORCE_INLINE usize len() const { return m_chars.len() > 0 ? m_chars.len() - 1 : 0; }
-    FORCE_INLINE usize cap() const { return m_chars.cap(); }
-    FORCE_INLINE void set_len(usize len) {
+    inline usize len() const { return m_chars.len() > 0 ? m_chars.len() - 1 : 0; }
+    inline usize cap() const { return m_chars.cap(); }
+    inline void set_len(usize len) {
         m_chars.set_len(len + 1);
         m_chars[len] = 0;
     }
 
-    FORCE_INLINE wchar* begin() { return m_chars.begin(); }
-    FORCE_INLINE wchar* end() { return m_chars.end(); }
-    FORCE_INLINE const wchar* cbegin() const { return m_chars.cbegin(); }
-    FORCE_INLINE const wchar* cend() const { return m_chars.cend(); }
+    inline wchar* begin() { return m_chars.begin(); }
+    inline wchar* end() { return m_chars.end(); }
+    inline const wchar* cbegin() const { return m_chars.cbegin(); }
+    inline const wchar* cend() const { return m_chars.cend(); }
 
-    FORCE_INLINE wchar& operator[](usize index) { return m_chars[index]; }
-    FORCE_INLINE wchar operator[](usize index) const { return m_chars[index]; }
+    inline wchar& operator[](usize index) { return m_chars[index]; }
+    inline wchar operator[](usize index) const { return m_chars[index]; }
 
-    FORCE_INLINE void reserve(usize amount) { return m_chars.reserve(amount); }
+    inline void reserve(usize amount) { return m_chars.reserve(amount); }
     WString& push(wchar w);
     WString& push(WStringView string);
     WString& push(StringView string);

@@ -14,10 +14,10 @@ class World;
 
 class EntityRef : private NonCopyable {
 public:
-    FORCE_INLINE EntityRef(const World& world, EntityId entity) : m_world(&world), m_entity(entity) {}
+    inline EntityRef(const World& world, EntityId entity) : m_world(&world), m_entity(entity) {}
 
-    FORCE_INLINE EntityRef(EntityRef&& move) noexcept : m_world(move.m_world), m_entity(move.m_entity) {}
-    FORCE_INLINE EntityRef& operator=(EntityRef&& t) noexcept {
+    inline EntityRef(EntityRef&& move) noexcept : m_world(move.m_world), m_entity(move.m_entity) {}
+    inline EntityRef& operator=(EntityRef&& t) noexcept {
         m_world = t.m_world;
         m_entity = t.m_entity;
         return *this;
@@ -25,7 +25,7 @@ public:
 
     template<typename T>
     Option<const T&> get() const;
-    FORCE_INLINE EntityId id() const { return m_entity; }
+    inline EntityId id() const { return m_entity; }
 
 private:
     const World* m_world;
@@ -34,10 +34,10 @@ private:
 
 class EntityMut : private NonCopyable {
 public:
-    FORCE_INLINE EntityMut(World& world, EntityId entity) : m_world(&world), m_entity(entity) {}
+    inline EntityMut(World& world, EntityId entity) : m_world(&world), m_entity(entity) {}
 
-    FORCE_INLINE EntityMut(EntityMut&& move) noexcept : m_world(move.m_world), m_entity(move.m_entity) {}
-    FORCE_INLINE EntityMut& operator=(EntityMut&& t) noexcept {
+    inline EntityMut(EntityMut&& move) noexcept : m_world(move.m_world), m_entity(move.m_entity) {}
+    inline EntityMut& operator=(EntityMut&& t) noexcept {
         m_world = t.m_world;
         m_entity = t.m_entity;
         return *this;
@@ -50,7 +50,7 @@ public:
     template<typename T>
     Option<T&> get_mut() const;
 
-    FORCE_INLINE EntityId id() const { return m_entity; }
+    inline EntityId id() const { return m_entity; }
 
 private:
     World* m_world;

@@ -14,10 +14,10 @@ public:
     static Option<Library> open(PathView path);
     ~Library();
 
-    FORCE_INLINE Library(Library&& move) noexcept : m_handle(move.m_handle) {
+    inline Library(Library&& move) noexcept : m_handle(move.m_handle) {
         move.m_handle = nullptr;
     }
-    FORCE_INLINE Library& operator=(Library&& move) noexcept {
+    inline Library& operator=(Library&& move) noexcept {
         Library to_destroy = core::move(*this);
         m_handle = move.m_handle;
         move.m_handle = nullptr;
@@ -27,7 +27,7 @@ public:
     void* find(StringView name);
 
 private:
-    FORCE_INLINE Library(void* handle) : m_handle(handle) { }
+    inline Library(void* handle) : m_handle(handle) { }
 
     void* m_handle;
 };

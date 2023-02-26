@@ -18,7 +18,7 @@ public:
 		ComPtr<ID3D12Resource> resource = nullptr
 	);
 
-	FORCE_INLINE D3D12Texture(D3D12Texture&& move) noexcept :
+	inline D3D12Texture(D3D12Texture&& move) noexcept :
 		m_resource(core::move(move.m_resource)),
 		m_usage(move.m_usage),
 		m_format(move.m_format),

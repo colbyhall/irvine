@@ -77,18 +77,18 @@ public:
         const Vec3u32& size
     );
 
-    FORCE_INLINE TextureUsage usage() const { return m_interface->usage(); }
-    FORCE_INLINE Format format() const { return m_interface->format(); }
-    FORCE_INLINE Vec3u32 size() const { return m_interface->size(); }
-    FORCE_INLINE u32 bindless() const { return m_interface->bindless(); }
+    inline TextureUsage usage() const { return m_interface->usage(); }
+    inline Format format() const { return m_interface->format(); }
+    inline Vec3u32 size() const { return m_interface->size(); }
+    inline u32 bindless() const { return m_interface->bindless(); }
 
     template <typename T = TextureInterface>
-    FORCE_INLINE T const& interface() const {
+    inline T const& interface() const {
         static_assert(core::is_base_of<TextureInterface, T>, "T is not derived of TextureInterface");
         return static_cast<const T&>(*m_interface);
     }
 
-    FORCE_INLINE Texture clone() const { return m_interface.clone(); }
+    inline Texture clone() const { return m_interface.clone(); }
 
 private:
     Texture(Shared<TextureInterface, SMode::Atomic>&& interface) : m_interface(core::move(interface)) { }

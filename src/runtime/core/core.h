@@ -93,15 +93,6 @@
 	#define MSVC_SUPPRESS_WARNING(w)
 #endif
 
-// Define inline macro
-#if defined(COMPILER_CLANG) || defined(COMPILER_GCC)
-	#define FORCE_INLINE __inline__ __attribute__((always_inline))
-#elif defined(COMPILER_MSVC)
-	#define FORCE_INLINE __forceinline
-#else
-	#error Undefined
-#endif
-
 // Cache line size (used for aligning to cache line)
 #ifndef CACHE_LINE_SIZE
 	#define CACHE_LINE_SIZE 64

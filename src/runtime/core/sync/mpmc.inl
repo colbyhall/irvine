@@ -20,7 +20,7 @@ MPMCQueue<T> MPMCQueue<T>::make(usize size) {
 }
 
 template <typename T>
-FORCE_INLINE MPMCQueue<T>::MPMCQueue(MPMCQueue<T>&& move) noexcept :
+inline MPMCQueue<T>::MPMCQueue(MPMCQueue<T>&& move) noexcept :
 	m_buffer(move.m_buffer),
 	m_buffer_mask(move.m_buffer_mask),
 	m_enqueue_pos(move.m_enqueue_pos.load(Order::Relaxed)),
@@ -30,7 +30,7 @@ FORCE_INLINE MPMCQueue<T>::MPMCQueue(MPMCQueue<T>&& move) noexcept :
 }
 
 template <typename T>
-FORCE_INLINE MPMCQueue<T>& MPMCQueue<T>::operator=(MPMCQueue<T>&& move) noexcept {
+inline MPMCQueue<T>& MPMCQueue<T>::operator=(MPMCQueue<T>&& move) noexcept {
 	// FIXME: Is this the best way to do this
 	MPMCQueue<T> to_destroy = core::move(*this);
 	m_buffer = move.m_ptr;
@@ -74,7 +74,7 @@ bool MPMCQueue<T>::push(T&& t) const {
 }
 
 template <typename T>
-FORCE_INLINE bool MPMCQueue<T>::push(const T& t) const {
+inline bool MPMCQueue<T>::push(const T& t) const {
 	T copy = t;
 	return push(core::move(copy));
 }

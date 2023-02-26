@@ -15,7 +15,7 @@ struct Mat4 {
         T elements[4 * 4];
     };
 
-    FORCE_INLINE constexpr Mat4() : x(0), y(0), z(0), w(0) {}
+    inline constexpr Mat4() : x(0), y(0), z(0), w(0) {}
 
     static constexpr Mat4 from_columns(Vec4<T> x, Vec4<T> y, Vec4<T> z, Vec4<T> w);
     static constexpr Mat4 from_rows(Vec4<T> x, Vec4<T> y, Vec4<T> z, Vec4<T> w);
@@ -33,7 +33,7 @@ struct Mat4 {
     Vec4<T> operator*(const Vec4<T>& rhs) const;
 
 private:
-    FORCE_INLINE constexpr Mat4(Vec4<T> _x, Vec4<T> _y, Vec4<T> _z, Vec4<T> _w)
+    inline constexpr Mat4(Vec4<T> _x, Vec4<T> _y, Vec4<T> _z, Vec4<T> _w)
         : x(_x), y(_y), z(_z), w(_w) {}
 };
 

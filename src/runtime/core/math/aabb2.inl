@@ -15,7 +15,7 @@ constexpr Aabb2<T> Aabb2<T>::from_min_max(const Vec2<T>& min, const Vec2<T>& max
 }
 
 template <typename T>
-FORCE_INLINE Vec2<T> Aabb2<T>::bottom_right() const {
+inline Vec2<T> Aabb2<T>::bottom_right() const {
 	auto result = m_position;
 	result.x += m_half_size.x;
 	result.y -= m_half_size.y;
@@ -23,7 +23,7 @@ FORCE_INLINE Vec2<T> Aabb2<T>::bottom_right() const {
 }
 
 template <typename T>
-FORCE_INLINE Vec2<T> Aabb2<T>::top_left() const {
+inline Vec2<T> Aabb2<T>::top_left() const {
 	auto result = m_position;
 	result.x -= m_half_size.x;
 	result.y += m_half_size.y;

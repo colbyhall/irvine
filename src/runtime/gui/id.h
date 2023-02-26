@@ -10,21 +10,21 @@ GUI_NAMESPACE_BEGIN
 class Id {
 public:
 	template <typename T>
-	FORCE_INLINE explicit Id(const T& t) {
+	inline explicit Id(const T& t) {
 		FNV1Hasher hasher;
 		hash(hasher, t);
 		m_value = hasher.finish();
 	}
 
-	FORCE_INLINE static Id from_raw(u64 value) {
+	inline static Id from_raw(u64 value) {
 		Id result = {};
 		result.m_value = value;
 		return result;
 	}
 
-	FORCE_INLINE bool operator==(const Id& rhs) const { return m_value == rhs.m_value; }
-	FORCE_INLINE bool operator!=(const Id& rhs) const { return m_value != rhs.m_value; }
-	FORCE_INLINE operator u64() const { return m_value; }
+	inline bool operator==(const Id& rhs) const { return m_value == rhs.m_value; }
+	inline bool operator!=(const Id& rhs) const { return m_value != rhs.m_value; }
+	inline operator u64() const { return m_value; }
 
 private:
 	Id() = default;

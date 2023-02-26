@@ -41,7 +41,7 @@ void Vec3<T>::orthonormal_basis(Vec3<T>& f, Vec3<T>& r, Vec3<T>& u) {
 }
 
 template <typename T>
-FORCE_INLINE Vec3<T> Vec3<T>::cross(const Vec3<T>& rhs) const {
+inline Vec3<T> Vec3<T>::cross(const Vec3<T>& rhs) const {
 	return {
 		y * rhs.z - rhs.y * z,
 		z * rhs.x - rhs.z * x,
@@ -50,7 +50,7 @@ FORCE_INLINE Vec3<T> Vec3<T>::cross(const Vec3<T>& rhs) const {
 }
 
 template <typename T>
-FORCE_INLINE Option<Vec3<T>> Vec3<T>::normalized() const {
+inline Option<Vec3<T>> Vec3<T>::normalized() const {
 	if (!is_near_zero()) {
 		return *this / len();
 	}

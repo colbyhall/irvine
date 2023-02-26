@@ -3,7 +3,7 @@
 CORE_NAMESPACE_BEGIN
 
 template <typename T, SMode Mode, typename... Args>
-FORCE_INLINE Shared<T, Mode> make_shared(Args&&... args) {
+inline Shared<T, Mode> make_shared(Args&&... args) {
 	constexpr auto counter_layout = core::Layout::single<SharedCounter<Mode>>;
 	auto layout = core::Layout::single<T>;
 	layout.alignment = core::max(layout.alignment, counter_layout.alignment);

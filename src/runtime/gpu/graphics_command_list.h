@@ -67,7 +67,7 @@ class GraphicsCommandList {
 public:
     static GraphicsCommandList record(FunctionRef<void(GraphicsCommandRecorder&)> callable);
     void submit();
-	FORCE_INLINE GraphicsCommandList clone() const { return m_interface.clone(); }
+	inline GraphicsCommandList clone() const { return m_interface.clone(); }
 
 private:
     GraphicsCommandList(Shared<GraphicsCommandListInterface, SMode::Atomic>&& interface)
@@ -89,7 +89,7 @@ public:
     );
 
 private:
-    FORCE_INLINE GraphicsCommandRecorder(GraphicsCommandListInterface& interface) : m_interface(interface) {}
+    inline GraphicsCommandRecorder(GraphicsCommandListInterface& interface) : m_interface(interface) {}
     friend class GraphicsCommandList;
 
     GraphicsCommandListInterface& m_interface;
@@ -107,7 +107,7 @@ public:
     RenderPassRecorder& draw_index(usize index_count, usize first_index = 0);
 
 private:
-    FORCE_INLINE RenderPassRecorder(GraphicsCommandListInterface& interface) : m_interface(interface) {}
+    inline RenderPassRecorder(GraphicsCommandListInterface& interface) : m_interface(interface) {}
     friend class GraphicsCommandRecorder;
 
     GraphicsCommandListInterface& m_interface;
