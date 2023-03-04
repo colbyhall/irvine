@@ -3,7 +3,6 @@
 #pragma once
 
 #include <core/non_copyable.h>
-#include <core/containers/allocators.h>
 #include <core/containers/option.h>
 #include <core/containers/slice.h>
 
@@ -12,7 +11,7 @@ CORE_NAMESPACE_BEGIN
 template <typename T>
 class Array : private NonCopyable {
 public:
-    inline Array() = default;
+	inline Array() = default;
 	explicit inline Array(Slice<const T> slice);
 	inline Array(Array<T>&& move) noexcept;
 	inline Array& operator=(Array<T>&& move) noexcept;
@@ -39,7 +38,6 @@ public:
 	inline Option<T&> last_mut();
 	inline Option<T const&> last() const;
 
-	// FIXME: Delete the items that are lost and initialize any gained to default
 	inline void set_len(usize len);
 
 	void reserve(usize amount);
@@ -52,9 +50,9 @@ public:
 	inline Option<T> pop();
 
 private:
-    T* m_ptr = nullptr;
-    usize m_len = 0;
-    usize m_cap = 0;
+	T* m_ptr = nullptr;
+	usize m_len = 0;
+	usize m_cap = 0;
 
 };
 

@@ -9,63 +9,65 @@
 CORE_NAMESPACE_BEGIN
 
 BITFLAG(FileFlags) {
-    FF_Read = (1 << 0),
-    FF_Write = (1 << 1),
-    FF_Create = (1 << 2)
+	FF_Read = (1 << 0),
+	FF_Write = (1 << 1),
+	FF_Create = (1 << 2)
 };
 
 enum class FileOpenError : u8 {
-    NotFound,
-    InUse
+	NotFound,
+	InUse
 };
 
 enum class Seek : u8 {
-    Begin,
-    Current,
-    End
+	Begin,
+	Current,
+	End
 };
 
 class File : private NonCopyable {
 public:
-    static Result<File, FileOpenError> open(PathView path, FileFlags flags);
+	static Result<File, FileOpenError> open(PathView path, FileFlags flags);
 
-    inline File(File&& move) noexcept : m_handle(move.m_handle), m_flags(move.m_flags), m_cursor(0) {
-        move.m_handle = nullptr;
-    }
-    inline File& operator=(File&& move) noexcept {
-        File to_destroy = core::move(*this);
-        m_handle = move.m_handle;
-        m_flags = move.m_flags;
-        move.m_handle = nullptr;
-        return *this;
-    }
+	inline File(File&& move) noexcept
+		: m_handle(move.m_handle), m_flags(move.m_flags), m_cursor(0) {
+		move.m_handle = nullptr;
+	}
+	inline File& operator=(File&& move) noexcept {
+		File to_destroy = core::move(*this);
+		m_handle = move.m_handle;
+		m_flags = move.m_flags;
+		move.m_handle = nullptr;
+		return *this;
+	}
 
-    usize size() const;
-    usize cursor() const { return m_cursor; }
-    usize seek(Seek method, isize distance);
-    inline void rewind() { seek(Seek::Begin, 0); }
-    void set_eof();
+	usize size() const;
+	usize cursor() const { return m_cursor; }
+	usize seek(Seek method, isize distance);
+	inline void rewind() { seek(Seek::Begin, 0); }
+	void set_eof();
 
-    usize read(Slice<u8> buffer);
-    void write(Slice<const u8> buffer);
+	usize read(Slice<u8> buffer);
+	void write(Slice<const u8> buffer);
 
-    ~File();
+	~File();
 
 private:
-    inline File(void* handle, FileFlags flags) : m_handle(handle), m_flags(flags), m_cursor(0) {}
+	inline File(void* handle, FileFlags flags)
+		: m_handle(handle), m_flags(flags), m_cursor(0) {}
 
-    void* m_handle;
-    FileFlags m_flags;
-    usize m_cursor;
+	void* m_handle;
+	FileFlags m_flags;
+	usize m_cursor;
 };
 
 struct MetaData {
-    u64 creation_time;
-    u64 last_access_time;
-    u64 last_write_time;
+	u64 creation_time;
+	u64 last_access_time;
+	u64 last_write_time;
 
-    usize size;
-    bool read_only;
+	usize size;
+	bool read_only;
 };
 
 Result<String, FileOpenError> read_to_string(PathView path);

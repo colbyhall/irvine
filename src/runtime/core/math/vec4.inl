@@ -4,7 +4,7 @@ CORE_NAMESPACE_BEGIN
 
 template <typename T>
 inline T Vec4<T>::dot(const Vec4<T>& rhs) const {
-    return x * rhs.x + y * rhs.y + z * rhs.z + w * rhs.w;
+	return x * rhs.x + y * rhs.y + z * rhs.z + w * rhs.w;
 }
 
 template <typename T>

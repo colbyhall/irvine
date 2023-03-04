@@ -41,25 +41,25 @@ struct Round {
 
 class Rect final : public Shape {
 public:
-    inline Rect(const Aabb2f32& bounds)
-        : m_bounds(bounds), m_uv0(0), m_uv1(0), m_texture(0) {}
+	inline Rect(const Aabb2f32& bounds)
+		: m_bounds(bounds), m_uv0(0), m_uv1(0), m_texture(0) {}
 
-    Rect& texture(const gpu::Texture& texture, Vec2f32 uv0 = 0.f, Vec2f32 uv1 = 1.f);
+	Rect& texture(const gpu::Texture& texture, Vec2f32 uv0 = 0.f, Vec2f32 uv1 = 1.f);
 	Rect& stroke(f32 size);
 	Rect& round(Round round);
 
-    // Shape
-    void triangulate(Canvas& canvas) const override;
-    // ~Shape
+	// Shape
+	void triangulate(Canvas& canvas) const override;
+	// ~Shape
 
 private:
-    Aabb2f32 m_bounds;
+	Aabb2f32 m_bounds;
 
 	Option<f32> m_stroke;
 	Round m_round;
 
-    Vec2f32 m_uv0, m_uv1;
-    u32 m_texture;
+	Vec2f32 m_uv0, m_uv1;
+	u32 m_texture;
 };
 
 DRAW_NAMESPACE_END

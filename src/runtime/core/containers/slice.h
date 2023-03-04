@@ -24,11 +24,11 @@ public:
 		return *this;
 	}
 
-	inline Slice(Slice<T>&& m) : m_ptr(m.m_ptr), m_len(m.m_len) {
+	inline Slice(Slice<T>&& m) noexcept : m_ptr(m.m_ptr), m_len(m.m_len) {
 		m.m_ptr = nullptr;
 		m.m_len = 0;
 	}
-	inline Slice<T>& operator=(Slice<T>&& m) {
+	inline Slice<T>& operator=(Slice<T>&& m) noexcept {
 		m_ptr = m.m_ptr;
 		m_len = m.m_len;
 

@@ -40,7 +40,8 @@ public:
 	inline Handle handle() const { return m_handle; }
 
 private:
-	inline explicit Fiber(bool thread, Handle handle) : m_thread(thread), m_handle(handle) {}
+	inline explicit Fiber(bool thread, Handle handle) :
+		m_thread(thread), m_handle(handle) {}
 
 	bool m_thread;
 	Handle m_handle;

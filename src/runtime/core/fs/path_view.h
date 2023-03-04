@@ -8,18 +8,19 @@ CORE_NAMESPACE_BEGIN
 
 class PathView {
 public:
-    inline constexpr PathView() : m_string() {}
-    inline constexpr PathView(Slice<char const> bytes) : m_string(bytes) {}
-    inline constexpr PathView(const char* ptr) : m_string({ ptr, core::strlen(ptr) }) {}
+	inline constexpr PathView() {}
+	inline constexpr PathView(Slice<char const> bytes) : m_string(bytes) {}
+	inline constexpr PathView(const char* ptr)
+		: m_string({ ptr, core::strlen(ptr) }) {}
 
-    inline operator StringView() const { return m_string; }
-    inline const char* operator*() const { return *m_string; }
+	inline operator StringView() const { return m_string; }
+	inline const char* operator*() const { return *m_string; }
 
-    inline usize len() const { return m_string.len(); }
-    inline CharsIterator chars() const { return CharsIterator(m_string); }
+	inline usize len() const { return m_string.len(); }
+	inline CharsIterator chars() const { return CharsIterator(m_string); }
 
 private:
-    StringView m_string;
+	StringView m_string;
 };
 
 CORE_NAMESPACE_END

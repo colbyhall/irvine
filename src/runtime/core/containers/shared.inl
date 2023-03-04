@@ -14,7 +14,7 @@ inline Shared<T, Mode> make_shared(Args&&... args) {
 	ptr = &((SharedCounter<Mode>*)ptr)[1];
 	new (ptr) T(forward<Args>(args)...);
 
-    return Shared<T, Mode>(result);
+	return Shared<T, Mode>(result);
 }
 
 template <typename Base, SMode Mode>

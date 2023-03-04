@@ -26,13 +26,13 @@ public:
 		move.m_resource = nullptr;
 	}
 
-    // BufferInterface
+	// BufferInterface
 	BufferUsage usage() const override { return m_usage; }
 	BufferKind kind() const override { return m_kind; }
 	usize len() const override { return m_len; }
 	usize stride() const override { return m_stride; }
-    void map(FunctionRef<void (Slice<u8>)>& func) override;
-    // ~BufferInterface
+	void map(FunctionRef<void (Slice<u8>)>& func) override;
+	// ~BufferInterface
 
 	BufferUsage m_usage;
 	BufferKind m_kind;

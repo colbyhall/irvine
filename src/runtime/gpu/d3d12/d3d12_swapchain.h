@@ -23,12 +23,12 @@ public:
 		m_fence_value(move.m_fence_value) {}
 
 
-    // SwapchainInterface
+	// SwapchainInterface
 	const Texture& back_buffer() const override;
 	void present() override;
 	void wait_for_previous() override;
 	void resize() override;
-    // ~SwapchainInterface
+	// ~SwapchainInterface
 
 private:
 	HWND m_hwnd;

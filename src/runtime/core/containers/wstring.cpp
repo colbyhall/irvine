@@ -52,7 +52,7 @@ WString::operator WStringView() const {
 	// Exclude the null terminator
 	bytes.shrink(m_chars.len() - len());
 
-	return WStringView(bytes);
+	return bytes;
 }
 
 WString& WString::push(wchar w) {

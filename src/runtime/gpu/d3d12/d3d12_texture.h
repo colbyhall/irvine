@@ -33,13 +33,13 @@ public:
 		move.m_bindless_handle = {};
 	}
 
-    // TextureInterface
-    TextureUsage usage() const override { return m_usage; }
+	// TextureInterface
+	TextureUsage usage() const override { return m_usage; }
 	Format format() const override { return m_format; }
 	Vec3u32 size() const override { return m_size; }
 	u32 bindless() const override { return m_bindless_handle.index; }
 	~D3D12Texture() override;
-    // ~TextureInterface
+	// ~TextureInterface
 
 	ComPtr<ID3D12Resource> m_resource;
 	TextureUsage m_usage;

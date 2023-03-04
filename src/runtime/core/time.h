@@ -14,7 +14,7 @@ constexpr u64 micros_per_sec = 1000000;
 
 class Duration {
 public:
-    inline constexpr explicit Duration(u64 secs, u32 nanos) : m_secs(secs), m_nanos(nanos) { }
+	inline constexpr explicit Duration(u64 secs, u32 nanos) : m_secs(secs), m_nanos(nanos) { }
 	inline static Duration from_millis(u64 millis) {
 		return Duration(millis / millis_per_sec, (u32)(millis & millis_per_sec));
 	}
@@ -32,21 +32,21 @@ public:
 	}
 
 private:
-    u64 m_secs;
-    u32 m_nanos;
+	u64 m_secs;
+	u32 m_nanos;
 };
 
 class Instant {
 public:
-    static Instant now();
+	static Instant now();
 
-    Duration duration_since(Instant earlier) const;
-    inline Duration elapsed() const { return Instant::now().duration_since(*this); }
+	Duration duration_since(Instant earlier) const;
+	inline Duration elapsed() const { return Instant::now().duration_since(*this); }
 
 private:
-    inline  constexpr Instant(u64 ticks) : m_tick(ticks) { }
+	inline  constexpr Instant(u64 ticks) : m_tick(ticks) { }
 
-    u64 m_tick;
+	u64 m_tick;
 };
 
 CORE_NAMESPACE_END

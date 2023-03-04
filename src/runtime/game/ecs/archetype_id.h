@@ -12,23 +12,23 @@ constexpr usize archetype_id_width = 64; // max components is archetype_id_width
 
 class ArchetypeId {
 public:
-    ArchetypeId() = default;
+	ArchetypeId() = default;
 
-    ArchetypeId& with(const ComponentId& id);
-    bool contains(const ComponentId& id) const;
-    bool contains(const ArchetypeId& id) const;
+	ArchetypeId& with(const ComponentId& id);
+	bool contains(const ComponentId& id) const;
+	bool contains(const ArchetypeId& id) const;
 
-    inline bool operator==(const ArchetypeId& rhs) const {
-        for (usize i = 0; i < archetype_id_width; ++i) {
-            if (m_bitsets[i] != rhs.m_bitsets[i]) return false;
-        }
-        return true;
-    }
+	inline bool operator==(const ArchetypeId& rhs) const {
+		for (usize i = 0; i < archetype_id_width; ++i) {
+			if (m_bitsets[i] != rhs.m_bitsets[i]) return false;
+		}
+		return true;
+	}
 
-    inline bool operator!=(const ArchetypeId& rhs) const { return !(*this == rhs); }
+	inline bool operator!=(const ArchetypeId& rhs) const { return !(*this == rhs); }
 
 private:
-    u64 m_bitsets[archetype_id_width] = {};
+	u64 m_bitsets[archetype_id_width] = {};
 };
 
 GAME_NAMESPACE_END

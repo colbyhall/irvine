@@ -18,7 +18,7 @@ constexpr inline T max(T a, T b) { return a > b ? a : b; }
 
 template <typename T>
 constexpr inline T clamp(T value, T min, T max) {
-    return core::min<T>(core::max<T>(value, min), max);
+	return core::min<T>(core::max<T>(value, min), max);
 }
 
 template <typename T>

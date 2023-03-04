@@ -13,22 +13,22 @@ class Font;
 
 class Text final : public Shape {
 public:
-    inline Text(StringView text, const Aabb2f32& bounds, const Font& font, f32 size)
-    : m_bounds(bounds), m_text(text), m_font(font), m_size(size) {}
+	inline Text(StringView text, const Aabb2f32& bounds, const Font& font, f32 size)
+		: m_bounds(bounds), m_text(text), m_font(font), m_size(size) {}
 
-    inline Text& monospace() { m_monospace = true; }
+	inline Text& monospace() { m_monospace = true; }
 
-    // Shape Interface
-    void triangulate(Canvas& canvas) const override;
-    // ~Shape Interface
+	// Shape Interface
+	void triangulate(Canvas& canvas) const override;
+	// ~Shape Interface
 
 private:
-    Aabb2f32 m_bounds;
-    StringView m_text;
-    const Font& m_font;
-    f32 m_size;
+	Aabb2f32 m_bounds;
+	StringView m_text;
+	const Font& m_font;
+	f32 m_size;
 
-    bool m_monospace = false;
+	bool m_monospace = false;
 };
 
 DRAW_NAMESPACE_END

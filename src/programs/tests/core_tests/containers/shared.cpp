@@ -16,7 +16,8 @@ struct Derived : public Base {
 };
 
 TEST_CASE("Shared Pointers") {
-	Shared<Base, SMode::Atomic> shared = make_shared<Derived, SMode::Atomic>(1, 2);
+	Shared<Base, SMode::Atomic> shared
+		= make_shared<Derived, SMode::Atomic>(1, 2);
 	CHECK(shared->a == 1);
 	CHECK(shared.strong() == 1);
 	auto other = shared.clone();

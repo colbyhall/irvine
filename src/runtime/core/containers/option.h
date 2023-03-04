@@ -8,10 +8,13 @@
 
 CORE_NAMESPACE_BEGIN
 
+// Alias nullptr for readability
+constexpr NullPtr none = nullptr;
+
 template <typename T, typename Enable = void>
 class Option {
 public:
-    Option() = default;
+	Option() = default;
 	inline constexpr Option(NullPtr) : m_set(false), m_data() {}
 	inline Option(T&& t) : m_set(true), m_data() {
 		auto* p = m_data;
@@ -22,6 +25,8 @@ public:
 		new (p) T(t);
 	}
 
+	// Non trivially copyable Option's do not allow the use of the copy
+	// operators
 	Option(const Option<T>& copy) = delete;
 	Option& operator=(const Option<T>& copy) = delete;
 
@@ -68,9 +73,8 @@ public:
 			auto* p = reinterpret_cast<T*>(&m_data[0]);
 			return Option<T&>(*p);
 		}
-		else {
-			return Option<T&>();
-		}
+
+		return Option<T&>();
 	}
 
 	inline Option<T const&> as_ref() const {
@@ -78,9 +82,8 @@ public:
 			auto* p = reinterpret_cast<T const*>(&m_data[0]);
 			return Option<T const&>(*p);
 		}
-		else {
-			return Option<T const&>();
-		}
+
+		return Option<T const&>();
 	}
 
 	~Option() {
@@ -92,8 +95,8 @@ public:
 	}
 
 private:
-    bool m_set = false;
-    alignas(T) u8 m_data[sizeof(T)];
+	bool m_set = false;
+	alignas(T) u8 m_data[sizeof(T)] = {};
 };
 
 template <typename T>
@@ -148,7 +151,7 @@ public:
 
 private:
 	bool m_set = false;
-	alignas(T) u8 m_data[sizeof(T)];
+	alignas(T) u8 m_data[sizeof(T)] = {};
 };
 
 template <typename T>

@@ -10,8 +10,8 @@ class Canvas;
 
 class Shape {
 public:
-    virtual void triangulate(Canvas& canvas) const = 0;
-    virtual ~Shape() {}
+	virtual void triangulate(Canvas& canvas) const = 0;
+	virtual ~Shape() {}
 };
 
 DRAW_NAMESPACE_END

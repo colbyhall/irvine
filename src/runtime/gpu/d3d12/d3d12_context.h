@@ -73,13 +73,13 @@ struct D3D12QueuedWork {
 };
 
 class D3D12Context : public ContextInterface {
-    using FnCreateDevice = PFN_D3D12_CREATE_DEVICE;
-    using FnSerializeRootSignature = PFN_D3D12_SERIALIZE_ROOT_SIGNATURE;
-    using FnGetDebugInterface = PFN_D3D12_GET_DEBUG_INTERFACE;
+	using FnCreateDevice = PFN_D3D12_CREATE_DEVICE;
+	using FnSerializeRootSignature = PFN_D3D12_SERIALIZE_ROOT_SIGNATURE;
+	using FnGetDebugInterface = PFN_D3D12_GET_DEBUG_INTERFACE;
 	using FnCreateDXGIFactory2 = PFN_DXGI1_3_CREATE_DXGI_FACTORY2;
 
 public:
-    explicit D3D12Context();
+	explicit D3D12Context();
 
 	inline D3D12Context(D3D12Context&& move) noexcept :
 		d3d12_library(core::move(move.d3d12_library)),
@@ -99,27 +99,27 @@ public:
 		bindless_heap(core::move(move.bindless_heap)),
 		bindless_texture(core::move(move.bindless_texture)) { }
 
-    // ContextInterface
-    Backend backend() const override { return Backend::D3D12; }
-    void post_init() override;
+	// ContextInterface
+	Backend backend() const override { return Backend::D3D12; }
+	void post_init() override;
 	void flush_queue() const override;
-    // ~ContextInterface
+	// ~ContextInterface
 
-    Library d3d12_library;
-    FnCreateDevice create_device;
-    FnSerializeRootSignature serialize_root_signature;
+	Library d3d12_library;
+	FnCreateDevice create_device;
+	FnSerializeRootSignature serialize_root_signature;
 	FnGetDebugInterface get_debug_interface;
 
-    ComPtr<ID3D12Device1> device;
+	ComPtr<ID3D12Device1> device;
 	ComPtr<IDXGIFactory4> factory;
 	ComPtr<ID3D12CommandQueue> queue;
-    ComPtr<ID3D12CommandAllocator> command_allocator;
+	ComPtr<ID3D12CommandAllocator> command_allocator;
 
 #ifdef BUILD_DEBUG
 	ComPtr<ID3D12Debug> debug_interface;
 #endif
 
-    ComPtr<ID3D12RootSignature> root_signature;
+	ComPtr<ID3D12RootSignature> root_signature;
 	D3D12FreeSlotDescriptorHeap rtv_heap;
 	D3D12FreeSlotDescriptorHeap dsv_heap;
 

@@ -31,8 +31,11 @@ static void read_directory_impl(PathView path, bool recursive, ReadDirFunction& 
 
 	do {
 		// Check to see if cFileName is "." or ".."
-		bool invalid = find_data.cFileName[0] == L'.' && find_data.cFileName[1] == 0;
-		invalid |= find_data.cFileName[0] == L'.' && find_data.cFileName[1] == L'.' && find_data.cFileName[2] == 0;
+		bool invalid = find_data.cFileName[0] == L'.' &&
+			find_data.cFileName[1] == 0;
+		invalid |= find_data.cFileName[0] == L'.' &&
+			find_data.cFileName[1] == L'.' &&
+			find_data.cFileName[2] == 0;
 		if (invalid) continue;
 
 		wpath.set_len(wpath_len);

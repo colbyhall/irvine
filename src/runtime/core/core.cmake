@@ -16,7 +16,6 @@ set(CORE_SRC_FILES
 	${CORE_ROOT}/library.cpp
 	${CORE_ROOT}/time.h
 	${CORE_ROOT}/time.cpp
-	${CORE_ROOT}/containers/allocators.h
 	${CORE_ROOT}/containers/array.h
 	${CORE_ROOT}/containers/array.inl
 	${CORE_ROOT}/containers/bucket_array.h
@@ -84,8 +83,8 @@ set(CORE_SRC_FILES
 )
 
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
-    # Add natvis file
-    set(CORE_SRC_FILES ${CORE_SRC_FILES} ${CORE_ROOT}/core.natvis)
+	# Add natvis file
+	set(CORE_SRC_FILES ${CORE_SRC_FILES} ${CORE_ROOT}/core.natvis)
 endif()
 
 # Group source files

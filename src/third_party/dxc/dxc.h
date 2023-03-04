@@ -25,14 +25,14 @@ using gpu::ShaderType;
 using gpu::InputParameter;
 
 struct Input {
-    StringView source;
-    StringView main;
-    ShaderType type;
+	StringView source;
+	StringView main;
+	ShaderType type;
 };
 
 struct Output {
-    Array<u8> binary;
-    Array<InputParameter> input_parameters;
+	Array<u8> binary;
+	Array<InputParameter> input_parameters;
 };
 
 Result<Output, String> compile(const Input& input);

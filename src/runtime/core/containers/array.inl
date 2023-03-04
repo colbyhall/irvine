@@ -3,7 +3,8 @@
 CORE_NAMESPACE_BEGIN
 
 template <typename T>
-inline Array<T>::Array(Slice<const T> slice) : m_ptr(nullptr), m_len(slice.len()), m_cap(0) {
+inline Array<T>::Array(Slice<const T> slice)
+	: m_ptr(nullptr), m_len(slice.len()), m_cap(0) {
 	reserve(slice.len());
 	for (u32 i = 0; i < slice.len(); ++i) {
 		T copy = slice[i];
@@ -76,7 +77,6 @@ inline void Array<T>::set_len(usize len) {
 
 template <typename T>
 void Array<T>::reserve(usize amount) {
-	// FIXME: Find proper way of allocating in larger blocks to prevent allocation per push
 	const auto old_cap = m_cap;
 	auto new_cap = old_cap + amount;
 	while (m_cap < new_cap) {
@@ -84,13 +84,15 @@ void Array<T>::reserve(usize amount) {
 		m_cap += 1;
 	}
 
-	// FIXME: Custom allocator support
 	if (m_ptr == nullptr) {
 		void* ptr = core::alloc(core::Layout::array<T>(m_cap));
 		m_ptr = static_cast<T*>(ptr);
 	}
 	else {
-		void* ptr = core::realloc(m_ptr, core::Layout::array<T>(old_cap), core::Layout::array<T>(m_cap));
+		void* ptr = core::realloc(
+			m_ptr, core::Layout::array<T>(old_cap),
+			core::Layout::array<T>(m_cap)
+		);
 		m_ptr = static_cast<T*>(ptr);
 	}
 }

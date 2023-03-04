@@ -17,19 +17,19 @@ class D3D12GraphicsCommandList : public GraphicsCommandListInterface {
 public:
 	explicit D3D12GraphicsCommandList();
 
-    inline D3D12GraphicsCommandList(D3D12GraphicsCommandList&& move) noexcept :
-        m_command_list(move.m_command_list),
-        m_bound_color_buffer(core::move(move.m_bound_color_buffer)),
-        m_bound_depth_buffer(core::move(move.m_bound_depth_buffer)),
-        m_textures_in_use(core::move(move.m_textures_in_use)),
-        m_buffers_in_use(core::move(move.m_buffers_in_use))
+	inline D3D12GraphicsCommandList(D3D12GraphicsCommandList&& move) noexcept :
+		m_command_list(move.m_command_list),
+		m_bound_color_buffer(core::move(move.m_bound_color_buffer)),
+		m_bound_depth_buffer(core::move(move.m_bound_depth_buffer)),
+		m_textures_in_use(core::move(move.m_textures_in_use)),
+		m_buffers_in_use(core::move(move.m_buffers_in_use))
 	{
-        //m_command_list.Reset();
-        m_bound_color_buffer = nullptr;
-        m_bound_depth_buffer = nullptr;
+		//m_command_list.Reset();
+		m_bound_color_buffer = nullptr;
+		m_bound_depth_buffer = nullptr;
 	}
 
-    // GraphicsCommandListInterface
+	// GraphicsCommandListInterface
 	void begin_recording() override;
 	void copy_buffer_to_texture(const Texture& dst, const Buffer& src) override;
 	void copy_buffer_to_buffer(const Buffer& dst, const Buffer& src) override;
@@ -47,7 +47,7 @@ public:
 	void end_render_pass() override;
 	void end_recording() override;
 	void submit(const GraphicsCommandList& command_list) override;
-    // ~GraphicsCommandListInterface
+	// ~GraphicsCommandListInterface
 
 private:
 	ComPtr<ID3D12GraphicsCommandList> m_command_list;

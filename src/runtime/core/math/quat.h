@@ -9,24 +9,24 @@ CORE_NAMESPACE_BEGIN
 
 template <typename T>
 struct Quat {
-    T i, j, k, w;
+	T i, j, k, w;
 
-    inline constexpr Quat() : i(0), j(0), k(0), w(1) {}
-    inline explicit Quat(T _i, T _j, T _k, T _w) : i(_i), j(_j), k(_k), w(_w) {}
-    static Quat from_axis_angle(Vec3<T> axis, T theta);
-    static Quat from_euler(T pitch, T yaw, T roll);
+	inline constexpr Quat() : i(0), j(0), k(0), w(1) {}
+	inline explicit Quat(T _i, T _j, T _k, T _w) : i(_i), j(_j), k(_k), w(_w) {}
+	static Quat from_axis_angle(Vec3<T> axis, T theta);
+	static Quat from_euler(T pitch, T yaw, T roll);
 
-    static const Quat identity;
+	static const Quat identity;
 
-    Option<Quat> normalized() const;
-    inline Quat inverse() const { return Quat{ -i, -j, -k, w }; }
-    Vec3<T> rotate_vector(const Vec3<T>& xyz) const;
+	Option<Quat> normalized() const;
+	inline Quat inverse() const { return Quat{ -i, -j, -k, w }; }
+	Vec3<T> rotate_vector(const Vec3<T>& xyz) const;
 
-    inline T len_sq() const { return i * i + j * j + k * k + w * w; }
-    inline T len() const { return core::sqrt(len_sq()); }
-    inline bool is_near_zero() const { return core::is_near_zero(len_sq()); }
+	inline T len_sq() const { return i * i + j * j + k * k + w * w; }
+	inline T len() const { return core::sqrt(len_sq()); }
+	inline bool is_near_zero() const { return core::is_near_zero(len_sq()); }
 
-    Quat operator*(const Quat& rhs) const;
+	Quat operator*(const Quat& rhs) const;
 };
 
 CORE_NAMESPACE_END

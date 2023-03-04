@@ -10,28 +10,28 @@ CORE_NAMESPACE_BEGIN
 template <usize size, typename T>
 class BucketArray {
 public:
-    struct Bucket {
-        Array<T> values;
-    };
+	struct Bucket {
+		Array<T> values;
+	};
 
-    inline BucketArray() = default;
+	inline BucketArray() = default;
 
-    usize len() const;
-    usize cap() const;
+	usize len() const;
+	usize cap() const;
 
-    inline bool is_empty() const { return len() == 0; }
-    inline explicit operator bool() const { return !is_empty(); }
-    inline bool is_valid_index(usize index) const { return index < len(); }
+	inline bool is_empty() const { return len() == 0; }
+	inline explicit operator bool() const { return !is_empty(); }
+	inline bool is_valid_index(usize index) const { return index < len(); }
 
-    T& operator[](usize index);
-    const T& operator[](usize index) const;
+	T& operator[](usize index);
+	const T& operator[](usize index) const;
 
-    void reserve(usize amount);
-    usize push(T&& item);
-    Option<T> pop();
+	void reserve(usize amount);
+	usize push(T&& item);
+	Option<T> pop();
 
 private:
-    Array<Bucket> m_buckets;
+	Array<Bucket> m_buckets;
 };
 
 CORE_NAMESPACE_END

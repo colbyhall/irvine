@@ -12,16 +12,16 @@ CORE_NAMESPACE_BEGIN
 MSVC_SUPPRESS_WARNING(4268)
 
 struct Layout {
-    usize size;
-    usize alignment;
+	usize size;
+	usize alignment;
 
-    template <typename T>
-    static inline constexpr Layout single = { sizeof(T), alignof(T) };
+	template <typename T>
+	static inline constexpr Layout single = { sizeof(T), alignof(T) };
 
-    template <typename T>
-    static constexpr Layout array(usize len) {
-        return Layout{ sizeof(T) * len, alignof(T) };
-    }
+	template <typename T>
+	static constexpr Layout array(usize len) {
+		return Layout{ sizeof(T) * len, alignof(T) };
+	}
 };
 
 NonNull<void> alloc(Layout layout);

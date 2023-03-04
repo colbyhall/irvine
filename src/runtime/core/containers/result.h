@@ -52,7 +52,7 @@ private:
 		E e;
 		~Internal() {} // This prevents warning C4624
 	};
-	alignas(Internal) u8 m_data[sizeof(Internal)];
+	alignas(Internal) u8 m_data[sizeof(Internal)] = {};
 };
 
 CORE_NAMESPACE_END

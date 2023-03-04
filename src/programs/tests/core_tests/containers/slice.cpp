@@ -3,7 +3,7 @@
 #include <doctest/doctest.h>
 #include <core/containers/slice.h>
 
-TEST_CASE("Slice's can reference arrays") {
+TEST_CASE("Slice's reference arrays") {
 	int buffer[] = { 1, 2, 3, 4 };
 	Slice<int> slice = { buffer, 4 };
 
