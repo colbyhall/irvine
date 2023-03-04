@@ -20,14 +20,14 @@ public:
     inline char* operator*() { return &m_bytes[0]; }
     inline const char* operator*() const { return &m_bytes[0]; }
 
-    inline CodepointsIterator codepoints() const { return CodepointsIterator(m_bytes); }
+    inline CharsIterator chars() const { return CharsIterator(m_bytes); }
     inline usize len() const { return m_bytes.len() > 0 ? m_bytes.len() - 1 : 0; }
     inline usize cap() const { return m_bytes.cap(); }
     inline bool operator==(StringView rhs) const { StringView view = *this; return view == rhs; }
     inline bool operator!=(StringView rhs) const { StringView view = *this; return view != rhs; }
 
     inline void reserve(usize amount) { m_bytes.reserve(amount + 1); }
-    String& push(Codepoint c);
+    String& push(Char c);
     String& push(StringView string);
 
     inline void set_len(usize len) {

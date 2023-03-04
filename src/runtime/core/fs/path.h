@@ -21,7 +21,7 @@ public:
     inline const char* operator*() const { return *m_string; }
 
     inline usize len() const { return m_string.len(); }
-    inline CodepointsIterator codepoints() const { return CodepointsIterator(m_string); }
+    inline CharsIterator chars() const { return CharsIterator(m_string); }
 
 private:
     String m_string;

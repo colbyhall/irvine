@@ -4,7 +4,7 @@
 
 CORE_NAMESPACE_BEGIN
 
-wchar utf32_to_utf16(Codepoint c) {
+wchar utf32_to_utf16(Char c) {
 	u32 h;
 	u32 l;
 
@@ -13,10 +13,10 @@ wchar utf32_to_utf16(Codepoint c) {
 		l = c;
 		return (wchar)c;
 	}
-	Codepoint t = c - 0x10000;
+	Char t = c - 0x10000;
 	h = (((t<<12)>>22) + 0xD800);
 	l = (((t<<22)>>22) + 0xDC00);
-	Codepoint ret = ((h<<16) | ( l & 0x0000FFFF));
+	Char ret = ((h<<16) | ( l & 0x0000FFFF));
 	return (wchar)ret;
 }
 
@@ -30,8 +30,8 @@ WString WString::from(StringView string) {
 	WString result;
 	result.reserve(string.len());
 
-	for (auto codepoints = string.codepoints(); codepoints; ++codepoints) {
-		const Codepoint c = *codepoints;
+	for (auto iter = string.chars(); iter; ++iter) {
+		const Char c = *iter;
 		result.push(utf32_to_utf16(c));
 	}
 
@@ -82,8 +82,8 @@ WString& WString::push(StringView string) {
 	const usize slag = m_chars.cap() - m_chars.len();
 	if (slag < string.len()) m_chars.reserve(string.len());
 
-	for (auto codepoints = string.codepoints(); codepoints; ++codepoints) {
-		push(utf32_to_utf16(*codepoints));
+	for (auto iter = string.chars(); iter; ++iter) {
+		push(utf32_to_utf16(*iter));
 	}
 
 	return *this;

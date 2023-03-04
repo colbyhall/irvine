@@ -135,10 +135,10 @@ Option<Font> Font::import(PathView path) {
 		gcr.texture_barrier(pixels_texture, Layout::TransferDst, Layout::General);
 	}).submit();
 
-	Array<Codepoint> codepoints_to_glyphs;
+	Array<Char> codepoints_to_glyphs;
 	codepoints_to_glyphs.reserve(0x110000);
 
-	for (Codepoint c = 0; c < 0x110000; ++c) {
+	for (Char c = 0; c < 0x110000; ++c) {
 		const auto index = stbtt_FindGlyphIndex(&info, (int)c);
 		codepoints_to_glyphs.push(index == -1 ? 0 : (u32)index);
 
@@ -187,7 +187,7 @@ Font::Font(
 	*m_info = *info;
 }
 
-f32 Font::find_kerning(Codepoint a, Codepoint b) const {
+f32 Font::find_kerning(Char a, Char b) const {
 	return (f32)stbtt_GetCodepointKernAdvance(m_info, (int)a, (int)b) * m_scale;
 }
 
@@ -200,7 +200,7 @@ Vec2f32 Font::text_size(StringView text, f32 size, bool monospace) const {
 
 	f32 max_x = 0.f;
 
-	for (auto iter = text.codepoints(); iter; ++iter) {
+	for (auto iter = text.chars(); iter; ++iter) {
 		auto c = *iter;
 
 		switch (c) {

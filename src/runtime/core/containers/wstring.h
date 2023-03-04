@@ -7,7 +7,7 @@
 
 CORE_NAMESPACE_BEGIN
 
-wchar utf32_to_utf16(Codepoint c);
+wchar utf32_to_utf16(Char c);
 
 class WString {
 public:

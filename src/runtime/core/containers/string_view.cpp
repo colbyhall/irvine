@@ -47,11 +47,11 @@ i32 utf8_encode(u32 c, void* dest, u32* errors) {
 	return len + 1;
 }
 
-bool CodepointsIterator::should_continue() const {
+bool CharsIterator::should_continue() const {
 	return m_string.len() > 0 && m_index < m_string.len() && m_decoder_state != utf8_reject;
 }
 
-void CodepointsIterator::next() {
+void CharsIterator::next() {
 	ASSERT(should_continue());
 
 	for (; m_index < m_string.len(); m_index += 1) {
@@ -67,7 +67,7 @@ void CodepointsIterator::next() {
 	m_index += 1;
 }
 
-Codepoint CodepointsIterator::get() const {
+Char CharsIterator::get() const {
 	usize get_index = m_index;
 	u32 get_state = m_decoder_state;
 	u32 get_codepoint = m_codepoint;
@@ -93,6 +93,23 @@ bool StringView::operator==(const StringView& right) const {
     }
 
     return true;
+}
+
+bool StringView::operator!=(const StringView& right) const {
+	return !(*this == right);
+}
+
+Option<StringView> StringView::rsplit(Char c) {
+	int last = -1;
+	int index = 0;
+	for (auto iter = chars(); iter; ++iter) {
+		if (*iter == c) {
+			last = index;
+		}
+		index += 1;
+	}
+
+	return nullptr;
 }
 
 CORE_NAMESPACE_END

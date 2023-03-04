@@ -24,7 +24,7 @@ String String::from(WStringView string) {
 	// FIXME: Do proper utf16 decode
 	String ret;
 	ret.reserve(string.len());
-	for (wchar_t c : string) ret.push((Codepoint)c);
+	for (wchar_t c : string) ret.push((Char)c);
 	return ret;
 }
 
@@ -45,7 +45,7 @@ String::operator StringView() const {
 	return StringView(bytes);
 }
 
-String& String::push(Codepoint c) {
+String& String::push(Char c) {
 	// Encode the utf32 character to an utf8 multi width character
 	u8 local[4] = {};
 	u32 error;

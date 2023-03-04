@@ -28,7 +28,7 @@ public:
     static constexpr inline f32 sdf_size = 32.f;
     static Option<Font> import(PathView path);
 
-    inline Glyph const& glyph(Codepoint c) const {
+    inline Glyph const& glyph(Char c) const {
         const auto index = m_codepoints_to_glyphs[(usize)c];
         if (!m_glphys.is_valid_index(index)) return m_glphys[0];
         return m_glphys[(usize)index];
@@ -41,7 +41,7 @@ public:
     inline f32 new_line() const { return (ascent() - descent()) + line_gap(); };
 	inline f32 scale(f32 size) { return size / sdf_size; }
 
-    f32 find_kerning(Codepoint a, Codepoint b) const;
+    f32 find_kerning(Char a, Char b) const;
 
 	Vec2f32 text_size(StringView text, f32 size, bool monospace = false) const;
 

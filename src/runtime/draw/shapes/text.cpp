@@ -16,7 +16,7 @@ void Text::triangulate(Canvas& canvas) const {
 	auto position = origin;
 	position.y -= size * scale + m_font.descent() * scale;
 
-	for (auto iter = m_text.codepoints(); iter; ++iter) {
+	for (auto iter = m_text.chars(); iter; ++iter) {
 		auto c = *iter;
 
 		switch (c) {
