@@ -16,6 +16,8 @@ set(CORE_SRC_FILES
 	${CORE_ROOT}/library.cpp
 	${CORE_ROOT}/time.h
 	${CORE_ROOT}/time.cpp
+	${CORE_ROOT}/uuid.h
+	${CORE_ROOT}/uuid.cpp
 	${CORE_ROOT}/containers/array.h
 	${CORE_ROOT}/containers/array.inl
 	${CORE_ROOT}/containers/bucket_array.h
@@ -95,3 +97,4 @@ source_group(TREE ${CORE_ROOT} FILES ${CORE_SRC_FILES})
 add_library(core STATIC ${CORE_SRC_FILES})
 target_include_directories(core PUBLIC ${RUNTIME_ROOT})
 set_target_properties(core PROPERTIES FOLDER "runtime")
+target_link_libraries(core LINK_PUBLIC "bcrypt.dll")

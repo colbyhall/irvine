@@ -6,6 +6,8 @@
 
 #include <res/context.h>
 
+#include <core/uuid.h>
+#include <core/time.h>
 #include <core/platform/windows.h>
 
 int APIENTRY WinMain(
@@ -21,6 +23,11 @@ int APIENTRY WinMain(
 
 	gpu::init();
 	res::init();
+
+	auto now = Instant::now();
+	auto uuid = Uuid::generate();
+	auto elapsed = now.elapsed().as_secs_f64() * 1000.0;
+	(void)elapsed;
 
 	auto app = gui::App::make();
 	app.run([](gui::AppBuilder& ui) {
