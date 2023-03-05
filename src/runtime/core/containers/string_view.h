@@ -38,6 +38,8 @@ public:
 	inline CharsIterator& operator++() { next(); return *this; }
 	inline Char operator*() const { return get(); }
 
+	inline usize index() const { return m_index; }
+
 private:
 	bool should_continue() const;
 	void next();

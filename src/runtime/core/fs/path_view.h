@@ -19,6 +19,8 @@ public:
 	inline usize len() const { return m_string.len(); }
 	inline CharsIterator chars() const { return CharsIterator(m_string); }
 
+	Option<StringView> extension() const;
+
 private:
 	StringView m_string;
 };

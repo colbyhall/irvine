@@ -5,8 +5,12 @@ set(RES_ROOT ${RUNTIME_ROOT}/res)
 set(RES_SRC_FILES
 	${RES_ROOT}/context.h
 	${RES_ROOT}/context.cpp
+	${RES_ROOT}/handle.h
+	${RES_ROOT}/registry.h
+	${RES_ROOT}/registry.cpp
 	${RES_ROOT}/res.cmake
 	${RES_ROOT}/res.h
+	${RES_ROOT}/resource.h
 )
 
 # Group source files

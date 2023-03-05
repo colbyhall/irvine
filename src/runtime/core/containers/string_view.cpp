@@ -100,16 +100,20 @@ bool StringView::operator!=(const StringView& right) const {
 }
 
 Option<StringView> StringView::rsplit(Char c) {
-	int last = -1;
-	int index = 0;
+	Option<usize> opt_last = core::none;
 	for (auto iter = chars(); iter; ++iter) {
 		if (*iter == c) {
-			last = index;
+			opt_last = iter.index();
 		}
-		index += 1;
 	}
 
-	return nullptr;
+	if (opt_last) {
+		const auto last = opt_last.unwrap();
+		m_bytes.shrink(len() - last - 1);
+		return StringView{ m_bytes.begin() + last + 1 };
+	}
+
+	return core::none;
 }
 
 CORE_NAMESPACE_END

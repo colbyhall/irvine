@@ -44,6 +44,7 @@ set(CORE_SRC_FILES
 	${CORE_ROOT}/fs/file.h
 	${CORE_ROOT}/fs/file.cpp
 	${CORE_ROOT}/fs/path_view.h
+	${CORE_ROOT}/fs/path_view.cpp
 	${CORE_ROOT}/fs/path.h
 	${CORE_ROOT}/math/aabb2.h
 	${CORE_ROOT}/math/aabb2.inl
