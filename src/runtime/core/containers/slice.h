@@ -8,13 +8,16 @@
 
 CORE_NAMESPACE_BEGIN
 
-/// Non owning reference to a buffer of memory
+/// Non owning reference to an array
 template <typename T>
 class Slice {
 public:
 	Slice() = default;
 	inline constexpr Slice(T* ptr, usize len) : m_ptr(ptr), m_len(len) {
-		ASSERT(ptr != nullptr || (ptr == nullptr && len == 0), "If we have no ptr we must not have len");
+		ASSERT(
+			ptr != nullptr || (ptr == nullptr && len == 0),
+			"If we have no ptr we must not have len"
+		);
 	}
 
 	inline constexpr Slice(const Slice<T>& c) : m_ptr(c.m_ptr), m_len(c.m_len) {}
@@ -42,9 +45,7 @@ public:
 	inline bool is_empty() const { return m_len == 0; }
 	inline bool is_valid_index(usize index) const { return index < m_len; }
 
-	// template <typename = EnabledIf<!is_const<T>>>
 	inline T* begin() const { return m_ptr; }
-	// template <typename = EnabledIf<!is_const<T>>>
 	inline T* end() const { return m_ptr + m_len; }
 
 	inline T const* cbegin() const { return m_ptr; }
